@@ -1,0 +1,10 @@
+{
+  "id": "cd4a155d-4718-4d75-ae6d-7a27a5111138",
+  "name": "Administrador",
+  "email": "admin@igreja.com",
+  "phone": null,
+  "birthDate": null,
+  "role": "ADMIN",
+  "createdAt": "2026-06-11T19:03:50.650Z",
+  "updatedAt": "2026-06-11T19:03:50.650Z"
+}

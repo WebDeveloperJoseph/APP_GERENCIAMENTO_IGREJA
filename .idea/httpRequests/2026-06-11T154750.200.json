@@ -1,0 +1,15 @@
+{
+  "message": "Movimentação financeira atualizada com sucesso.",
+  "transaction": {
+    "id": "1b2df8b8-3f02-4ae6-b1d9-58fc4eb7b957",
+    "type": "ENTRADA",
+    "category": "DIZIMO",
+    "value": 150,
+    "date": "2026-06-11T00:00:00.000Z",
+    "description": "Dízimo corrigido",
+    "createdAt": "2026-06-09T17:40:21.738Z",
+    "updatedAt": "2026-06-11T18:47:49.882Z",
+    "memberId": null,
+    "member": null
+  }
+}

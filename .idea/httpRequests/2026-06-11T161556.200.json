@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "message": "Login realizado com sucesso.",
+  "data": {
+    "member": {
+      "id": "cd4a155d-4718-4d75-ae6d-7a27a5111138",
+      "name": "Administrador",
+      "email": "admin@igreja.com",
+      "role": "ADMIN"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDUzNTYsImV4cCI6MTc4MTI5MTc1Niwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.o7ZBIRDBQAovr8pxwMI3RdheeoZJq2XiOq0n76SG1kY"
+  }
+}

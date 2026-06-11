@@ -1,0 +1,9 @@
+{
+  "member": {
+    "id": "cd4a155d-4718-4d75-ae6d-7a27a5111138",
+    "name": "Administrador",
+    "email": "admin@igreja.com",
+    "role": "ADMIN"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4NTgsImV4cCI6MTc4MTI5MTI1OCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.ey0EuXl7vSqdek1PskUjykaInDfv57gTm5aRITfq8Kg"
+}

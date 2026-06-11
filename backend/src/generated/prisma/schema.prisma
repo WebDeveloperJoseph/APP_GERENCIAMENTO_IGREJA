@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Member {
+  id           String        @id @default(uuid())
+  name         String
+  email        String?       @unique
+  password     String?
+  phone        String?
+  birthDate    DateTime?
+  role         Role          @default(MEMBRO)
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+
+  @@map("members")
+}
+
+model Transaction {
+  id          String              @id @default(uuid())
+  type        TransactionType
+  category    TransactionCategory
+  value       Float
+  date        DateTime            @default(now())
+  description String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  memberId    String?
+  member      Member?             @relation(fields: [memberId], references: [id])
+
+  @@map("transactions")
+}
+
+enum Role {
+  MEMBRO
+  VOLUNTARIO
+  TESOUREIRO
+  ADMIN
+}
+
+enum TransactionType {
+  ENTRADA
+  SAIDA
+}
+
+enum TransactionCategory {
+  DIZIMO
+  OFERTA
+  ALUGUEL
+  ENERGIA
+  AGUA
+  MANUTENCAO
+  OUTROS
+}

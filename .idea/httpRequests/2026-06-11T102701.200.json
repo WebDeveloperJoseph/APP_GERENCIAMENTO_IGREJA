@@ -1,0 +1,35 @@
+[
+  {
+    "id": "aab7a0ce-79f2-4811-99d0-dd4ef4f92f07",
+    "name": "Jose antonio",
+    "email": "josesantonio21@email.com",
+    "phone": "841111-1111",
+    "birthDate": "2000-07-12T03:00:00.000Z",
+    "role": "ADMIN",
+    "isActive": true,
+    "createdAt": "2026-06-10T17:28:42.021Z",
+    "updatedAt": "2026-06-10T17:28:42.021Z"
+  },
+  {
+    "id": "c86449ed-912f-4f19-a277-844f47426fb3",
+    "name": "Jose antonio",
+    "email": "josesantonio@email.com",
+    "phone": "841111-1111",
+    "birthDate": "2000-07-12T03:00:00.000Z",
+    "role": "ADMIN",
+    "isActive": true,
+    "createdAt": "2026-06-10T17:05:38.215Z",
+    "updatedAt": "2026-06-11T13:04:20.248Z"
+  },
+  {
+    "id": "c317606d-c838-4ae9-9f09-45182cbd8f4c",
+    "name": "Maria das merces",
+    "email": "josesouza123@email.com",
+    "phone": "841111-1111",
+    "birthDate": "2000-07-12T03:00:00.000Z",
+    "role": "MEMBRO",
+    "isActive": true,
+    "createdAt": "2026-06-10T02:58:47.303Z",
+    "updatedAt": "2026-06-10T02:58:47.303Z"
+  }
+]

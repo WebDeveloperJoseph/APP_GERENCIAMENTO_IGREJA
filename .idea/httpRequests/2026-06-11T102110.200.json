@@ -1,0 +1,9 @@
+{
+  "member": {
+    "id": "c86449ed-912f-4f19-a277-844f47426fb3",
+    "name": "Jose antonio",
+    "email": "josesantonio@email.com",
+    "role": "ADMIN"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExODQwNzAsImV4cCI6MTc4MTI3MDQ3MCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.tEks-dI1qWG-E9NUun0-w76QN9wzgfM39pX1NGx0zsY"
+}

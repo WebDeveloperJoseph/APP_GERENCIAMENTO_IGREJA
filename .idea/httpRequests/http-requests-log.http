@@ -1,0 +1,638 @@
+GET http://localhost:3333
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T161817.200.json
+
+###
+
+POST http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+Content-Type: application/json
+Content-Length: 158
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "name": "João da Silva",
+  "email": "joao@email.com",
+  "password": "123456",
+  "phone": "84999999999",
+  "birthDate": "2000-05-20",
+  "role": "MEMBRO"
+}
+
+<> 2026-06-11T161615.201.json
+
+###
+
+GET http://localhost:3333/members/Ccd4a155d-4718-4d75-ae6d-7a27a5111138
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T161612.404.json
+
+###
+
+GET http://localhost:3333/members/inactive
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T161608.200.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T161606.200.json
+
+###
+
+PATCH http://localhost:3333/auth/change-password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+Content-Type: application/json
+Content-Length: 62
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "oldPassword": "123456",
+  "newPassword": "novaSenha123"
+}
+
+<> 2026-06-11T161601.200.json
+
+###
+
+GET http://localhost:3333/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T161559.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 57
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "admin@igreja.com",
+  "password": "123456"
+}
+
+<> 2026-06-11T161556.200.json
+
+###
+
+GET http://localhost:3333
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T161552.200.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T160946.200.json
+
+###
+
+GET http://localhost:3333/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T160758.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 57
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "admin@igreja.com",
+  "password": "123456"
+}
+
+<> 2026-06-11T160738.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 57
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "admin@igreja.com",
+  "password": "123456"
+}
+
+<> 2026-06-11T160700.200.json
+
+###
+
+GET http://localhost:3333
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T160653.200.json
+
+###
+
+PUT http://localhost:3333/transactions/1b2df8b8-3f02-4ae6-b1d9-58fc4eb7b957
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDM1MjYsImV4cCI6MTc4MTI4OTkyNiwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.TVa_tIFV0P-5cfHyOnhHACNMAmO8JhUFJ8Ek1CToDro
+Content-Type: application/json
+Content-Length: 20
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+
+  "value": 250
+
+}
+
+<> 2026-06-11T154801.200.json
+
+###
+
+PUT http://localhost:3333/transactions/1b2df8b8-3f02-4ae6-b1d9-58fc4eb7b957
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDM1MjYsImV4cCI6MTc4MTI4OTkyNiwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.TVa_tIFV0P-5cfHyOnhHACNMAmO8JhUFJ8Ek1CToDro
+Content-Type: application/json
+Content-Length: 20
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+
+  "value": 150
+
+}
+
+<> 2026-06-11T154750.200.json
+
+###
+
+PUT http://localhost:3333/transactions/1b2df8b8-3f02-4ae6-b1d9-58fc4eb7b957
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDM1MjYsImV4cCI6MTc4MTI4OTkyNiwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.TVa_tIFV0P-5cfHyOnhHACNMAmO8JhUFJ8Ek1CToDro
+Content-Type: application/json
+Content-Length: 125
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "type": "ENTRADA",
+  "category": "DIZIMO",
+  "value": 150,
+  "description": "Dízimo corrigido",
+  "date": "2026-06-11"
+}
+
+<> 2026-06-11T154728.200.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDM1MjYsImV4cCI6MTc4MTI4OTkyNiwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.TVa_tIFV0P-5cfHyOnhHACNMAmO8JhUFJ8Ek1CToDro
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T154709.200.json
+
+###
+
+PUT http://localhost:3333/transactions/ID_DA_TRANSACAO
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDM1MjYsImV4cCI6MTc4MTI4OTkyNiwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.TVa_tIFV0P-5cfHyOnhHACNMAmO8JhUFJ8Ek1CToDro
+Content-Type: application/json
+Content-Length: 125
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "type": "ENTRADA",
+  "category": "DIZIMO",
+  "value": 150,
+  "description": "Dízimo corrigido",
+  "date": "2026-06-11"
+}
+
+<> 2026-06-11T154652.404.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDM1MjYsImV4cCI6MTc4MTI4OTkyNiwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.TVa_tIFV0P-5cfHyOnhHACNMAmO8JhUFJ8Ek1CToDro
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T154601.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 68
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "josesantonio@email.com",
+  "password": "@Ze10207090"
+}
+
+<> 2026-06-11T154526.200.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T154514.401.json
+
+###
+
+PATCH http://localhost:3333/members/aab7a0ce-79f2-4811-99d0-dd4ef4f92f07/restore
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDI5NTksImV4cCI6MTc4MTI4OTM1OSwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.JAXd-9bmssdbj5hB2Lmva1vwb287RNDy8qC8re872E8
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2026-06-11T153627.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 68
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "josesantonio@email.com",
+  "password": "@Ze10207090"
+}
+
+<> 2026-06-11T153559.200.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExODQwNzAsImV4cCI6MTc4MTI3MDQ3MCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.tEks-dI1qWG-E9NUun0-w76QN9wzgfM39pX1NGx0zsY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T102742.200.json
+
+###
+
+DELETE http://localhost:3333/members/aab7a0ce-79f2-4811-99d0-dd4ef4f92f07
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExODQwNzAsImV4cCI6MTc4MTI3MDQ3MCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.tEks-dI1qWG-E9NUun0-w76QN9wzgfM39pX1NGx0zsY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+###
+
+DELETE http://localhost:3333/members/aab7a0ce-79f2-4811-99d0-dd4ef4f92f07
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2026-06-11T102722.401.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExODQwNzAsImV4cCI6MTc4MTI3MDQ3MCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.tEks-dI1qWG-E9NUun0-w76QN9wzgfM39pX1NGx0zsY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T102701.200.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExODQwNzAsImV4cCI6MTc4MTI3MDQ3MCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.tEks-dI1qWG-E9NUun0-w76QN9wzgfM39pX1NGx0zsY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T102520.200.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExODQwNzAsImV4cCI6MTc4MTI3MDQ3MCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.tEks-dI1qWG-E9NUun0-w76QN9wzgfM39pX1NGx0zsY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T102200.500.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExODQwNzAsImV4cCI6MTc4MTI3MDQ3MCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.tEks-dI1qWG-E9NUun0-w76QN9wzgfM39pX1NGx0zsY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T102141.500.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 68
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "josesantonio@email.com",
+  "password": "@Ze10207090"
+}
+
+<> 2026-06-11T102110.200.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-11T102055.401.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 68
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "josesantonio@email.com",
+  "password": "@Ze10207090"
+}
+
+<> 2026-06-11T100435.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 63
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "josesantonio@email.com",
+  "password": "123456"
+}
+
+<> 2026-06-11T100427.401.json
+
+###
+
+PATCH http://localhost:3333/auth/change-password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExNzk0NzQsImV4cCI6MTc4MTI2NTg3NCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.GgvERtrniuc-ETwqQKVu_KjpHnzGalwJN6orgPex9J4
+Content-Type: application/json
+Content-Length: 61
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "oldPassword": "123456",
+  "newPassword": "@Ze10207090"
+}
+
+<> 2026-06-11T100420.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 63
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "josesantonio@email.com",
+  "password": "123456"
+}
+
+<> 2026-06-11T090434.200.json
+
+###
+
+POST http://localhost:3333/members
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+Content-Length: 165
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "name": "Jose antonio",
+  "email": "josesantonio21@email.com",
+  "password": "123456",
+  "phone": "841111-1111",
+  "birthDate": "07/12/2000",
+  "role": "ADMIN"
+}
+
+<> 2026-06-10T142842.201.json
+
+###
+
+POST http://localhost:3333/members
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+Content-Length: 163
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "name": "Jose antonio",
+  "email": "josesantonio@email.com",
+  "password": "123456",
+  "phone": "841111-1111",
+  "birthDate": "07/12/2000",
+  "role": "ADMIN"
+}
+
+<> 2026-06-10T142835.409.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T142817.200.json
+
+###
+
+GET http://localhost:3333/auth/me
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T142234.401.json
+
+###
+
+GET http://localhost:3333/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExMTIwNjksImV4cCI6MTc4MTE5ODQ2OSwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.qGmDey2_XXuQvIXuHWcWKREMcE2WL_Iigkux2nyQVQA
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T142216.200.json
+
+###
+
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Content-Length: 63
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "josesantonio@email.com",
+  "password": "123456"
+}
+
+<> 2026-06-10T142109.200.json
+
+###
+
+GET http://localhost:3333/members/84972cee-9401-4e33-a77f-6fdecf365db5
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T140911.401.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer ey2JhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T140900.401.json
+
+###
+
+GET http://localhost:3333/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T140856.200.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiTUVNQlJPIiwiaWF0IjoxNzgxMDYwOTY5LCJleHAiOjE3ODExNDczNjksInN1YiI6ImMzMTc2MDZkLWM4MzgtNGFlOS05ZjA5LTQ1MTgyY2JkOGY0YyJ9.o4cncW26RjzskG6rJNLlmkWOvVJGpp5QnRNLL-v2-ZU
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T140735.403.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExMTExNjgsImV4cCI6MTc4MTE5NzU2OCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.iXeILiieUtntXg8iIFro2MlX0nUPQkz4YziaimtdbiY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T140705.200.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer weyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExMTExNjgsImV4cCI6MTc4MTE5NzU2OCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.iXeILiieUtntXg8iIFro2MlX0nUPQkz4YziaimtdbiY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T140659.401.json
+
+###
+
+GET http://localhost:3333/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODExMTExNjgsImV4cCI6MTc4MTE5NzU2OCwic3ViIjoiYzg2NDQ5ZWQtOTEyZi00ZjE5LWEyNzctODQ0ZjQ3NDI2ZmIzIn0.iXeILiieUtntXg8iIFro2MlX0nUPQkz4YziaimtdbiY
+User-Agent: IntelliJ HTTP Client/WebStorm 2026.1.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-06-10T140651.200.json
+
+###
+

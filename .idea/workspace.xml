@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7e4c7b50-1ed4-4906-9dc5-5cf91419046b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/prisma/seed.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/requisicoes.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/@types/express/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/middlewares/ensureAuthenticated.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/middlewares/ensureRole.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/database/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/database/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/errors/AppError.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/errors/AppError.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/middlewares/errorHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/middlewares/errorHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/finance/finance.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/finance/finance.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/finance/finance.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/finance/finance.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/finance/finance.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/finance/finance.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/members/members.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/members/members.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/members/members.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/members/members.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/members/members.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/members/members.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/reports/reports.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/reports/reports.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/reports/reports.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/reports/reports.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/modules/reports/reports.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/reports/reports.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/routes/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/testes/requisicoes.http" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="120" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTTP Request" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;WebDeveloperJoseph&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:WebDeveloperJoseph/APP_GERENCIAMENTO_IGREJA.git&quot;,
+    &quot;accountId&quot;: &quot;a18dea96-866f-4d4c-92f7-e44f9d8d25e0&quot;
+  }
+}</component>
+  <component name="HttpClientOnboardingState">{
+  &quot;isOnboardingCommentShown&quot;: true
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000273863925548" />
+      <entry key="MS500" value="1.2126502486067048" />
+      <entry key="S2" value="2.141977841191577" />
+      <entry key="S5" value="2.598374597320098" />
+      <entry key="S10" value="2.7881246552347996" />
+      <entry key="S30" value="3.01649286341421" />
+      <entry key="S60" value="3.394766759806748" />
+      <entry key="M2" value="3.9927388565862403" />
+      <entry key="M5" value="5.089406263880929" />
+      <entry key="M10" value="7.8949503838481325" />
+      <entry key="M15" value="11.767906354549812" />
+      <entry key="M30" value="25.5666597945437" />
+      <entry key="H1" value="62.05360981480273" />
+      <entry key="H2" value="145.4001797784117" />
+      <entry key="H4" value="285.3628740961461" />
+      <entry key="D1" value="971.5682654031364" />
+      <entry key="W1" value="1486.713605461513" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="3.3218417929469175E-130" />
+      <entry key="S10" value="2.3940770468239026E-65" />
+      <entry key="S30" value="4.89884902426723E-22" />
+      <entry key="S60" value="4.213944250835743E-11" />
+      <entry key="M2" value="1.4642290688160908E-5" />
+      <entry key="M5" value="0.033487439765049296" />
+      <entry key="M10" value="0.460695962791426" />
+      <entry key="M15" value="1.165561396322958" />
+      <entry key="M30" value="4.021492061420425" />
+      <entry key="H1" value="15.274031024089268" />
+      <entry key="H2" value="48.849512612524514" />
+      <entry key="H4" value="108.8086815447439" />
+      <entry key="D1" value="395.73028510055747" />
+      <entry key="W1" value="610.3099395443497" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.005906507617284787" />
+      <entry key="MS500" value="0.5694665139005967" />
+      <entry key="S2" value="1.9139101912348924" />
+      <entry key="S5" value="2.4998641389075122" />
+      <entry key="S10" value="2.7375634866802043" />
+      <entry key="S30" value="2.999329738025776" />
+      <entry key="S60" value="3.3860221685637852" />
+      <entry key="M2" value="3.9877976215655075" />
+      <entry key="M5" value="5.119846666780354" />
+      <entry key="M10" value="8.352208878815436" />
+      <entry key="M15" value="12.929283580358378" />
+      <entry key="M30" value="29.582295111321447" />
+      <entry key="H1" value="77.31854350237676" />
+      <entry key="H2" value="194.2373545131695" />
+      <entry key="H4" value="394.15876676491405" />
+      <entry key="D1" value="1367.290011277462" />
+      <entry key="W1" value="2097.02155826894" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="3ElxTaz7e5g8351XwBBSP5tyNkm" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "HTTP Request.requisicoes | #1.executor": "Run",
+    "HTTP Request.requisicoes | #10.executor": "Run",
+    "HTTP Request.requisicoes | #12.executor": "Run",
+    "HTTP Request.requisicoes | #13.executor": "Run",
+    "HTTP Request.requisicoes | #2.executor": "Run",
+    "HTTP Request.requisicoes | #3.executor": "Run",
+    "HTTP Request.requisicoes | #4.executor": "Run",
+    "HTTP Request.requisicoes | #5.executor": "Run",
+    "HTTP Request.requisicoes | #6.executor": "Run",
+    "HTTP Request.requisicoes | #7.executor": "Run",
+    "HTTP Request.requisicoes | #8.executor": "Run",
+    "HTTP Request.requisicoes | #9.executor": "Run",
+    "HTTP Request.requisicoes | 1. Testar Rota Inicial (Ver se o servidor está vivo).executor": "Run",
+    "HTTP Request.requisicoes | Alterar senha.executor": "Run",
+    "HTTP Request.requisicoes | Buscar membro por ID.executor": "Run",
+    "HTTP Request.requisicoes | Criar membro.executor": "Run",
+    "HTTP Request.requisicoes | Dados do usuário logado.executor": "Run",
+    "HTTP Request.requisicoes | Health Check.executor": "Run",
+    "HTTP Request.requisicoes | Listar membros ativos.executor": "Run",
+    "HTTP Request.requisicoes | Listar membros inativos.executor": "Run",
+    "HTTP Request.requisicoes | Listar movimentações.executor": "Run",
+    "HTTP Request.requisicoes | Login Admin.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.index.ts.executor": "Run",
+    "Node.js.server.ts.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Users\\Dev - Zé\\Desktop\\APP_ICB\\backend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Dev - Zé\Desktop\APP_ICB\backend" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationStatuses">
+      <map>
+        <entry key="HttpClient.HttpRequestRunConfigurationType">
+          <value>
+            <map>
+              <entry key="requisicoes | Buscar membro por ID" value="STOPPED" />
+              <entry key="requisicoes | Criar membro" value="STOPPED" />
+              <entry key="requisicoes | Health Check" value="STOPPED" />
+              <entry key="requisicoes | Listar membros ativos" value="STOPPED" />
+              <entry key="requisicoes | Listar membros inativos" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="HTTP Request.requisicoes | Health Check">
+    <configuration name="requisicoes | Buscar membro por ID" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Buscar membro por ID" index="7" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="requisicoes | Criar membro" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Criar membro" index="8" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="requisicoes | Health Check" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Health Check" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="requisicoes | Listar membros ativos" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Listar membros ativos" index="5" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="requisicoes | Listar membros inativos" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Listar membros inativos" index="6" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="server.ts" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="server.ts" typescript-loader="bundled" working-dir="$PROJECT_DIR$/backend">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.requisicoes | Health Check" />
+        <item itemvalue="HTTP Request.requisicoes | Criar membro" />
+        <item itemvalue="HTTP Request.requisicoes | Buscar membro por ID" />
+        <item itemvalue="HTTP Request.requisicoes | Listar membros inativos" />
+        <item itemvalue="HTTP Request.requisicoes | Listar membros ativos" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.25134.101" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7e4c7b50-1ed4-4906-9dc5-5cf91419046b" name="Changes" comment="" />
+      <created>1780766965330</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1780766965330</updated>
+      <workItem from="1780766966411" duration="960000" />
+      <workItem from="1780856992611" duration="3244000" />
+      <workItem from="1780879517765" duration="10022000" />
+      <workItem from="1780926568186" duration="613000" />
+      <workItem from="1780941331402" duration="1685000" />
+      <workItem from="1780949303059" duration="25187000" />
+      <workItem from="1781048213337" duration="6000000" />
+      <workItem from="1781056307627" duration="4816000" />
+      <workItem from="1781110616966" duration="2580000" />
+      <workItem from="1781177467413" duration="3680000" />
+      <workItem from="1781200475420" duration="4071000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/src/modules/members/members.service.ts</url>
+          <line>6</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/src/modules/members/members.controller.ts</url>
+          <line>5</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

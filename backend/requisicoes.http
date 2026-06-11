@@ -1,0 +1,146 @@
+@baseUrl = http://localhost:3333
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEyMDQ4MjAsImV4cCI6MTc4MTI5MTIyMCwic3ViIjoiY2Q0YTE1NWQtNDcxOC00ZDc1LWFlNmQtN2EyN2E1MTExMTM4In0.y5MPoe6ivBYjguicd1qq-maV9_4DovUtNtA-Vz8MjtU
+@memberId = Ccd4a155d-4718-4d75-ae6d-7a27a5111138
+@transactionId = c668eae2-c28f-405a-b8f5-dab63e2130ff
+
+### Health Check
+GET {{baseUrl}}/
+
+### Login Admin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@igreja.com",
+  "password": "123456"
+}
+
+### Dados do usuário logado
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Alterar senha
+PATCH {{baseUrl}}/auth/change-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "oldPassword": "123456",
+  "newPassword": "novaSenha123"
+}
+
+### Listar membros ativos
+GET {{baseUrl}}/members
+Authorization: Bearer {{token}}
+
+### Listar membros inativos
+GET {{baseUrl}}/members/inactive
+Authorization: Bearer {{token}}
+
+### Buscar membro por ID
+GET {{baseUrl}}/members/{{memberId}}
+Authorization: Bearer {{token}}
+
+### Criar membro
+POST {{baseUrl}}/members
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "João da Silva",
+  "email": "joao@email.com",
+  "password": "123456",
+  "phone": "84999999999",
+  "birthDate": "2000-05-20",
+  "role": "MEMBRO"
+}
+
+### Atualizar membro
+PUT {{baseUrl}}/members/{{memberId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "João da Silva Atualizado",
+  "email": "joao@email.com",
+  "phone": "84999999999",
+  "birthDate": "2000-05-20",
+  "role": "VOLUNTARIO"
+}
+
+### Inativar membro
+DELETE {{baseUrl}}/members/{{memberId}}
+Authorization: Bearer {{token}}
+
+### Restaurar membro
+PATCH {{baseUrl}}/members/{{memberId}}/restore
+Authorization: Bearer {{token}}
+
+
+### Listar movimentações
+GET {{baseUrl}}/transactions
+Authorization: Bearer {{token}}
+
+### Listar movimentações por tipo
+GET {{baseUrl}}/transactions?type=ENTRADA
+Authorization: Bearer {{token}}
+
+### Listar movimentações por mês e ano
+GET {{baseUrl}}/transactions?month=6&year=2026
+Authorization: Bearer {{token}}
+
+### Buscar movimentação por ID
+GET {{baseUrl}}/transactions/{{transactionId}}
+Authorization: Bearer {{token}}
+
+### Criar entrada de dízimo
+POST {{baseUrl}}/transactions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "ENTRADA",
+  "category": "DIZIMO",
+  "value": 100,
+  "description": "Dízimo mensal",
+  "memberId": "{{memberId}}",
+  "date": "2026-06-11"
+}
+
+### Criar saída/despesa
+POST {{baseUrl}}/transactions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "SAIDA",
+  "category": "ENERGIA",
+  "value": 250,
+  "description": "Conta de energia",
+  "date": "2026-06-11"
+}
+
+### Atualizar movimentação
+PUT {{baseUrl}}/transactions/{{transactionId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "ENTRADA",
+  "category": "OFERTA",
+  "value": 150,
+  "description": "Oferta corrigida",
+  "date": "2026-06-11"
+}
+
+### Deletar movimentação
+DELETE {{baseUrl}}/transactions/{{transactionId}}
+Authorization: Bearer {{token}}
+
+### Resumo geral do mês atual
+GET {{baseUrl}}/reports/summary
+Authorization: Bearer {{token}}
+
+### Resumo por mês e ano
+GET {{baseUrl}}/reports/summary?month=6&year=2026
+Authorization: Bearer {{token}}

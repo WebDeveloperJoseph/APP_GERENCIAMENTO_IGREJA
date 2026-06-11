@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "message": "Membro criado com sucesso.",
+  "data": {
+    "id": "d8ebe502-192c-4df3-a807-7f4653441e32",
+    "name": "João da Silva",
+    "email": "joao@email.com",
+    "phone": "84999999999",
+    "birthDate": "2000-05-20T00:00:00.000Z",
+    "role": "MEMBRO",
+    "createdAt": "2026-06-11T19:16:15.076Z",
+    "updatedAt": "2026-06-11T19:16:15.076Z"
+  }
+}
