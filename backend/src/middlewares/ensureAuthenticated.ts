@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+
+import { prisma } from "../database";
 import { AppError } from "../errors/AppError";
 
 interface TokenPayload {
     sub: string;
-    role: string;
-    isSuperAdmin?: boolean;
 }
 
-function ensureAuthenticated(
+async function ensureAuthenticated(
     request: Request,
     response: Response,
     next: NextFunction
@@ -33,15 +33,29 @@ function ensureAuthenticated(
 
     try {
         const decoded = jwt.verify(token, secret) as TokenPayload;
+        const member = await prisma.member.findUnique({
+            where: {
+                id: decoded.sub
+            },
+            select: {
+                id: true,
+                role: true,
+                isSuperAdmin: true,
+                isActive: true
+            }
+        });
 
-        request.member = {
-            id: decoded.sub,
-            role: decoded.role,
-            isSuperAdmin: decoded.isSuperAdmin === true
-        };
+        if (!member || !member.isActive) {
+            throw new AppError("Usuário inativo ou não encontrado.", 401);
+        }
 
+        request.member = member;
         return next();
-    } catch {
+    } catch (error) {
+        if (error instanceof AppError) {
+            throw error;
+        }
+
         throw new AppError("Token inválido ou expirado.", 401);
     }
 }
