@@ -13,25 +13,25 @@ async function ensureAuthenticated(
     response: Response,
     next: NextFunction
 ) {
-    const authHeader = request.headers.authorization;
-
-    if (!authHeader) {
-        throw new AppError("Token não informado.", 401);
-    }
-
-    const [, token] = authHeader.split(" ");
-
-    if (!token) {
-        throw new AppError("Token inválido.", 401);
-    }
-
-    const secret = process.env.JWT_SECRET;
-
-    if (!secret) {
-        throw new AppError("JWT_SECRET não configurado.", 500);
-    }
-
     try {
+        const authHeader = request.headers.authorization;
+
+        if (!authHeader) {
+            throw new AppError("Token não informado.", 401);
+        }
+
+        const [, token] = authHeader.split(" ");
+
+        if (!token) {
+            throw new AppError("Token inválido.", 401);
+        }
+
+        const secret = process.env.JWT_SECRET;
+
+        if (!secret) {
+            throw new AppError("JWT_SECRET não configurado.", 500);
+        }
+
         const decoded = jwt.verify(token, secret) as TokenPayload;
         const member = await prisma.member.findUnique({
             where: {
@@ -53,10 +53,10 @@ async function ensureAuthenticated(
         return next();
     } catch (error) {
         if (error instanceof AppError) {
-            throw error;
+            return next(error);
         }
 
-        throw new AppError("Token inválido ou expirado.", 401);
+        return next(new AppError("Token inválido ou expirado.", 401));
     }
 }
 
