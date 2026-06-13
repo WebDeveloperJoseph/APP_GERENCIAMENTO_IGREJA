@@ -66,13 +66,15 @@ class AuthController {
 
     async updateProfile(request: Request, response: Response, next: NextFunction) {
         try {
-            const { name, email, phone } = request.body;
+            const { name, email, phone, birthDate, photoUrl } = request.body;
             const authService = new AuthService();
             const member = await authService.updateProfile({
                 memberId: request.member.id,
                 name,
                 email,
-                phone
+                phone,
+                birthDate,
+                photoUrl
             });
 
             return response.status(200).json({

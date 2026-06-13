@@ -92,15 +92,51 @@ export function InactiveMembersScreen() {
     }
   }
 
-  function handleRestoreMember(member: Member) {
+  async function deleteMemberPermanently(member: Member) {
+    try {
+      setRestoringId(member.id);
+      await api.delete(`/members/${member.id}/permanent`);
+      setMembers((currentMembers) =>
+        currentMembers.filter((currentMember) => currentMember.id !== member.id),
+      );
+      Alert.alert("Sucesso", "Membro excluido permanentemente.");
+    } catch (error: any) {
+      Alert.alert(
+        "Erro",
+        error.response?.data?.message ||
+          "Nao foi possivel excluir o membro permanentemente.",
+      );
+    } finally {
+      setRestoringId(null);
+    }
+  }
+
+  function handleMemberActions(member: Member) {
     Alert.alert(
-      "Restaurar membro",
-      `Deseja restaurar ${member.name}?`,
+      member.name,
+      "Escolha o que deseja fazer com esta conta.",
       [
         { text: "Cancelar", style: "cancel" },
         {
           text: "Restaurar",
           onPress: () => restoreMember(member),
+        },
+        {
+          text: "Excluir definitivamente",
+          style: "destructive",
+          onPress: () =>
+            Alert.alert(
+              "Excluir permanentemente",
+              "Esta acao apaga a conta e nao pode ser desfeita.",
+              [
+                { text: "Cancelar", style: "cancel" },
+                {
+                  text: "Excluir",
+                  style: "destructive",
+                  onPress: () => deleteMemberPermanently(member),
+                },
+              ],
+            ),
         },
       ],
     );
@@ -140,7 +176,7 @@ export function InactiveMembersScreen() {
                 disabled={restoringId !== null}
                 member={item}
                 metadata={`Inativo em: ${formatInactiveDate(item.updatedAt)}`}
-                onPress={() => handleRestoreMember(item)}
+                onPress={() => handleMemberActions(item)}
               />
             )}
             ListEmptyComponent={

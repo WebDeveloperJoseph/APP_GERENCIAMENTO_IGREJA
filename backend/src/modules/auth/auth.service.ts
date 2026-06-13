@@ -19,6 +19,8 @@ interface UpdateProfileDTO {
     name: string;
     email: string;
     phone?: string;
+    birthDate?: string | null;
+    photoUrl?: string | null;
 }
 
 class AuthService {
@@ -159,7 +161,14 @@ class AuthService {
         });
     }
 
-    async updateProfile({ memberId, name, email, phone }: UpdateProfileDTO) {
+    async updateProfile({
+        memberId,
+        name,
+        email,
+        phone,
+        birthDate,
+        photoUrl
+    }: UpdateProfileDTO) {
         const normalizedName = name?.trim();
         const normalizedEmail = email?.trim().toLowerCase();
 
@@ -184,6 +193,12 @@ class AuthService {
             throw new AppError("Este e-mail já está sendo usado.", 409);
         }
 
+        const parsedBirthDate = birthDate ? new Date(birthDate) : null;
+
+        if (parsedBirthDate && Number.isNaN(parsedBirthDate.getTime())) {
+            throw new AppError("Data de nascimento invalida.", 400);
+        }
+
         return prisma.member.update({
             where: {
                 id: memberId
@@ -191,7 +206,9 @@ class AuthService {
             data: {
                 name: normalizedName,
                 email: normalizedEmail,
-                phone: phone?.trim() || null
+                phone: phone?.trim() || null,
+                birthDate: parsedBirthDate,
+                photoUrl: photoUrl?.trim() || null
             },
             select: {
                 id: true,

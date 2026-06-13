@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ImagePickerAsset } from "expo-image-picker";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -13,14 +14,19 @@ import {
 
 import { AppButton } from "@/components/AppButton";
 import { AppInput } from "@/components/AppInput";
+import { ImagePickerField } from "@/components/ImagePickerField";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
+import { uploadImage } from "@/services/uploadImage";
 import { colors, radii, spacing } from "@/theme";
 
 export function EditProfileScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
+  const [photo, setPhoto] = useState<ImagePickerAsset | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -32,11 +38,14 @@ export function EditProfileScreen() {
         setName(member.name || "");
         setEmail(member.email || "");
         setPhone(member.phone || "");
+        setBirthDate(member.birthDate?.substring(0, 10) || "");
+        setPhotoUrl(member.photoUrl || "");
       })
       .catch((error: any) => {
         Alert.alert(
           "Erro",
-          error.response?.data?.message || "Não foi possível carregar seus dados.",
+          error.response?.data?.message ||
+            "Nao foi possivel carregar seus dados.",
         );
       })
       .finally(() => setIsLoading(false));
@@ -45,10 +54,15 @@ export function EditProfileScreen() {
   async function handleSave() {
     try {
       setIsSaving(true);
+      const updatedPhotoUrl = photo
+        ? await uploadImage(photo)
+        : photoUrl || null;
       const response = await api.patch("/auth/profile", {
         name,
         email,
         phone,
+        birthDate: birthDate || null,
+        photoUrl: updatedPhotoUrl,
       });
 
       await AsyncStorage.setItem(
@@ -56,12 +70,13 @@ export function EditProfileScreen() {
         JSON.stringify(response.data.data),
       );
 
-      Alert.alert("Sucesso", "Seus dados foram atualizados.");
+      Alert.alert("Sucesso", "Seu perfil foi atualizado.");
       router.back();
     } catch (error: any) {
       Alert.alert(
         "Erro",
-        error.response?.data?.message || "Não foi possível atualizar seus dados.",
+        error.response?.data?.message ||
+          "Nao foi possivel atualizar seus dados.",
       );
     } finally {
       setIsSaving(false);
@@ -78,15 +93,29 @@ export function EditProfileScreen() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.screen}
     >
-      <ScreenHeader onBack={() => router.back()} title="Meus dados" />
+      <ScreenHeader onBack={() => router.back()} title="Meu perfil" />
       <ScrollView
+        automaticallyAdjustKeyboardInsets
         contentContainerStyle={styles.content}
+        keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.card}>
+          <ImagePickerField
+            imageUrl={photo?.uri || photoUrl}
+            label="Foto de perfil"
+            onChange={(asset) => {
+              setPhoto(asset);
+
+              if (!asset) {
+                setPhotoUrl("");
+              }
+            }}
+            shape="circle"
+          />
           <AppInput
             label="Nome"
             onChangeText={setName}
@@ -109,10 +138,21 @@ export function EditProfileScreen() {
             placeholder="Seu telefone"
             value={phone}
           />
+          <AppInput
+            label="Data de nascimento"
+            onChangeText={setBirthDate}
+            placeholder="AAAA-MM-DD"
+            value={birthDate}
+          />
           <AppButton
             isLoading={isSaving}
             onPress={handleSave}
-            title="Salvar dados"
+            title="Salvar perfil"
+          />
+          <AppButton
+            onPress={() => router.push("/change-password")}
+            title="Alterar senha"
+            variant="secondary"
           />
         </View>
       </ScrollView>
@@ -134,6 +174,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: spacing.xl,
+    paddingBottom: 120,
   },
   card: {
     gap: spacing.lg,

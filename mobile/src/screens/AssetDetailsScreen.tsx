@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -16,12 +15,16 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { colors } from "@/theme/colors";
 import { Asset } from "@/types/asset";
-import { MemberRole } from "@/types/member";
 import {
   formatAssetDate,
   getAssetStatusLabel,
 } from "@/utils/asset";
 import { formatCurrency } from "@/utils/formatCurrency";
+import {
+  canManageAssets,
+  CurrentUserAccess,
+  getCurrentUserAccess,
+} from "@/utils/permissions";
 
 interface DetailRowProps {
   label: string;
@@ -42,7 +45,7 @@ export function AssetDetailsScreen() {
   const id = Array.isArray(idParam) ? idParam[0] : idParam;
 
   const [asset, setAsset] = useState<Asset | null>(null);
-  const [currentRole, setCurrentRole] = useState<MemberRole | null>(null);
+  const [access, setAccess] = useState<CurrentUserAccess | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -56,14 +59,12 @@ export function AssetDetailsScreen() {
       try {
         const [response, storedMember] = await Promise.all([
           api.get(`/assets/${id}`),
-          AsyncStorage.getItem("@app_icb:member"),
+          getCurrentUserAccess(),
         ]);
 
         setAsset(response.data.data);
 
-        if (storedMember) {
-          setCurrentRole(JSON.parse(storedMember).role);
-        }
+        setAccess(storedMember);
       } catch (error: any) {
         console.log(
           "ERRO AO BUSCAR PATRIMÔNIO:",
@@ -148,12 +149,15 @@ export function AssetDetailsScreen() {
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        actionLabel="Editar"
-        onActionPress={() =>
-          router.push({
-            pathname: "/patrimonio/edit/[id]",
-            params: { id: asset.id },
-          })
+        actionLabel={canManageAssets(access) ? "Editar" : undefined}
+        onActionPress={
+          canManageAssets(access)
+            ? () =>
+                router.push({
+                  pathname: "/patrimonio/edit/[id]",
+                  params: { id: asset.id },
+                })
+            : undefined
         }
         onBack={() => router.back()}
         title="Detalhes do patrimônio"
@@ -200,7 +204,7 @@ export function AssetDetailsScreen() {
         </View>
 
         <View style={styles.actions}>
-          {currentRole === "ADMIN" ? (
+          {canManageAssets(access) ? (
             <AppButton
               isLoading={isDeleting}
               onPress={handleDeleteAsset}

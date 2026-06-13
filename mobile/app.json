@@ -44,6 +44,13 @@
           "cameraPermission": false,
           "microphonePermission": false
         }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "O APP ICB usa o calendario para adicionar os eventos da igreja.",
+          "writeOnlyCalendarPermission": "O APP ICB adiciona os eventos da igreja ao seu calendario."
+        }
       ]
     ],
     "experiments": {

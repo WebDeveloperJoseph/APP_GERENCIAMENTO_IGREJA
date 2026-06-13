@@ -1,13 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Href, router } from "expo-router";
-import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { ScreenContainer } from "@/components/ScreenContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { colors, radii, spacing, typography } from "@/theme";
-import { MemberRole } from "@/types/member";
 
 interface MenuItemProps {
   title: string;
@@ -47,18 +45,6 @@ function MenuItem({
 }
 
 export function MoreScreen() {
-  const [role, setRole] = useState<MemberRole | null>(null);
-
-  useEffect(() => {
-    AsyncStorage.getItem("@app_icb:member").then((storedMember) => {
-      if (storedMember) {
-        setRole(JSON.parse(storedMember).role);
-      }
-    });
-  }, []);
-
-  const canAccessManagement = role === "ADMIN" || role === "TESOUREIRO";
-
   async function handleLogout() {
     await AsyncStorage.removeItem("@app_icb:token");
     await AsyncStorage.removeItem("@app_icb:member");
@@ -73,14 +59,12 @@ export function MoreScreen() {
         <View style={styles.menu}>
           <MenuItem
             description="Indicadores e relatórios da igreja"
-            disabled={!canAccessManagement}
             href="/dashboard"
             symbol="▥"
             title="Painel"
           />
           <MenuItem
             description="Bens e recursos patrimoniais"
-            disabled={!canAccessManagement}
             href="/patrimonio"
             symbol="◇"
             title="Patrimônio"
@@ -90,7 +74,7 @@ export function MoreScreen() {
         <Text style={styles.sectionTitle}>Conta</Text>
         <View style={styles.menu}>
           <MenuItem
-            description="Atualize nome, e-mail e telefone"
+            description="Atualize foto, nome, nascimento e contato"
             href="/profile"
             symbol="P"
             title="Meus dados"

@@ -77,11 +77,21 @@ model Asset {
   @@map("assets")
 }
 
+model StoredImage {
+  id        String   @id @default(uuid())
+  mimeType  String
+  data      Bytes
+  createdAt DateTime @default(now())
+
+  @@map("stored_images")
+}
+
 enum Role {
   MEMBRO
   VOLUNTARIO
   TESOUREIRO
   PASTOR
+  DIRETOR_PATRIMONIO
   ADMIN
 }
 

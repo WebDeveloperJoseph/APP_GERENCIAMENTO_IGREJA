@@ -17,13 +17,12 @@ import { MemberListItem } from "@/components/MemberListItem";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { colors, radii, spacing, typography } from "@/theme";
-import { Member, MemberRole } from "@/types/member";
+import { Member } from "@/types/member";
 
 type MemberFilter = "TODOS" | "ATIVOS" | "INATIVOS";
 
 export function MembersScreen() {
   const [members, setMembers] = useState<Member[]>([]);
-  const [currentRole, setCurrentRole] = useState<MemberRole | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<MemberFilter>("TODOS");
@@ -61,10 +60,9 @@ export function MembersScreen() {
           const authenticatedMember = storedMember
             ? JSON.parse(storedMember)
             : null;
-          const role: MemberRole | null = authenticatedMember?.role ?? null;
           const requests = [api.get("/members")];
 
-          if (role === "ADMIN") {
+          if (authenticatedMember?.isSuperAdmin === true) {
             requests.push(api.get("/members/inactive"));
           }
 
@@ -78,7 +76,6 @@ export function MembersScreen() {
               isActive: false,
             })) ?? [];
 
-          setCurrentRole(role);
           setIsSuperAdmin(authenticatedMember?.isSuperAdmin === true);
           setMembers([...activeMembers, ...inactiveMembers]);
         } catch (error: any) {
@@ -129,13 +126,13 @@ export function MembersScreen() {
             return (
               <Pressable
                 key={option.value}
-                disabled={option.value === "INATIVOS" && currentRole !== "ADMIN"}
+                disabled={option.value === "INATIVOS" && !isSuperAdmin}
                 onPress={() => setFilter(option.value)}
                 style={[
                   styles.filter,
                   isSelected && styles.selectedFilter,
                   option.value === "INATIVOS" &&
-                    currentRole !== "ADMIN" &&
+                    !isSuperAdmin &&
                     styles.disabledFilter,
                 ]}
               >

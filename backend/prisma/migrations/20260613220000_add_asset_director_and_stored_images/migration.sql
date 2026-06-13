@@ -1,0 +1,10 @@
+ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'DIRETOR_PATRIMONIO';
+
+CREATE TABLE "stored_images" (
+    "id" TEXT NOT NULL,
+    "mimeType" TEXT NOT NULL,
+    "data" BYTEA NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "stored_images_pkey" PRIMARY KEY ("id")
+);

@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -17,8 +16,12 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { colors, radii, spacing, typography } from "@/theme";
 import { ChurchEvent } from "@/types/event";
-import { MemberRole } from "@/types/member";
 import { formatEventPeriod } from "@/utils/event";
+import {
+  canManageEvents,
+  CurrentUserAccess,
+  getCurrentUserAccess,
+} from "@/utils/permissions";
 
 interface DetailRowProps {
   label: string;
@@ -38,7 +41,7 @@ export function EventDetailsScreen() {
   const { id: idParam } = useLocalSearchParams<{ id: string | string[] }>();
   const id = Array.isArray(idParam) ? idParam[0] : idParam;
   const [event, setEvent] = useState<ChurchEvent | null>(null);
-  const [role, setRole] = useState<MemberRole | null>(null);
+  const [access, setAccess] = useState<CurrentUserAccess | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -52,14 +55,12 @@ export function EventDetailsScreen() {
       try {
         const [response, storedMember] = await Promise.all([
           api.get(`/events/${id}`),
-          AsyncStorage.getItem("@app_icb:member"),
+          getCurrentUserAccess(),
         ]);
 
         setEvent(response.data.data);
 
-        if (storedMember) {
-          setRole(JSON.parse(storedMember).role);
-        }
+        setAccess(storedMember);
       } catch (error: any) {
         Alert.alert(
           "Erro",
@@ -136,9 +137,9 @@ export function EventDetailsScreen() {
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        actionLabel={role === "ADMIN" ? "Editar" : undefined}
+        actionLabel={canManageEvents(access) ? "Editar" : undefined}
         onActionPress={
-          role === "ADMIN"
+          canManageEvents(access)
             ? () =>
                 router.push({
                   pathname: "/events/edit/[id]",
@@ -195,7 +196,7 @@ export function EventDetailsScreen() {
         </View>
 
         <View style={styles.actions}>
-          {role === "ADMIN" ? (
+          {canManageEvents(access) ? (
             <AppButton
               isLoading={isDeleting}
               onPress={handleDeleteEvent}

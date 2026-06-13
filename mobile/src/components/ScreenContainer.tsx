@@ -36,7 +36,10 @@ export function ScreenContainer({
 
   return (
     <ScrollView
+      automaticallyAdjustKeyboardInsets
       contentContainerStyle={styles.scrollContent}
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
       {...scrollViewProps}
     >

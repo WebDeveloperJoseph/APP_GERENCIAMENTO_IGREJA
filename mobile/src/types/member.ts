@@ -3,6 +3,7 @@ export type MemberRole =
   | "VOLUNTARIO"
   | "TESOUREIRO"
   | "PASTOR"
+  | "DIRETOR_PATRIMONIO"
   | "ADMIN";
 
 export interface Member {
@@ -30,5 +31,6 @@ export const MEMBER_ROLE_OPTIONS: MemberRoleOption[] = [
   { label: "Voluntário", value: "VOLUNTARIO" },
   { label: "Tesoureiro", value: "TESOUREIRO" },
   { label: "Pastor", value: "PASTOR" },
+  { label: "Diretor de patrimonio", value: "DIRETOR_PATRIMONIO" },
   { label: "Administrador", value: "ADMIN" },
 ];

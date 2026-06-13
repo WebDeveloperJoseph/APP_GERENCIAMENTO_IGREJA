@@ -1,12 +1,9 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router, usePathname } from "expo-router";
-import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors } from "@/theme/colors";
-import { MemberRole } from "@/types/member";
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
@@ -16,7 +13,6 @@ interface NavigationItem {
   activeIcon: IconName;
   href: Href;
   path: string;
-  allowedRoles?: MemberRole[];
 }
 
 const navigationItems: NavigationItem[] = [
@@ -33,7 +29,6 @@ const navigationItems: NavigationItem[] = [
     activeIcon: "people",
     href: "/members",
     path: "/members",
-    allowedRoles: ["ADMIN", "TESOUREIRO", "VOLUNTARIO", "PASTOR"],
   },
   {
     label: "Eventos",
@@ -48,7 +43,6 @@ const navigationItems: NavigationItem[] = [
     activeIcon: "wallet",
     href: "/transactions",
     path: "/transactions",
-    allowedRoles: ["ADMIN", "TESOUREIRO"],
   },
   {
     label: "Mais",
@@ -62,20 +56,6 @@ const navigationItems: NavigationItem[] = [
 export function BottomNavigation() {
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
-  const [role, setRole] = useState<MemberRole | null>(null);
-
-  useEffect(() => {
-    async function loadRole() {
-      const storedMember = await AsyncStorage.getItem("@app_icb:member");
-
-      if (storedMember) {
-        setRole(JSON.parse(storedMember).role);
-      }
-    }
-
-    loadRole();
-  }, []);
-
   return (
     <View
       style={[
@@ -88,12 +68,7 @@ export function BottomNavigation() {
       <View style={styles.items}>
         {navigationItems.map((item) => {
           const isActive = pathname.startsWith(item.path);
-          const isAllowed =
-            !item.allowedRoles ||
-            (role ? item.allowedRoles.includes(role) : false);
-          const iconColor = !isAllowed
-            ? "#435A87"
-            : isActive
+          const iconColor = isActive
               ? colors.surface
               : "#829AC6";
 
@@ -103,9 +78,8 @@ export function BottomNavigation() {
               accessibilityRole="tab"
               accessibilityState={{
                 selected: isActive,
-                disabled: !isAllowed,
               }}
-              disabled={!isAllowed || isActive}
+              disabled={isActive}
               onPress={() => router.replace(item.href)}
               style={styles.item}
             >
@@ -121,7 +95,6 @@ export function BottomNavigation() {
                 style={[
                   styles.label,
                   isActive && styles.activeText,
-                  !isAllowed && styles.disabledText,
                 ]}
               >
                 {item.label}
@@ -178,8 +151,5 @@ const styles = StyleSheet.create({
   activeText: {
     color: colors.surface,
     fontWeight: "800",
-  },
-  disabledText: {
-    color: "#435A87",
   },
 });

@@ -1,8 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -28,6 +29,21 @@ export function LoginScreen() {
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () =>
+      setIsKeyboardVisible(true),
+    );
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () =>
+      setIsKeyboardVisible(false),
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   async function handleLogin() {
     try {
@@ -61,17 +77,23 @@ export function LoginScreen() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.screen}
     >
       <ScreenContainer
         contentStyle={styles.content}
         maxWidth={460}
-        scrollViewProps={{ keyboardShouldPersistTaps: "handled" }}
+        scrollViewProps={{
+          automaticallyAdjustKeyboardInsets: true,
+          keyboardDismissMode: "on-drag",
+          keyboardShouldPersistTaps: "handled",
+        }}
       >
-        <View style={styles.brandArea}>
-          <ChurchLogo showTagline />
-        </View>
+        {!isKeyboardVisible ? (
+          <View style={styles.brandArea}>
+            <ChurchLogo showTagline />
+          </View>
+        ) : null}
 
         <View style={styles.card}>
           <View style={styles.cardHeader}>

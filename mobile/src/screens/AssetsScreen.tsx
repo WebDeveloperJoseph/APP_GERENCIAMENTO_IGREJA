@@ -19,6 +19,11 @@ import { api } from "@/services/api";
 import { colors } from "@/theme/colors";
 import { Asset, AssetStatus } from "@/types/asset";
 import { formatCurrency } from "@/utils/formatCurrency";
+import {
+  canManageAssets,
+  CurrentUserAccess,
+  getCurrentUserAccess,
+} from "@/utils/permissions";
 
 type AssetStatusFilter = "TODOS" | AssetStatus;
 type AssetSort = "RECENTES" | "MAIOR_VALOR" | "MENOR_VALOR" | "NOME";
@@ -47,6 +52,7 @@ export function AssetsScreen() {
   const [category, setCategory] = useState("TODAS");
   const [sort, setSort] = useState<AssetSort>("RECENTES");
   const [isLoading, setIsLoading] = useState(true);
+  const [access, setAccess] = useState<CurrentUserAccess | null>(null);
 
   const categoryOptions = useMemo(() => {
     const categories = Array.from(
@@ -103,8 +109,12 @@ export function AssetsScreen() {
         try {
           setIsLoading(true);
 
-          const response = await api.get("/assets");
+          const [response, currentAccess] = await Promise.all([
+            api.get("/assets"),
+            getCurrentUserAccess(),
+          ]);
           setAssets(response.data.data);
+          setAccess(currentAccess);
         } catch (error: any) {
           console.log(
             "ERRO AO BUSCAR PATRIMÔNIO:",
@@ -128,8 +138,12 @@ export function AssetsScreen() {
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        actionLabel="+ Novo"
-        onActionPress={() => router.push("/patrimonio/create")}
+        actionLabel={canManageAssets(access) ? "+ Novo" : undefined}
+        onActionPress={
+          canManageAssets(access)
+            ? () => router.push("/patrimonio/create")
+            : undefined
+        }
         title="Patrimônio"
       />
 

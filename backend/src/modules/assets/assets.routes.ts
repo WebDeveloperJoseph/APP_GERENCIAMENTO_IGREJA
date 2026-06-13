@@ -8,7 +8,6 @@ const assetsController = new AssetsController();
 
 assetsRoutes.get(
   "/",
-  ensureRole(["ADMIN", "TESOUREIRO"]),
   (request, response, next) => {
     return assetsController.list(request, response, next);
   },
@@ -16,7 +15,6 @@ assetsRoutes.get(
 
 assetsRoutes.get(
   "/:id",
-  ensureRole(["ADMIN", "TESOUREIRO"]),
   (request, response, next) => {
     return assetsController.show(request, response, next);
   },
@@ -24,7 +22,7 @@ assetsRoutes.get(
 
 assetsRoutes.post(
   "/",
-  ensureRole(["ADMIN", "TESOUREIRO"]),
+  ensureRole(["DIRETOR_PATRIMONIO"]),
   (request, response, next) => {
     return assetsController.create(request, response, next);
   },
@@ -32,7 +30,7 @@ assetsRoutes.post(
 
 assetsRoutes.put(
   "/:id",
-  ensureRole(["ADMIN", "TESOUREIRO"]),
+  ensureRole(["DIRETOR_PATRIMONIO"]),
   (request, response, next) => {
     return assetsController.update(request, response, next);
   },
@@ -40,7 +38,7 @@ assetsRoutes.put(
 
 assetsRoutes.delete(
   "/:id",
-  ensureRole(["ADMIN"]),
+  ensureRole(["DIRETOR_PATRIMONIO"]),
   (request, response, next) => {
     return assetsController.delete(request, response, next);
   },

@@ -42,18 +42,29 @@ function createArcPath(startAngle: number, endAngle: number) {
 
 export function PieChart({ data }: PieChartProps) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
-  let currentAngle = 0;
+  const slices = data.reduce<
+    (PieChartItem & { startAngle: number; endAngle: number })[]
+  >((result, item) => {
+    const startAngle = result.at(-1)?.endAngle ?? 0;
+    const angle = total > 0 ? (item.value / total) * 360 : 0;
+
+    return [
+      ...result,
+      {
+        ...item,
+        startAngle,
+        endAngle: startAngle + angle,
+      },
+    ];
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.chart}>
         <Svg height={size} width={size}>
           <G>
-            {data.map((item) => {
-              const angle = (item.value / total) * 360;
-              const startAngle = currentAngle;
-              const endAngle = currentAngle + angle;
-              currentAngle = endAngle;
+            {slices.map((item) => {
+              const angle = item.endAngle - item.startAngle;
 
               if (angle >= 359.99) {
                 return (
@@ -69,7 +80,7 @@ export function PieChart({ data }: PieChartProps) {
 
               return (
                 <Path
-                  d={createArcPath(startAngle, endAngle)}
+                  d={createArcPath(item.startAngle, item.endAngle)}
                   fill={item.color}
                   key={item.label}
                 />
@@ -100,7 +111,7 @@ export function PieChart({ data }: PieChartProps) {
             />
             <Text style={styles.legendLabel}>{item.label}</Text>
             <Text style={styles.legendValue}>
-              {Math.round((item.value / total) * 100)}%
+              {total > 0 ? Math.round((item.value / total) * 100) : 0}%
             </Text>
           </View>
         ))}

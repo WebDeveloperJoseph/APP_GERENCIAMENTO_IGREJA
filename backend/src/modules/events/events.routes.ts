@@ -16,7 +16,7 @@ eventsRoutes.get("/:id", (request, response, next) => {
 
 eventsRoutes.post(
   "/",
-  ensureRole(["ADMIN"]),
+  ensureRole(["PASTOR"]),
   (request, response, next) => {
     return eventsController.create(request, response, next);
   },
@@ -24,7 +24,7 @@ eventsRoutes.post(
 
 eventsRoutes.put(
   "/:id",
-  ensureRole(["ADMIN"]),
+  ensureRole(["PASTOR"]),
   (request, response, next) => {
     return eventsController.update(request, response, next);
   },
@@ -32,7 +32,7 @@ eventsRoutes.put(
 
 eventsRoutes.delete(
   "/:id",
-  ensureRole(["ADMIN"]),
+  ensureRole(["PASTOR"]),
   (request, response, next) => {
     return eventsController.delete(request, response, next);
   },

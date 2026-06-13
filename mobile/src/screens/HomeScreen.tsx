@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  ImageBackground,
   Pressable,
   StyleSheet,
   Text,
@@ -15,11 +14,12 @@ import {
 
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { ScreenContainer } from "@/components/ScreenContainer";
+import { WeeklyEventsCarousel } from "@/components/WeeklyEventsCarousel";
 import { api } from "@/services/api";
+import { syncEventsWithDeviceCalendar } from "@/services/calendarSync";
 import { churchTheme, colors, radii, spacing, typography } from "@/theme";
 import { ChurchEvent } from "@/types/event";
 import { MemberRole } from "@/types/member";
-import { formatEventDate, formatEventTime } from "@/utils/event";
 
 interface StoredMember {
   id: string;
@@ -74,7 +74,7 @@ function QuickAction({
 
 export function HomeScreen() {
   const [member, setMember] = useState<StoredMember | null>(null);
-  const [nextEvent, setNextEvent] = useState<ChurchEvent | null>(null);
+  const [featuredEvents, setFeaturedEvents] = useState<ChurchEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -89,12 +89,30 @@ export function HomeScreen() {
           setMember(JSON.parse(storedMember));
         }
 
-        const now = Date.now();
-        const upcomingEvent = (eventsResponse.data.data as ChurchEvent[]).find(
-          (event) => new Date(event.endDate).getTime() >= now,
+        const events = eventsResponse.data.data as ChurchEvent[];
+        const now = new Date();
+        const startOfWeek = new Date(now);
+        const weekDay = (now.getDay() + 6) % 7;
+        startOfWeek.setDate(now.getDate() - weekDay);
+        startOfWeek.setHours(0, 0, 0, 0);
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+        const upcomingEvents = events.filter(
+          (event) => new Date(event.endDate).getTime() >= now.getTime(),
+        );
+        const weeklyEvents = upcomingEvents.filter(
+          (event) =>
+            new Date(event.startDate) < endOfWeek &&
+            new Date(event.endDate) >= startOfWeek,
         );
 
-        setNextEvent(upcomingEvent ?? null);
+        setFeaturedEvents(
+          weeklyEvents.length > 0 ? weeklyEvents : upcomingEvents.slice(0, 3),
+        );
+        void syncEventsWithDeviceCalendar(events).catch((calendarError) => {
+          console.log("ERRO AO SINCRONIZAR CALENDARIO:", calendarError);
+        });
       } catch (error: any) {
         console.log(
           "ERRO AO CARREGAR HOME:",
@@ -130,10 +148,6 @@ export function HomeScreen() {
   }
 
   const firstName = member?.name?.trim().split(" ")[0] || "usuario";
-  const canAccessMembers = member?.role !== "MEMBRO";
-  const canAccessFinance =
-    member?.role === "ADMIN" || member?.role === "TESOUREIRO";
-
   return (
     <View style={styles.screen}>
       <ScreenContainer contentStyle={styles.content}>
@@ -171,59 +185,17 @@ export function HomeScreen() {
           </View>
         </View>
 
-        <ImageBackground
-          imageStyle={styles.eventBackgroundImage}
-          source={
-            nextEvent?.coverImageUrl
-              ? { uri: nextEvent.coverImageUrl }
-              : undefined
-          }
-          style={styles.eventCard}
-        >
-          <View style={styles.eventOverlay} />
-          <View style={styles.eventGlow} />
-          <Text style={styles.eventEyebrow}>PROXIMO EVENTO</Text>
-          <Text numberOfLines={2} style={styles.eventTitle}>
-            {nextEvent?.title || "Confira a agenda da igreja"}
-          </Text>
-
-          <View style={styles.eventInfo}>
-            <Text style={styles.eventInfoIcon}>D</Text>
-            <Text style={styles.eventInfoText}>
-              {nextEvent
-                ? formatEventDate(nextEvent.startDate)
-                : "Novos encontros em breve"}
-            </Text>
-          </View>
-          <View style={styles.eventInfo}>
-            <Text style={styles.eventInfoIcon}>H</Text>
-            <Text style={styles.eventInfoText}>
-              {nextEvent
-                ? `${formatEventTime(nextEvent.startDate)}${
-                    nextEvent.location ? `  |  ${nextEvent.location}` : ""
-                  }`
-                : "Acompanhe todos os eventos"}
-            </Text>
-          </View>
-
+        {featuredEvents.length > 0 ? (
+          <WeeklyEventsCarousel events={featuredEvents} />
+        ) : (
           <Pressable
-            onPress={() =>
-              nextEvent
-                ? router.push({
-                    pathname: "/events/[id]",
-                    params: { id: nextEvent.id },
-                  })
-                : router.push("/events")
-            }
-            style={({ pressed }) => [
-              styles.eventButton,
-              pressed && styles.pressed,
-            ]}
+            onPress={() => router.push("/events")}
+            style={styles.emptyEventCard}
           >
-            <Text style={styles.eventButtonText}>Ver detalhes</Text>
-            <Text style={styles.eventButtonArrow}>{"\u2192"}</Text>
+            <Text style={styles.emptyEventTitle}>Confira a agenda da igreja</Text>
+            <Text style={styles.emptyEventText}>Novos eventos em breve</Text>
           </Pressable>
-        </ImageBackground>
+        )}
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Acesso rapido</Text>
@@ -232,7 +204,6 @@ export function HomeScreen() {
         <View style={styles.actionsGrid}>
           <QuickAction
             description="Ver e gerenciar"
-            disabled={!canAccessMembers}
             href="/members"
             icon="people-outline"
             title="Membros"
@@ -246,7 +217,6 @@ export function HomeScreen() {
           />
           <QuickAction
             description="Entradas e saidas"
-            disabled={!canAccessFinance}
             href="/transactions"
             icon="wallet-outline"
             title="Financeiro"
@@ -254,14 +224,12 @@ export function HomeScreen() {
           <QuickAction
             color={colors.secondary}
             description="Graficos e numeros"
-            disabled={!canAccessFinance}
             href="/dashboard"
             icon="bar-chart-outline"
             title="Relatorios"
           />
           <QuickAction
             description="Bens da igreja"
-            disabled={!canAccessFinance}
             href="/patrimonio"
             icon="business-outline"
             title="Patrimonio"
@@ -367,6 +335,24 @@ const styles = StyleSheet.create({
     fontWeight: typography.fontWeight.extraBold,
     textAlign: "center",
     marginTop: 18,
+  },
+  emptyEventCard: {
+    minHeight: 160,
+    justifyContent: "center",
+    borderRadius: radii.xl,
+    padding: spacing.xl,
+    marginBottom: spacing.xxl,
+    backgroundColor: colors.primary,
+  },
+  emptyEventTitle: {
+    color: colors.surface,
+    fontSize: typography.fontSize.xl,
+    fontWeight: typography.fontWeight.extraBold,
+  },
+  emptyEventText: {
+    color: "#79C6FF",
+    fontSize: typography.fontSize.sm,
+    marginTop: spacing.sm,
   },
   eventCard: {
     minHeight: 220,

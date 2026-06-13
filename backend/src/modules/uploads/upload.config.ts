@@ -1,14 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
-import crypto from "node:crypto";
 import multer from "multer";
 
 import { AppError } from "../../errors/AppError";
-
-export const uploadsDirectory = path.resolve(process.cwd(), "uploads");
-const imagesDirectory = path.join(uploadsDirectory, "images");
-
-fs.mkdirSync(imagesDirectory, { recursive: true });
 
 const allowedMimeTypes = new Map([
   ["image/jpeg", ".jpg"],
@@ -17,13 +9,7 @@ const allowedMimeTypes = new Map([
 ]);
 
 export const imageUpload = multer({
-  storage: multer.diskStorage({
-    destination: imagesDirectory,
-    filename: (_request, file, callback) => {
-      const extension = allowedMimeTypes.get(file.mimetype) || ".jpg";
-      callback(null, `${crypto.randomUUID()}${extension}`);
-    },
-  }),
+  storage: multer.memoryStorage(),
   limits: {
     fileSize: 5 * 1024 * 1024,
     files: 1,

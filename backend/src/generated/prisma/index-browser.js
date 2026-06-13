@@ -176,6 +176,13 @@ exports.Prisma.AssetScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.StoredImageScalarFieldEnum = {
+  id: 'id',
+  mimeType: 'mimeType',
+  data: 'data',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -195,6 +202,7 @@ exports.Role = exports.$Enums.Role = {
   VOLUNTARIO: 'VOLUNTARIO',
   TESOUREIRO: 'TESOUREIRO',
   PASTOR: 'PASTOR',
+  DIRETOR_PATRIMONIO: 'DIRETOR_PATRIMONIO',
   ADMIN: 'ADMIN'
 };
 
@@ -223,7 +231,8 @@ exports.Prisma.ModelName = {
   Member: 'Member',
   Event: 'Event',
   Transaction: 'Transaction',
-  Asset: 'Asset'
+  Asset: 'Asset',
+  StoredImage: 'StoredImage'
 };
 
 /**

@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -15,7 +14,6 @@ import { SectionCard } from "@/components/SectionCard";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { colors, spacing, typography } from "@/theme";
-import { MemberRole } from "@/types/member";
 import { Transaction } from "@/types/transaction";
 import { formatCurrency } from "@/utils/formatCurrency";
 import {
@@ -23,6 +21,11 @@ import {
   getTransactionCategoryLabel,
   getTransactionTypeLabel,
 } from "@/utils/transaction";
+import {
+  canManageFinance,
+  CurrentUserAccess,
+  getCurrentUserAccess,
+} from "@/utils/permissions";
 
 interface DetailRowProps {
   label: string;
@@ -43,7 +46,7 @@ export function TransactionDetailsScreen() {
   const id = Array.isArray(idParam) ? idParam[0] : idParam;
 
   const [transaction, setTransaction] = useState<Transaction | null>(null);
-  const [currentRole, setCurrentRole] = useState<MemberRole | null>(null);
+  const [access, setAccess] = useState<CurrentUserAccess | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -57,14 +60,12 @@ export function TransactionDetailsScreen() {
       try {
         const [response, storedMember] = await Promise.all([
           api.get(`/transactions/${id}`),
-          AsyncStorage.getItem("@app_icb:member"),
+          getCurrentUserAccess(),
         ]);
 
         setTransaction(response.data.data);
 
-        if (storedMember) {
-          setCurrentRole(JSON.parse(storedMember).role);
-        }
+        setAccess(storedMember);
       } catch (error: any) {
         console.log(
           "ERRO AO BUSCAR TRANSAÇÃO:",
@@ -153,12 +154,15 @@ export function TransactionDetailsScreen() {
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        actionLabel="Editar"
-        onActionPress={() =>
-          router.push({
-            pathname: "/transactions/edit/[id]",
-            params: { id: transaction.id },
-          })
+        actionLabel={canManageFinance(access) ? "Editar" : undefined}
+        onActionPress={
+          canManageFinance(access)
+            ? () =>
+                router.push({
+                  pathname: "/transactions/edit/[id]",
+                  params: { id: transaction.id },
+                })
+            : undefined
         }
         onBack={() => router.back()}
         title="Detalhes da transação"
@@ -202,7 +206,7 @@ export function TransactionDetailsScreen() {
         </View>
 
         <View style={styles.actions}>
-          {currentRole === "ADMIN" ? (
+          {canManageFinance(access) ? (
             <AppButton
               isLoading={isDeleting}
               onPress={handleDeleteTransaction}

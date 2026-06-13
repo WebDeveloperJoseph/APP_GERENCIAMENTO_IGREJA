@@ -20,6 +20,11 @@ import { ReportSummary } from "@/types/report";
 import { Transaction, TransactionType } from "@/types/transaction";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { getTransactionCategoryLabel } from "@/utils/transaction";
+import {
+  canManageFinance,
+  CurrentUserAccess,
+  getCurrentUserAccess,
+} from "@/utils/permissions";
 
 type TransactionFilter = "TODAS" | TransactionType;
 
@@ -58,6 +63,7 @@ export function TransactionsScreen() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<TransactionFilter>("TODAS");
   const [isLoading, setIsLoading] = useState(true);
+  const [access, setAccess] = useState<CurrentUserAccess | null>(null);
 
   const filteredTransactions = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -83,13 +89,15 @@ export function TransactionsScreen() {
         try {
           setIsLoading(true);
 
-          const [transactionsResponse, summaryResponse] = await Promise.all([
+          const [transactionsResponse, summaryResponse, currentAccess] = await Promise.all([
             api.get("/transactions"),
             api.get("/reports/summary"),
+            getCurrentUserAccess(),
           ]);
 
           setTransactions(transactionsResponse.data.data);
           setSummary(summaryResponse.data.data);
+          setAccess(currentAccess);
         } catch (error: any) {
           console.log(
             "ERRO AO BUSCAR FINANCEIRO:",
@@ -181,12 +189,14 @@ export function TransactionsScreen() {
           onPress={() => setSearch("Dizimo")}
           symbol="D"
         />
-        <FinanceShortcut
-          color={colors.secondary}
-          label="Nova"
-          onPress={() => router.push("/transactions/create")}
-          symbol="+"
-        />
+        {canManageFinance(access) ? (
+          <FinanceShortcut
+            color={colors.secondary}
+            label="Nova"
+            onPress={() => router.push("/transactions/create")}
+            symbol="+"
+          />
+        ) : null}
       </View>
 
       <View style={styles.movementsHeader}>
@@ -237,8 +247,12 @@ export function TransactionsScreen() {
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        actionLabel="+ Nova"
-        onActionPress={() => router.push("/transactions/create")}
+        actionLabel={canManageFinance(access) ? "+ Nova" : undefined}
+        onActionPress={
+          canManageFinance(access)
+            ? () => router.push("/transactions/create")
+            : undefined
+        }
         title="Financeiro"
       />
 

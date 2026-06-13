@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
 import {
@@ -18,7 +17,11 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { colors, spacing, typography } from "@/theme";
 import { ChurchEvent } from "@/types/event";
-import { MemberRole } from "@/types/member";
+import {
+  canManageEvents,
+  CurrentUserAccess,
+  getCurrentUserAccess,
+} from "@/utils/permissions";
 
 export function EventsScreen() {
   const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -27,7 +30,7 @@ export function EventsScreen() {
   });
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [events, setEvents] = useState<ChurchEvent[]>([]);
-  const [role, setRole] = useState<MemberRole | null>(null);
+  const [access, setAccess] = useState<CurrentUserAccess | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const visibleEvents = useMemo(() => {
@@ -51,14 +54,12 @@ export function EventsScreen() {
             year: selectedMonth.getFullYear(),
           },
         }),
-        AsyncStorage.getItem("@app_icb:member"),
+        getCurrentUserAccess(),
       ]);
 
       setEvents(response.data.data);
 
-      if (storedMember) {
-        setRole(JSON.parse(storedMember).role);
-      }
+      setAccess(storedMember);
     } catch (error: any) {
       console.log(
         "ERRO AO BUSCAR EVENTOS:",
@@ -92,9 +93,11 @@ export function EventsScreen() {
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        actionLabel={role === "ADMIN" ? "+ Novo" : undefined}
+        actionLabel={canManageEvents(access) ? "+ Novo" : undefined}
         onActionPress={
-          role === "ADMIN" ? () => router.push("/events/create") : undefined
+          canManageEvents(access)
+            ? () => router.push("/events/create")
+            : undefined
         }
         title="Eventos"
       />

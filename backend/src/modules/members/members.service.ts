@@ -3,7 +3,13 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../../database";
 import { AppError } from "../../errors/AppError";
 
-type Role = "MEMBRO" | "VOLUNTARIO" | "TESOUREIRO" | "PASTOR" | "ADMIN";
+type Role =
+    | "MEMBRO"
+    | "VOLUNTARIO"
+    | "TESOUREIRO"
+    | "PASTOR"
+    | "DIRETOR_PATRIMONIO"
+    | "ADMIN";
 
 interface AuthenticatedMember {
     id: string;
@@ -41,6 +47,7 @@ const validRoles: Role[] = [
     "VOLUNTARIO",
     "TESOUREIRO",
     "PASTOR",
+    "DIRETOR_PATRIMONIO",
     "ADMIN"
 ];
 
@@ -135,6 +142,13 @@ class MembersService {
         id: string,
         authenticatedMember: AuthenticatedMember
     ) {
+        if (!authenticatedMember.isSuperAdmin) {
+            throw new AppError(
+                "Somente o administrador principal pode alterar membros.",
+                403
+            );
+        }
+
         const memberExists = await prisma.member.findUnique({
             where: {
                 id
@@ -207,6 +221,13 @@ class MembersService {
     }
 
     async delete(id: string, authenticatedMember: AuthenticatedMember) {
+        if (!authenticatedMember.isSuperAdmin) {
+            throw new AppError(
+                "Somente o administrador principal pode inativar membros.",
+                403
+            );
+        }
+
         const memberExists = await prisma.member.findUnique({
             where: {
                 id

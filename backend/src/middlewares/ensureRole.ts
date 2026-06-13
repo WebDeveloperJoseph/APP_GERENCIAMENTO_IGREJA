@@ -1,10 +1,20 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/AppError";
 
-type Role = "MEMBRO" | "VOLUNTARIO" | "TESOUREIRO" | "PASTOR" | "ADMIN";
+type Role =
+    | "MEMBRO"
+    | "VOLUNTARIO"
+    | "TESOUREIRO"
+    | "PASTOR"
+    | "DIRETOR_PATRIMONIO"
+    | "ADMIN";
 
 function ensureRole(allowedRoles: Role[]) {
     return (request: Request, response: Response, next: NextFunction) => {
+        if (request.member.isSuperAdmin) {
+            return next();
+        }
+
         const memberRole = request.member.role as Role;
 
         if (!allowedRoles.includes(memberRole)) {

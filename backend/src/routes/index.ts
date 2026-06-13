@@ -8,7 +8,6 @@ import { assetsRoutes } from "../modules/assets/assets.routes";
 import { eventsRoutes } from "../modules/events/events.routes";
 import { uploadRoutes } from "../modules/uploads/upload.routes";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
-import { ensureRole } from "../middlewares/ensureRole";
 
 // Instância "copia" do module de rotas modulares
 const routes = Router();
@@ -28,19 +27,17 @@ routes.use("/members", ensureAuthenticated, membersRoutes);
 routes.use(
   "/transactions",
   ensureAuthenticated,
-  ensureRole(["ADMIN", "TESOUREIRO"]),
   financeRoutes,
 );
 
 routes.use(
   "/reports",
   ensureAuthenticated,
-  ensureRole(["ADMIN", "TESOUREIRO"]),
   reportsRoutes,
 );
 
 routes.use("/assets", ensureAuthenticated, assetsRoutes);
 routes.use("/events", ensureAuthenticated, eventsRoutes);
-routes.use("/uploads", ensureAuthenticated, uploadRoutes);
+routes.use("/uploads", uploadRoutes);
 
 export { routes };

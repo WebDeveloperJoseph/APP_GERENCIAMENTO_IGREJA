@@ -15,6 +15,7 @@ import {
 import { EventForm } from "@/components/EventForm";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
+import { syncEventsWithDeviceCalendar } from "@/services/calendarSync";
 import { uploadImage } from "@/services/uploadImage";
 import { colors, radii, spacing } from "@/theme";
 import { ChurchEvent, EventFormValues } from "@/types/event";
@@ -95,10 +96,15 @@ export function EditEventScreen() {
         ? await uploadImage(coverImage)
         : values.coverImageUrl || null;
 
-      await api.put(`/events/${id}`, {
+      const response = await api.put(`/events/${id}`, {
         ...payload,
         coverImageUrl,
       });
+      void syncEventsWithDeviceCalendar([response.data.data]).catch(
+        (calendarError) => {
+          console.log("ERRO AO SINCRONIZAR CALENDARIO:", calendarError);
+        },
+      );
 
       Alert.alert("Sucesso", "Evento atualizado com sucesso.");
       router.replace({

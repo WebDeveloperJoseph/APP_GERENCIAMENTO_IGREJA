@@ -16,7 +16,7 @@ import { SectionCard } from "@/components/SectionCard";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { colors, radii, spacing, typography } from "@/theme";
-import { Member, MemberRole } from "@/types/member";
+import { Member } from "@/types/member";
 import { getMemberInitials, getMemberRoleLabel } from "@/utils/member";
 
 function formatDateOnly(date?: string | null) {
@@ -52,7 +52,6 @@ export function MemberDetailsScreen() {
   const id = Array.isArray(idParam) ? idParam[0] : idParam;
 
   const [member, setMember] = useState<Member | null>(null);
-  const [currentRole, setCurrentRole] = useState<MemberRole | null>(null);
   const [currentMemberId, setCurrentMemberId] = useState<string | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,7 +74,6 @@ export function MemberDetailsScreen() {
 
         if (storedMember) {
           const authenticatedMember = JSON.parse(storedMember);
-          setCurrentRole(authenticatedMember.role);
           setCurrentMemberId(authenticatedMember.id);
           setIsSuperAdmin(authenticatedMember.isSuperAdmin === true);
         }
@@ -164,13 +162,13 @@ export function MemberDetailsScreen() {
     <View style={styles.screen}>
       <ScreenHeader
         actionLabel={
-          currentRole === "ADMIN" &&
+          isSuperAdmin &&
           (!member.isSuperAdmin || currentMemberId === member.id)
             ? "Editar"
             : undefined
         }
         onActionPress={
-          currentRole === "ADMIN" &&
+          isSuperAdmin &&
           (!member.isSuperAdmin || currentMemberId === member.id)
             ? () =>
                 router.push({
