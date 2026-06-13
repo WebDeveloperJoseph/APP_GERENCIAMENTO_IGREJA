@@ -15,6 +15,7 @@ import { EventCalendar } from "@/components/EventCalendar";
 import { EventListItem } from "@/components/EventListItem";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
+import { syncEventsWithDeviceCalendar } from "@/services/calendarSync";
 import { colors, spacing, typography } from "@/theme";
 import { ChurchEvent } from "@/types/event";
 import {
@@ -32,6 +33,7 @@ export function EventsScreen() {
   const [events, setEvents] = useState<ChurchEvent[]>([]);
   const [access, setAccess] = useState<CurrentUserAccess | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSyncingCalendar, setIsSyncingCalendar] = useState(false);
 
   const visibleEvents = useMemo(() => {
     if (!selectedDay) {
@@ -58,6 +60,11 @@ export function EventsScreen() {
       ]);
 
       setEvents(response.data.data);
+      void syncEventsWithDeviceCalendar(response.data.data).catch(
+        (calendarError) => {
+          console.log("ERRO AO SINCRONIZAR CALENDARIO:", calendarError);
+        },
+      );
 
       setAccess(storedMember);
     } catch (error: any) {
@@ -88,6 +95,44 @@ export function EventsScreen() {
       (current) =>
         new Date(current.getFullYear(), current.getMonth() + offset, 1),
     );
+  }
+
+  async function handleSyncCalendar() {
+    try {
+      setIsSyncingCalendar(true);
+      const response = await api.get("/events");
+      const result = await syncEventsWithDeviceCalendar(response.data.data);
+
+      if (result.status === "permission-denied") {
+        Alert.alert(
+          "Permissao necessaria",
+          "Autorize o APP ICB a acessar o calendario nas configuracoes do celular.",
+        );
+        return;
+      }
+
+      if (result.status === "unavailable") {
+        Alert.alert(
+          "Agenda indisponivel",
+          "A sincronizacao com a agenda nao esta disponivel neste dispositivo.",
+        );
+        return;
+      }
+
+      Alert.alert(
+        "Agenda sincronizada",
+        result.syncedCount > 0
+          ? `${result.syncedCount} evento(s) foram adicionados ou atualizados no calendario APP ICB.`
+          : "Sua agenda ja esta atualizada.",
+      );
+    } catch (error: any) {
+      Alert.alert(
+        "Erro na agenda",
+        error.message || "Nao foi possivel sincronizar o calendario.",
+      );
+    } finally {
+      setIsSyncingCalendar(false);
+    }
   }
 
   return (
@@ -125,6 +170,21 @@ export function EventsScreen() {
                   onSelectDay={setSelectedDay}
                   selectedDay={selectedDay}
                 />
+                <Pressable
+                  disabled={isSyncingCalendar}
+                  onPress={handleSyncCalendar}
+                  style={({ pressed }) => [
+                    styles.syncButton,
+                    pressed && styles.syncButtonPressed,
+                    isSyncingCalendar && styles.syncButtonDisabled,
+                  ]}
+                >
+                  <Text style={styles.syncButtonText}>
+                    {isSyncingCalendar
+                      ? "Sincronizando agenda..."
+                      : "Sincronizar agenda do celular"}
+                  </Text>
+                </Pressable>
                 <View style={styles.listHeader}>
                   <View>
                     <Text style={styles.sectionTitle}>
@@ -206,6 +266,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: spacing.md,
+  },
+  syncButton: {
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    marginBottom: spacing.lg,
+    backgroundColor: colors.primaryLight,
+  },
+  syncButtonText: {
+    color: colors.primary,
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.extraBold,
+  },
+  syncButtonPressed: {
+    opacity: 0.72,
+  },
+  syncButtonDisabled: {
+    opacity: 0.55,
   },
   sectionTitle: {
     color: colors.text,
