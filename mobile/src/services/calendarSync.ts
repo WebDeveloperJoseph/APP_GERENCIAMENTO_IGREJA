@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 
 import { ChurchEvent } from "@/types/event";
 
-const STORAGE_KEY = "@app_icb:calendar_events";
+const STORAGE_KEY = "@app_icb:calendar_events:v2";
 const CALENDAR_TITLE = "APP ICB";
 const CALENDAR_NAME = "app_icb_events";
 
@@ -18,6 +18,15 @@ type SyncedEvents = Record<string, SyncedEvent>;
 export interface CalendarSyncResult {
   status: "synced" | "permission-denied" | "unavailable";
   syncedCount: number;
+}
+
+async function nativeEventExists(nativeId: string, calendarId: string) {
+  try {
+    const event = await Calendar.getEventAsync(nativeId);
+    return event.calendarId === calendarId;
+  } catch {
+    return false;
+  }
 }
 
 async function getOrCreateAppCalendar() {
@@ -92,7 +101,10 @@ export async function syncEventsWithDeviceCalendar(
       calendarId,
     };
 
-    if (synced?.updatedAt === event.updatedAt) {
+    if (
+      synced?.updatedAt === event.updatedAt &&
+      (await nativeEventExists(synced.nativeId, calendarId))
+    ) {
       continue;
     }
 
@@ -111,6 +123,13 @@ export async function syncEventsWithDeviceCalendar(
     }
 
     const nativeId = await Calendar.createEventAsync(calendarId, details);
+
+    if (!(await nativeEventExists(nativeId, calendarId))) {
+      throw new Error(
+        `O Android nao confirmou a criacao do evento "${event.title}".`,
+      );
+    }
+
     syncedEvents[event.id] = {
       nativeId,
       updatedAt: event.updatedAt,
