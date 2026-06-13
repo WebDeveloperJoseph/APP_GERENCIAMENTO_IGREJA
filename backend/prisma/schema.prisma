@@ -8,19 +8,41 @@ datasource db {
 }
 
 model Member {
-  id           String        @id @default(uuid())
-  name         String
-  email        String?       @unique
-  password     String?
-  phone        String?
-  birthDate    DateTime?
-  role         Role          @default(MEMBRO)
-  isActive     Boolean       @default(true)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  transactions Transaction[]
+  id                 String        @id @default(uuid())
+  name               String
+  email              String?       @unique
+  password           String?
+  mustChangePassword Boolean       @default(false)
+  phone              String?
+  photoUrl           String?
+  birthDate          DateTime?
+  role               Role          @default(MEMBRO)
+  isActive           Boolean       @default(true)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  transactions       Transaction[]
+  createdEvents      Event[]
 
   @@map("members")
+}
+
+model Event {
+  id            String   @id @default(uuid())
+  title         String
+  description   String?
+  location      String?
+  coverImageUrl String?
+  startDate     DateTime
+  endDate       DateTime
+  isPublic      Boolean  @default(true)
+  createdById   String?
+  createdBy     Member?  @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([startDate])
+  @@index([createdById])
+  @@map("events")
 }
 
 model Transaction {
@@ -36,6 +58,22 @@ model Transaction {
   member      Member?             @relation(fields: [memberId], references: [id])
 
   @@map("transactions")
+}
+
+model Asset {
+  id              String      @id @default(uuid())
+  name            String
+  imageUrl        String?
+  description     String?
+  category        String
+  value           Float
+  acquisitionDate DateTime?
+  location        String?
+  status          AssetStatus @default(ATIVO)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@map("assets")
 }
 
 enum Role {
@@ -58,4 +96,10 @@ enum TransactionCategory {
   AGUA
   MANUTENCAO
   OUTROS
+}
+
+enum AssetStatus {
+  ATIVO
+  MANUTENCAO
+  BAIXADO
 }

@@ -21,7 +21,7 @@ class MembersController {
 
   async create(request: Request, response: Response, next: NextFunction) {
     try {
-      const { name, email, password, phone, birthDate, role } = request.body;
+      const { name, email, password, phone, photoUrl, birthDate, role } = request.body;
 
       const membersService = new MembersService();
 
@@ -30,6 +30,7 @@ class MembersController {
         email,
         password,
         phone,
+        photoUrl,
         birthDate,
         role,
       });
@@ -73,7 +74,7 @@ class MembersController {
   ) {
     try {
       const { id } = request.params;
-      const { name, email, phone, birthDate, role } = request.body;
+      const { name, email, phone, photoUrl, birthDate, role } = request.body;
 
       if (typeof id != "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
@@ -86,6 +87,7 @@ class MembersController {
           name,
           email,
           phone,
+          photoUrl,
           birthDate,
           role,
         },
@@ -121,6 +123,32 @@ class MembersController {
       return response.status(200).json({
         success: true,
         message: "Membro inativado com sucesso.",
+        data: null
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async deletePermanently(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = request.params;
+
+      if (typeof id !== "string") {
+        throw new AppError("Campo de ID obrigatório.", 400);
+      }
+
+      const membersService = new MembersService();
+
+      await membersService.deletePermanently(id, request.member.id);
+
+      return response.status(200).json({
+        success: true,
+        message: "Membro excluído permanentemente com sucesso.",
         data: null
       });
     } catch (error) {

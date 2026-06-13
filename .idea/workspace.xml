@@ -5,38 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e4c7b50-1ed4-4906-9dc5-5cf91419046b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/prisma/seed.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/requisicoes.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/@types/express/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/middlewares/ensureAuthenticated.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/middlewares/ensureRole.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.routes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/modules/auth/auth.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/database/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/database/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/errors/AppError.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/errors/AppError.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/middlewares/errorHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/middlewares/errorHandler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/finance/finance.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/finance/finance.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/finance/finance.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/finance/finance.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/finance/finance.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/finance/finance.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/members/members.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/members/members.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/members/members.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/members/members.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/members/members.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/members/members.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/reports/reports.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/reports/reports.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/reports/reports.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/reports/reports.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/reports/reports.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/reports/reports.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/testes/requisicoes.http" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/src/app/home.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/src/app/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/src/contexts/AuthContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/src/routes/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/src/screens/HomeScreen.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/src/screens/LoginScreen.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mobile/src/services/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T140651.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T140659.401.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T140705.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T140735.403.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T140856.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T140900.401.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T140911.401.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T142109.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-06-10T142216.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/requisicoes.http" beforeDir="false" afterPath="$PROJECT_DIR$/backend/requisicoes.http" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +38,7 @@
       <list>
         <option value="HTTP Request" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -78,61 +66,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000273863925548" />
-      <entry key="MS500" value="1.2126502486067048" />
-      <entry key="S2" value="2.141977841191577" />
-      <entry key="S5" value="2.598374597320098" />
-      <entry key="S10" value="2.7881246552347996" />
-      <entry key="S30" value="3.01649286341421" />
-      <entry key="S60" value="3.394766759806748" />
-      <entry key="M2" value="3.9927388565862403" />
-      <entry key="M5" value="5.089406263880929" />
-      <entry key="M10" value="7.8949503838481325" />
-      <entry key="M15" value="11.767906354549812" />
-      <entry key="M30" value="25.5666597945437" />
-      <entry key="H1" value="62.05360981480273" />
-      <entry key="H2" value="145.4001797784117" />
-      <entry key="H4" value="285.3628740961461" />
-      <entry key="D1" value="971.5682654031364" />
-      <entry key="W1" value="1486.713605461513" />
+      <entry key="MS100" value="2.9188999461738068E-8" />
+      <entry key="MS500" value="0.03112030478420181" />
+      <entry key="S2" value="0.42001128606998483" />
+      <entry key="S5" value="0.7068188284614286" />
+      <entry key="S10" value="0.8431840066219688" />
+      <entry key="S30" value="1.079011722413751" />
+      <entry key="S60" value="1.361727966996365" />
+      <entry key="M2" value="1.9491738279128341" />
+      <entry key="M5" value="5.622831232867915" />
+      <entry key="M10" value="12.970434377100927" />
+      <entry key="M15" value="18.641564932582682" />
+      <entry key="M30" value="30.426360855854277" />
+      <entry key="H1" value="52.81305657687845" />
+      <entry key="H2" value="114.56298293507002" />
+      <entry key="H4" value="246.64723341588342" />
+      <entry key="D1" value="971.3338932938243" />
+      <entry key="W1" value="1537.157690114442" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="3.3218417929469175E-130" />
-      <entry key="S10" value="2.3940770468239026E-65" />
-      <entry key="S30" value="4.89884902426723E-22" />
-      <entry key="S60" value="4.213944250835743E-11" />
-      <entry key="M2" value="1.4642290688160908E-5" />
-      <entry key="M5" value="0.033487439765049296" />
-      <entry key="M10" value="0.460695962791426" />
-      <entry key="M15" value="1.165561396322958" />
-      <entry key="M30" value="4.021492061420425" />
-      <entry key="H1" value="15.274031024089268" />
-      <entry key="H2" value="48.849512612524514" />
-      <entry key="H4" value="108.8086815447439" />
-      <entry key="D1" value="395.73028510055747" />
-      <entry key="W1" value="610.3099395443497" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0000000000002034" />
+      <entry key="S5" value="1.000014418408404" />
+      <entry key="S10" value="1.0064343589054388" />
+      <entry key="S30" value="1.384988682550471" />
+      <entry key="S60" value="2.0740380863108294" />
+      <entry key="M2" value="2.7964016142262302" />
+      <entry key="M5" value="3.5498345711536703" />
+      <entry key="M10" value="4.1622332748603466" />
+      <entry key="M15" value="4.54573748162439" />
+      <entry key="M30" value="5.270497351344662" />
+      <entry key="H1" value="8.508373393532317" />
+      <entry key="H2" value="27.390623770993297" />
+      <entry key="H4" value="78.30468026651285" />
+      <entry key="D1" value="375.76295245308097" />
+      <entry key="W1" value="610.4231346186316" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.005906507617284787" />
-      <entry key="MS500" value="0.5694665139005967" />
-      <entry key="S2" value="1.9139101912348924" />
-      <entry key="S5" value="2.4998641389075122" />
-      <entry key="S10" value="2.7375634866802043" />
-      <entry key="S30" value="2.999329738025776" />
-      <entry key="S60" value="3.3860221685637852" />
-      <entry key="M2" value="3.9877976215655075" />
-      <entry key="M5" value="5.119846666780354" />
-      <entry key="M10" value="8.352208878815436" />
-      <entry key="M15" value="12.929283580358378" />
-      <entry key="M30" value="29.582295111321447" />
-      <entry key="H1" value="77.31854350237676" />
-      <entry key="H2" value="194.2373545131695" />
-      <entry key="H4" value="394.15876676491405" />
-      <entry key="D1" value="1367.290011277462" />
-      <entry key="W1" value="2097.02155826894" />
+      <entry key="MS100" value="2.952540052744171E-6" />
+      <entry key="MS500" value="0.0934804729842092" />
+      <entry key="S2" value="0.8798051588706189" />
+      <entry key="S5" value="1.432847949889999" />
+      <entry key="S10" value="1.6991732421985244" />
+      <entry key="S30" value="2.3867349780464977" />
+      <entry key="S60" value="3.3740830008757516" />
+      <entry key="M2" value="4.70255833465671" />
+      <entry key="M5" value="9.150132597339987" />
+      <entry key="M10" value="17.118857533313463" />
+      <entry key="M15" value="23.17688882066277" />
+      <entry key="M30" value="35.69033699970643" />
+      <entry key="H1" value="61.31598707190702" />
+      <entry key="H2" value="141.94611678699175" />
+      <entry key="H4" value="324.9423267656014" />
+      <entry key="D1" value="1347.088677391694" />
+      <entry key="W1" value="2147.5788298804737" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -193,7 +181,7 @@
     "npm.dev.executor": "Run",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Users\\Dev - Zé\\Desktop\\APP_ICB\\backend\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\Dev - Zé\\Desktop\\APP_ICB\\mobile\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -208,31 +196,31 @@
         <entry key="HttpClient.HttpRequestRunConfigurationType">
           <value>
             <map>
-              <entry key="requisicoes | Buscar membro por ID" value="STOPPED" />
+              <entry key="requisicoes | Alterar senha" value="STOPPED" />
               <entry key="requisicoes | Criar membro" value="STOPPED" />
+              <entry key="requisicoes | Dados do usuário logado" value="STOPPED" />
               <entry key="requisicoes | Health Check" value="STOPPED" />
-              <entry key="requisicoes | Listar membros ativos" value="STOPPED" />
-              <entry key="requisicoes | Listar membros inativos" value="STOPPED" />
+              <entry key="requisicoes | Login Admin" value="STOPPED" />
             </map>
           </value>
         </entry>
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="HTTP Request.requisicoes | Health Check">
-    <configuration name="requisicoes | Buscar membro por ID" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Buscar membro por ID" index="7" runType="Run single request">
+  <component name="RunManager" selected="HTTP Request.requisicoes | Login Admin">
+    <configuration name="requisicoes | Alterar senha" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Alterar senha" index="4" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="requisicoes | Criar membro" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Criar membro" index="8" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration name="requisicoes | Dados do usuário logado" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Dados do usuário logado" index="3" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="requisicoes | Health Check" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Health Check" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="requisicoes | Listar membros ativos" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Listar membros ativos" index="5" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="requisicoes | Listar membros inativos" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Listar membros inativos" index="6" runType="Run single request">
+    <configuration name="requisicoes | Login Admin" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/backend/requisicoes.http" executionIdentifier="Login Admin" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="server.ts" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="server.ts" typescript-loader="bundled" working-dir="$PROJECT_DIR$/backend">
@@ -240,11 +228,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.requisicoes | Login Admin" />
+        <item itemvalue="HTTP Request.requisicoes | Alterar senha" />
+        <item itemvalue="HTTP Request.requisicoes | Dados do usuário logado" />
         <item itemvalue="HTTP Request.requisicoes | Health Check" />
         <item itemvalue="HTTP Request.requisicoes | Criar membro" />
-        <item itemvalue="HTTP Request.requisicoes | Buscar membro por ID" />
-        <item itemvalue="HTTP Request.requisicoes | Listar membros inativos" />
-        <item itemvalue="HTTP Request.requisicoes | Listar membros ativos" />
       </list>
     </recent_temporary>
   </component>
@@ -272,7 +260,7 @@
       <workItem from="1781056307627" duration="4816000" />
       <workItem from="1781110616966" duration="2580000" />
       <workItem from="1781177467413" duration="3680000" />
-      <workItem from="1781200475420" duration="4071000" />
+      <workItem from="1781200475420" duration="10897000" />
     </task>
     <servers />
   </component>

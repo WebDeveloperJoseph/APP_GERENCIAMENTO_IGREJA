@@ -125,10 +125,26 @@ exports.Prisma.MemberScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
+  mustChangePassword: 'mustChangePassword',
   phone: 'phone',
+  photoUrl: 'photoUrl',
   birthDate: 'birthDate',
   role: 'role',
   isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  location: 'location',
+  coverImageUrl: 'coverImageUrl',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isPublic: 'isPublic',
+  createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -143,6 +159,20 @@ exports.Prisma.TransactionScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   memberId: 'memberId'
+};
+
+exports.Prisma.AssetScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  description: 'description',
+  category: 'category',
+  value: 'value',
+  acquisitionDate: 'acquisitionDate',
+  location: 'location',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -181,9 +211,17 @@ exports.TransactionCategory = exports.$Enums.TransactionCategory = {
   OUTROS: 'OUTROS'
 };
 
+exports.AssetStatus = exports.$Enums.AssetStatus = {
+  ATIVO: 'ATIVO',
+  MANUTENCAO: 'MANUTENCAO',
+  BAIXADO: 'BAIXADO'
+};
+
 exports.Prisma.ModelName = {
   Member: 'Member',
-  Transaction: 'Transaction'
+  Event: 'Event',
+  Transaction: 'Transaction',
+  Asset: 'Asset'
 };
 
 /**

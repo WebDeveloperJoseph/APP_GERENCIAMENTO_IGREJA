@@ -9,6 +9,7 @@ interface CreateMemberDTO {
     email: string;
     password?: string;
     phone?: string;
+    photoUrl?: string | null;
     birthDate?: string;
     role: Role;
 }
@@ -27,9 +28,11 @@ class MembersService {
                 name: true,
                 email: true,
                 phone: true,
+                photoUrl: true,
                 birthDate: true,
                 role: true,
                 isActive: true,
+                mustChangePassword: true,
                 createdAt: true,
                 updatedAt: true
             }
@@ -48,8 +51,10 @@ class MembersService {
                 name: true,
                 email: true,
                 phone: true,
+                photoUrl: true,
                 birthDate: true,
                 role: true,
+                mustChangePassword: true,
                 createdAt: true,
                 updatedAt: true
             }
@@ -62,7 +67,7 @@ class MembersService {
         return member;
     }
 
-    async create({ name, email,password, phone, birthDate, role }: CreateMemberDTO) {
+    async create({ name, email,password, phone, photoUrl, birthDate, role }: CreateMemberDTO) {
         if (!name) {
             throw new AppError("O nome é obrigatório!", 400);
         }
@@ -94,7 +99,9 @@ class MembersService {
                 name,
                 email,
                 password: hashedPassword,
+                mustChangePassword: Boolean(hashedPassword),
                 phone,
+                photoUrl: photoUrl?.trim() || null,
                 role,
                 birthDate: birthDate ? new Date(birthDate) : null
             },
@@ -103,8 +110,10 @@ class MembersService {
                 name: true,
                 email: true,
                 phone: true,
+                photoUrl: true,
                 birthDate: true,
                 role: true,
+                mustChangePassword: true,
                 createdAt: true,
                 updatedAt: true
             }
@@ -116,7 +125,7 @@ class MembersService {
         return member;
     }
 
-    async put({ name, email, phone, birthDate, role }: CreateMemberDTO, id: string) {
+    async put({ name, email, phone, photoUrl, birthDate, role }: CreateMemberDTO, id: string) {
         const memberExists = await prisma.member.findUnique({
             where: {
                 id
@@ -135,6 +144,7 @@ class MembersService {
                 name,
                 email,
                 phone,
+                photoUrl: photoUrl?.trim() || null,
                 role,
                 birthDate: birthDate ? new Date(birthDate) : null
             },
@@ -143,8 +153,10 @@ class MembersService {
                 name: true,
                 email: true,
                 phone: true,
+                photoUrl: true,
                 birthDate: true,
                 role: true,
+                mustChangePassword: true,
                 createdAt: true,
                 updatedAt: true
             }
@@ -174,6 +186,41 @@ class MembersService {
         });
     }
 
+    async deletePermanently(id: string, authenticatedMemberId: string) {
+        if (id === authenticatedMemberId) {
+            throw new AppError(
+                "Não é possível excluir permanentemente o próprio usuário.",
+                400
+            );
+        }
+
+        const memberExists = await prisma.member.findUnique({
+            where: {
+                id
+            }
+        });
+
+        if (!memberExists) {
+            throw new AppError("Membro não encontrado.", 404);
+        }
+
+        await prisma.$transaction([
+            prisma.transaction.updateMany({
+                where: {
+                    memberId: id
+                },
+                data: {
+                    memberId: null
+                }
+            }),
+            prisma.member.delete({
+                where: {
+                    id
+                }
+            })
+        ]);
+    }
+
     async listInactive() {
         const members = await prisma.member.findMany({
             where: {
@@ -187,9 +234,11 @@ class MembersService {
                 name: true,
                 email: true,
                 phone: true,
+                photoUrl: true,
                 birthDate: true,
                 role: true,
                 isActive: true,
+                mustChangePassword: true,
                 createdAt: true,
                 updatedAt: true
             }
@@ -224,9 +273,11 @@ class MembersService {
                 name: true,
                 email: true,
                 phone: true,
+                photoUrl: true,
                 birthDate: true,
                 role: true,
                 isActive: true,
+                mustChangePassword: true,
                 createdAt: true,
                 updatedAt: true
             }

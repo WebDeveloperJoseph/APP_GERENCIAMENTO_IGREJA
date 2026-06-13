@@ -55,6 +55,14 @@ membersRoutes.patch(
 );
 
 membersRoutes.delete(
+    "/:id/permanent",
+    ensureRole(["ADMIN"]),
+    (request, response, next) => {
+        return membersController.deletePermanently(request, response, next);
+    }
+);
+
+membersRoutes.delete(
     "/:id",
     ensureRole(["ADMIN"]),
     (request, response, next) => {

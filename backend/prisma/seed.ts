@@ -4,50 +4,60 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma";
 
 const adapter = new PrismaPg({
-    connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL,
 });
 
 const prisma = new PrismaClient({
-    adapter
+  adapter,
 });
 
 async function main() {
-    const adminEmail = "admin@igreja.com";
-    const adminPassword = "123456";
+  const adminName = process.env.INITIAL_ADMIN_NAME?.trim();
+  const adminEmail = process.env.INITIAL_ADMIN_EMAIL?.trim().toLowerCase();
+  const adminPassword = process.env.INITIAL_ADMIN_PASSWORD;
 
-    const adminAlreadyExists = await prisma.member.findUnique({
-        where: {
-            email: adminEmail
-        }
-    });
+  if (!adminName || !adminEmail || !adminPassword) {
+    throw new Error(
+      "Configure INITIAL_ADMIN_NAME, INITIAL_ADMIN_EMAIL e INITIAL_ADMIN_PASSWORD antes de executar o seed.",
+    );
+  }
 
-    if (adminAlreadyExists) {
-        console.log("Admin já existe. Seed ignorado.");
-        return;
-    }
+  if (adminPassword.length < 8) {
+    throw new Error("INITIAL_ADMIN_PASSWORD deve ter pelo menos 8 caracteres.");
+  }
 
-    const hashedPassword = await bcrypt.hash(adminPassword, 8);
+  const adminAlreadyExists = await prisma.member.findUnique({
+    where: {
+      email: adminEmail,
+    },
+  });
 
-    await prisma.member.create({
-        data: {
-            name: "Administrador",
-            email: adminEmail,
-            password: hashedPassword,
-            role: "ADMIN",
-            isActive: true
-        }
-    });
+  if (adminAlreadyExists) {
+    console.log("Administrador inicial ja existe. Seed ignorado.");
+    return;
+  }
 
-    console.log("Admin criado com sucesso!");
-    console.log(`Email: ${adminEmail}`);
-    console.log(`Senha: ${adminPassword}`);
+  const hashedPassword = await bcrypt.hash(adminPassword, 8);
+
+  await prisma.member.create({
+    data: {
+      name: adminName,
+      email: adminEmail,
+      password: hashedPassword,
+      mustChangePassword: true,
+      role: "ADMIN",
+      isActive: true,
+    },
+  });
+
+  console.log(`Administrador inicial criado: ${adminEmail}`);
 }
 
 main()
-    .catch((error) => {
-        console.error("Erro ao executar seed:", error);
-        process.exit(1);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+  .catch((error) => {
+    console.error("Erro ao executar seed:", error);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

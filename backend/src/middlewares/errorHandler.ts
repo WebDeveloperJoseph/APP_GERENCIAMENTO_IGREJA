@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/AppError";
+import multer from "multer";
 
 function errorHandler(
     error: Error,
@@ -11,6 +12,16 @@ function errorHandler(
         return response.status(error.statusCode).json({
             success: false,
             message: error.message
+        });
+    }
+
+    if (error instanceof multer.MulterError) {
+        return response.status(400).json({
+            success: false,
+            message:
+                error.code === "LIMIT_FILE_SIZE"
+                    ? "A imagem deve ter no maximo 5 MB."
+                    : "Nao foi possivel enviar a imagem."
         });
     }
 

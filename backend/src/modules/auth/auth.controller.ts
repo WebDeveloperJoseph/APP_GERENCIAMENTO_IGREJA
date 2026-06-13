@@ -55,7 +55,9 @@ class AuthController {
             });
 
             return response.status(200).json({
-                message: "Senha alterada com sucesso."
+                success: true,
+                message: "Senha alterada com sucesso.",
+                data: null
             });
         } catch (error) {
             return next(error);

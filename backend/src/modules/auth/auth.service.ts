@@ -34,6 +34,10 @@ class AuthService {
             throw new AppError("E-mail ou senha inválidos.", 401);
         }
 
+        if (!member.isActive) {
+            throw new AppError("Este usuario esta inativo. Procure a administracao.", 403);
+        }
+
         if (!member.password) {
             throw new AppError("Este membro não possui acesso ao sistema.", 403);
         }
@@ -66,7 +70,9 @@ class AuthService {
                 id: member.id,
                 name: member.name,
                 email: member.email,
-                role: member.role
+                photoUrl: member.photoUrl,
+                role: member.role,
+                mustChangePassword: member.mustChangePassword
             },
             token
         };
@@ -81,8 +87,10 @@ class AuthService {
                 name: true,
                 email: true,
                 phone: true,
+                photoUrl: true,
                 birthDate: true,
                 role: true,
+                mustChangePassword: true,
                 createdAt: true,
                 updatedAt: true
             }
@@ -134,7 +142,8 @@ class AuthService {
                 id: memberId
             },
             data: {
-                password: hashedNewPassword
+                password: hashedNewPassword,
+                mustChangePassword: false
             }
         });
     }

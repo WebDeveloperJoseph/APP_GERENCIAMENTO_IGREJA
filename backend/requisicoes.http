@@ -25,7 +25,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "oldPassword": "123456",
+  "oldPassword": "senhaTemporaria",
   "newPassword": "novaSenha123"
 }
 
@@ -49,7 +49,7 @@ Content-Type: application/json
 {
   "name": "João da Silva",
   "email": "joao@email.com",
-  "password": "123456",
+  "password": "senhaTemporaria",
   "phone": "84999999999",
   "birthDate": "2000-05-20",
   "role": "MEMBRO"
@@ -70,6 +70,10 @@ Content-Type: application/json
 
 ### Inativar membro
 DELETE {{baseUrl}}/members/{{memberId}}
+Authorization: Bearer {{token}}
+
+### Excluir membro permanentemente (somente ADMIN)
+DELETE {{baseUrl}}/members/{{memberId}}/permanent
 Authorization: Bearer {{token}}
 
 ### Restaurar membro
@@ -143,4 +147,90 @@ Authorization: Bearer {{token}}
 
 ### Resumo por mês e ano
 GET {{baseUrl}}/reports/summary?month=6&year=2026
+Authorization: Bearer {{token}}
+
+### Listar patrimônio
+GET {{baseUrl}}/assets
+Authorization: Bearer {{token}}
+
+### Buscar patrimônio
+GET {{baseUrl}}/assets/{{assetId}}
+Authorization: Bearer {{token}}
+
+### Cadastrar patrimônio
+POST {{baseUrl}}/assets
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Mesa de som",
+  "description": "Mesa digital usada no templo principal",
+  "category": "Áudio",
+  "value": 8500,
+  "acquisitionDate": "2026-06-12",
+  "location": "Templo principal",
+  "status": "ATIVO"
+}
+
+### Atualizar patrimônio
+PUT {{baseUrl}}/assets/{{assetId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Mesa de som",
+  "description": "Mesa digital revisada",
+  "category": "Áudio",
+  "value": 8500,
+  "acquisitionDate": "2026-06-12",
+  "location": "Templo principal",
+  "status": "MANUTENCAO"
+}
+
+### Excluir patrimônio
+DELETE {{baseUrl}}/assets/{{assetId}}
+Authorization: Bearer {{token}}
+
+### Listar eventos
+GET {{baseUrl}}/events
+Authorization: Bearer {{token}}
+
+### Listar eventos por mês e ano
+GET {{baseUrl}}/events?month=6&year=2026
+Authorization: Bearer {{token}}
+
+### Buscar evento por ID
+GET {{baseUrl}}/events/{{eventId}}
+Authorization: Bearer {{token}}
+
+### Criar evento
+POST {{baseUrl}}/events
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Culto especial",
+  "description": "Culto de celebração",
+  "location": "Templo principal",
+  "startDate": "2026-06-20T19:00:00.000Z",
+  "endDate": "2026-06-20T21:00:00.000Z",
+  "isPublic": true
+}
+
+### Atualizar evento
+PUT {{baseUrl}}/events/{{eventId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Culto especial atualizado",
+  "description": "Culto de celebração e comunhão",
+  "location": "Templo principal",
+  "startDate": "2026-06-20T19:30:00.000Z",
+  "endDate": "2026-06-20T21:30:00.000Z",
+  "isPublic": true
+}
+
+### Excluir evento
+DELETE {{baseUrl}}/events/{{eventId}}
 Authorization: Bearer {{token}}
