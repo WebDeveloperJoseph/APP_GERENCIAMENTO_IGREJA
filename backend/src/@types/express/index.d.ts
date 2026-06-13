@@ -3,6 +3,7 @@ declare namespace Express {
         member: {
             id: string;
             role: string;
+            isSuperAdmin: boolean;
         };
     }
 }

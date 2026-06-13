@@ -98,12 +98,15 @@ export function CreateMemberScreen() {
           value={email}
         />
         <AppInput
-          label="Senha"
+          label="Senha temporária"
           onChangeText={setPassword}
-          placeholder="Digite a senha"
+          placeholder="Mínimo de 6 caracteres"
           secureTextEntry
           value={password}
         />
+        <Text style={styles.helperText}>
+          O usuário deverá trocar essa senha no primeiro acesso.
+        </Text>
         <AppInput
           keyboardType="phone-pad"
           label="Telefone"
@@ -166,6 +169,11 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: typography.fontSize.sm,
     fontWeight: typography.fontWeight.semibold,
+  },
+  helperText: {
+    marginTop: -spacing.sm,
+    color: colors.textMuted,
+    fontSize: typography.fontSize.xs,
   },
   actions: {
     gap: spacing.sm,

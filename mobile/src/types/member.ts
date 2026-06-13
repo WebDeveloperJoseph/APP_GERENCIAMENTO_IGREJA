@@ -1,4 +1,9 @@
-export type MemberRole = "MEMBRO" | "VOLUNTARIO" | "TESOUREIRO" | "ADMIN";
+export type MemberRole =
+  | "MEMBRO"
+  | "VOLUNTARIO"
+  | "TESOUREIRO"
+  | "PASTOR"
+  | "ADMIN";
 
 export interface Member {
   id: string;
@@ -8,6 +13,8 @@ export interface Member {
   photoUrl: string | null;
   birthDate: string | null;
   role: MemberRole;
+  isSuperAdmin?: boolean;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   createdAt: string;
   updatedAt: string;
@@ -22,5 +29,6 @@ export const MEMBER_ROLE_OPTIONS: MemberRoleOption[] = [
   { label: "Membro", value: "MEMBRO" },
   { label: "Voluntário", value: "VOLUNTARIO" },
   { label: "Tesoureiro", value: "TESOUREIRO" },
+  { label: "Pastor", value: "PASTOR" },
   { label: "Administrador", value: "ADMIN" },
 ];

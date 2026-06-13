@@ -90,6 +90,12 @@ export function MoreScreen() {
         <Text style={styles.sectionTitle}>Conta</Text>
         <View style={styles.menu}>
           <MenuItem
+            description="Atualize nome, e-mail e telefone"
+            href="/profile"
+            symbol="P"
+            title="Meus dados"
+          />
+          <MenuItem
             description="Atualize sua senha de acesso"
             href="/change-password"
             symbol="S"

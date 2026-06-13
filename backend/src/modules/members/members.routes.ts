@@ -8,7 +8,7 @@ const membersController = new MembersController();
 
 membersRoutes.get(
     "/",
-    ensureRole(["ADMIN", "TESOUREIRO", "VOLUNTARIO"]),
+    ensureRole(["ADMIN", "TESOUREIRO", "VOLUNTARIO", "PASTOR"]),
     (request, response, next) => {
         return membersController.list(request, response, next);
     }
@@ -24,7 +24,7 @@ membersRoutes.get(
 
 membersRoutes.get(
     "/:id",
-    ensureRole(["ADMIN", "TESOUREIRO", "VOLUNTARIO"]),
+    ensureRole(["ADMIN", "TESOUREIRO", "VOLUNTARIO", "PASTOR"]),
     (request, response, next) => {
         return membersController.show(request, response, next);
     }
@@ -32,7 +32,7 @@ membersRoutes.get(
 
 membersRoutes.post(
     "/",
-    ensureRole(["ADMIN", "VOLUNTARIO"]),
+    ensureRole(["ADMIN"]),
     (request, response, next) => {
         return membersController.create(request, response, next);
     }

@@ -22,4 +22,8 @@ authRoutes.patch(
     }
 );
 
+authRoutes.patch("/profile", ensureAuthenticated, (request, response, next) => {
+    return authController.updateProfile(request, response, next);
+});
+
 export { authRoutes };

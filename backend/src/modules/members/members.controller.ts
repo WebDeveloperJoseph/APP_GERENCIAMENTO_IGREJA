@@ -33,7 +33,7 @@ class MembersController {
         photoUrl,
         birthDate,
         role,
-      });
+      }, request.member);
 
       return response.status(201).json({
         success: true,
@@ -74,7 +74,7 @@ class MembersController {
   ) {
     try {
       const { id } = request.params;
-      const { name, email, phone, photoUrl, birthDate, role } = request.body;
+      const { name, email, password, phone, photoUrl, birthDate, role } = request.body;
 
       if (typeof id != "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
@@ -86,12 +86,14 @@ class MembersController {
         {
           name,
           email,
+          password,
           phone,
           photoUrl,
           birthDate,
           role,
         },
         id,
+        request.member,
       );
 
       return response.status(200).json({
@@ -118,7 +120,7 @@ class MembersController {
 
       const membersService = new MembersService();
 
-      await membersService.delete(id);
+      await membersService.delete(id, request.member);
 
       return response.status(200).json({
         success: true,
@@ -144,7 +146,7 @@ class MembersController {
 
       const membersService = new MembersService();
 
-      await membersService.deletePermanently(id, request.member.id);
+      await membersService.deletePermanently(id, request.member);
 
       return response.status(200).json({
         success: true,
@@ -182,7 +184,7 @@ class MembersController {
       if (typeof id != "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
       }
-      const member = await membersService.restore(id);
+      const member = await membersService.restore(id, request.member);
 
       return response.status(200).json({
         success: true,

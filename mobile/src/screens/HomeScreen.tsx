@@ -26,6 +26,7 @@ interface StoredMember {
   name: string;
   email: string | null;
   role: MemberRole;
+  isSuperAdmin?: boolean;
 }
 
 interface QuickActionProps {

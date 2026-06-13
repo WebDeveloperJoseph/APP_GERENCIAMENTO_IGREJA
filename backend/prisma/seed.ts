@@ -46,6 +46,7 @@ async function main() {
       password: hashedPassword,
       mustChangePassword: true,
       role: "ADMIN",
+      isSuperAdmin: true,
       isActive: true,
     },
   });

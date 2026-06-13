@@ -2,6 +2,7 @@
 
 # dependencies
 node_modules/
+node_modules.locked-old/
 
 # Expo
 .expo/
@@ -25,6 +26,8 @@ expo-env.d.ts
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+eas-*.log
+eas-*.br
 
 # macOS
 .DS_Store

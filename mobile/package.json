@@ -47,5 +47,6 @@
     "web": "expo start --web",
     "lint": "expo lint"
   },
+  "packageManager": "npm@10.9.4",
   "private": true
 }

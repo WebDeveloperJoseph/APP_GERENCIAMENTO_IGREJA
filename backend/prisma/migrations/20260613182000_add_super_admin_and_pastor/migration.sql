@@ -1,0 +1,6 @@
+-- AlterEnum
+ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'PASTOR';
+
+-- AlterTable
+ALTER TABLE "members"
+ADD COLUMN "isSuperAdmin" BOOLEAN NOT NULL DEFAULT false;

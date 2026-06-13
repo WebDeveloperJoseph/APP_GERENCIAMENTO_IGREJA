@@ -42,6 +42,7 @@ export namespace $Enums {
   MEMBRO: 'MEMBRO',
   VOLUNTARIO: 'VOLUNTARIO',
   TESOUREIRO: 'TESOUREIRO',
+  PASTOR: 'PASTOR',
   ADMIN: 'ADMIN'
 };
 
@@ -1259,6 +1260,7 @@ export namespace Prisma {
     photoUrl: string | null
     birthDate: Date | null
     role: $Enums.Role | null
+    isSuperAdmin: boolean | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1274,6 +1276,7 @@ export namespace Prisma {
     photoUrl: string | null
     birthDate: Date | null
     role: $Enums.Role | null
+    isSuperAdmin: boolean | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1289,6 +1292,7 @@ export namespace Prisma {
     photoUrl: number
     birthDate: number
     role: number
+    isSuperAdmin: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -1306,6 +1310,7 @@ export namespace Prisma {
     photoUrl?: true
     birthDate?: true
     role?: true
+    isSuperAdmin?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -1321,6 +1326,7 @@ export namespace Prisma {
     photoUrl?: true
     birthDate?: true
     role?: true
+    isSuperAdmin?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -1336,6 +1342,7 @@ export namespace Prisma {
     photoUrl?: true
     birthDate?: true
     role?: true
+    isSuperAdmin?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -1424,6 +1431,7 @@ export namespace Prisma {
     photoUrl: string | null
     birthDate: Date | null
     role: $Enums.Role
+    isSuperAdmin: boolean
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1456,6 +1464,7 @@ export namespace Prisma {
     photoUrl?: boolean
     birthDate?: boolean
     role?: boolean
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1474,6 +1483,7 @@ export namespace Prisma {
     photoUrl?: boolean
     birthDate?: boolean
     role?: boolean
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1489,6 +1499,7 @@ export namespace Prisma {
     photoUrl?: boolean
     birthDate?: boolean
     role?: boolean
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1504,12 +1515,13 @@ export namespace Prisma {
     photoUrl?: boolean
     birthDate?: boolean
     role?: boolean
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "mustChangePassword" | "phone" | "photoUrl" | "birthDate" | "role" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["member"]>
+  export type MemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "mustChangePassword" | "phone" | "photoUrl" | "birthDate" | "role" | "isSuperAdmin" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["member"]>
   export type MemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     transactions?: boolean | Member$transactionsArgs<ExtArgs>
     createdEvents?: boolean | Member$createdEventsArgs<ExtArgs>
@@ -1534,6 +1546,7 @@ export namespace Prisma {
       photoUrl: string | null
       birthDate: Date | null
       role: $Enums.Role
+      isSuperAdmin: boolean
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -1971,6 +1984,7 @@ export namespace Prisma {
     readonly photoUrl: FieldRef<"Member", 'String'>
     readonly birthDate: FieldRef<"Member", 'DateTime'>
     readonly role: FieldRef<"Member", 'Role'>
+    readonly isSuperAdmin: FieldRef<"Member", 'Boolean'>
     readonly isActive: FieldRef<"Member", 'Boolean'>
     readonly createdAt: FieldRef<"Member", 'DateTime'>
     readonly updatedAt: FieldRef<"Member", 'DateTime'>
@@ -5897,6 +5911,7 @@ export namespace Prisma {
     photoUrl: 'photoUrl',
     birthDate: 'birthDate',
     role: 'role',
+    isSuperAdmin: 'isSuperAdmin',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -6118,6 +6133,7 @@ export namespace Prisma {
     photoUrl?: StringNullableFilter<"Member"> | string | null
     birthDate?: DateTimeNullableFilter<"Member"> | Date | string | null
     role?: EnumRoleFilter<"Member"> | $Enums.Role
+    isSuperAdmin?: BoolFilter<"Member"> | boolean
     isActive?: BoolFilter<"Member"> | boolean
     createdAt?: DateTimeFilter<"Member"> | Date | string
     updatedAt?: DateTimeFilter<"Member"> | Date | string
@@ -6135,6 +6151,7 @@ export namespace Prisma {
     photoUrl?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
     role?: SortOrder
+    isSuperAdmin?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6155,6 +6172,7 @@ export namespace Prisma {
     photoUrl?: StringNullableFilter<"Member"> | string | null
     birthDate?: DateTimeNullableFilter<"Member"> | Date | string | null
     role?: EnumRoleFilter<"Member"> | $Enums.Role
+    isSuperAdmin?: BoolFilter<"Member"> | boolean
     isActive?: BoolFilter<"Member"> | boolean
     createdAt?: DateTimeFilter<"Member"> | Date | string
     updatedAt?: DateTimeFilter<"Member"> | Date | string
@@ -6172,6 +6190,7 @@ export namespace Prisma {
     photoUrl?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
     role?: SortOrder
+    isSuperAdmin?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6193,6 +6212,7 @@ export namespace Prisma {
     photoUrl?: StringNullableWithAggregatesFilter<"Member"> | string | null
     birthDate?: DateTimeNullableWithAggregatesFilter<"Member"> | Date | string | null
     role?: EnumRoleWithAggregatesFilter<"Member"> | $Enums.Role
+    isSuperAdmin?: BoolWithAggregatesFilter<"Member"> | boolean
     isActive?: BoolWithAggregatesFilter<"Member"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Member"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Member"> | Date | string
@@ -6454,6 +6474,7 @@ export namespace Prisma {
     photoUrl?: string | null
     birthDate?: Date | string | null
     role?: $Enums.Role
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6471,6 +6492,7 @@ export namespace Prisma {
     photoUrl?: string | null
     birthDate?: Date | string | null
     role?: $Enums.Role
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6488,6 +6510,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6505,6 +6528,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6522,6 +6546,7 @@ export namespace Prisma {
     photoUrl?: string | null
     birthDate?: Date | string | null
     role?: $Enums.Role
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6537,6 +6562,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6552,6 +6578,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6934,6 +6961,7 @@ export namespace Prisma {
     photoUrl?: SortOrder
     birthDate?: SortOrder
     role?: SortOrder
+    isSuperAdmin?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6949,6 +6977,7 @@ export namespace Prisma {
     photoUrl?: SortOrder
     birthDate?: SortOrder
     role?: SortOrder
+    isSuperAdmin?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6964,6 +6993,7 @@ export namespace Prisma {
     photoUrl?: SortOrder
     birthDate?: SortOrder
     role?: SortOrder
+    isSuperAdmin?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7814,6 +7844,7 @@ export namespace Prisma {
     photoUrl?: string | null
     birthDate?: Date | string | null
     role?: $Enums.Role
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7830,6 +7861,7 @@ export namespace Prisma {
     photoUrl?: string | null
     birthDate?: Date | string | null
     role?: $Enums.Role
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7862,6 +7894,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7878,6 +7911,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7894,6 +7928,7 @@ export namespace Prisma {
     photoUrl?: string | null
     birthDate?: Date | string | null
     role?: $Enums.Role
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7910,6 +7945,7 @@ export namespace Prisma {
     photoUrl?: string | null
     birthDate?: Date | string | null
     role?: $Enums.Role
+    isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7942,6 +7978,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7958,6 +7995,7 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

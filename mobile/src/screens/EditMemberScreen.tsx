@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   ActivityIndicator,
   Alert,
@@ -31,10 +32,12 @@ export function EditMemberScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [role, setRole] = useState<MemberRole>("MEMBRO");
   const [photoUrl, setPhotoUrl] = useState("");
   const [photo, setPhoto] = useState<ImagePickerAsset | null>(null);
+  const [canManageAccess, setCanManageAccess] = useState(false);
 
   useEffect(() => {
     async function loadMember() {
@@ -44,7 +47,10 @@ export function EditMemberScreen() {
       }
 
       try {
-        const response = await api.get(`/members/${id}`);
+        const [response, storedMember] = await Promise.all([
+          api.get(`/members/${id}`),
+          AsyncStorage.getItem("@app_icb:member"),
+        ]);
         const member = response.data.data;
 
         setName(member.name || "");
@@ -53,6 +59,9 @@ export function EditMemberScreen() {
         setPhotoUrl(member.photoUrl || "");
         setRole(member.role || "MEMBRO");
         setBirthDate(member.birthDate?.substring(0, 10) || "");
+        setCanManageAccess(
+          storedMember ? JSON.parse(storedMember).isSuperAdmin === true : false,
+        );
       } catch (error: any) {
         console.log(
           "ERRO AO BUSCAR MEMBRO:",
@@ -87,6 +96,7 @@ export function EditMemberScreen() {
         name,
         email,
         phone,
+        password: password || undefined,
         photoUrl: uploadedPhotoUrl,
         birthDate: birthDate || null,
         role,
@@ -161,6 +171,20 @@ export function EditMemberScreen() {
           placeholder="Digite o e-mail"
           value={email}
         />
+        {canManageAccess ? (
+          <>
+            <AppInput
+              label="Nova senha temporária"
+              onChangeText={setPassword}
+              placeholder="Deixe vazio para manter a senha atual"
+              secureTextEntry
+              value={password}
+            />
+            <Text style={styles.helperText}>
+              Ao informar uma senha, o usuário deverá trocá-la no próximo acesso.
+            </Text>
+          </>
+        ) : null}
         <AppInput
           keyboardType="phone-pad"
           label="Telefone"
@@ -175,10 +199,12 @@ export function EditMemberScreen() {
           value={birthDate}
         />
 
-        <View style={styles.roleField}>
-          <Text style={styles.label}>Cargo</Text>
-          <RoleSelector onChange={setRole} value={role} />
-        </View>
+        {canManageAccess ? (
+          <View style={styles.roleField}>
+            <Text style={styles.label}>Cargo</Text>
+            <RoleSelector onChange={setRole} value={role} />
+          </View>
+        ) : null}
 
         <View style={styles.actions}>
           <AppButton
@@ -233,6 +259,11 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: typography.fontSize.sm,
     fontWeight: typography.fontWeight.semibold,
+  },
+  helperText: {
+    marginTop: -spacing.sm,
+    color: colors.textMuted,
+    fontSize: typography.fontSize.xs,
   },
   actions: {
     gap: spacing.sm,

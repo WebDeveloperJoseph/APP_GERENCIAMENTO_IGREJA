@@ -130,6 +130,7 @@ exports.Prisma.MemberScalarFieldEnum = {
   photoUrl: 'photoUrl',
   birthDate: 'birthDate',
   role: 'role',
+  isSuperAdmin: 'isSuperAdmin',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -193,6 +194,7 @@ exports.Role = exports.$Enums.Role = {
   MEMBRO: 'MEMBRO',
   VOLUNTARIO: 'VOLUNTARIO',
   TESOUREIRO: 'TESOUREIRO',
+  PASTOR: 'PASTOR',
   ADMIN: 'ADMIN'
 };
 

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/AppError";
 
-type Role = "MEMBRO" | "VOLUNTARIO" | "TESOUREIRO" | "ADMIN";
+type Role = "MEMBRO" | "VOLUNTARIO" | "TESOUREIRO" | "PASTOR" | "ADMIN";
 
 function ensureRole(allowedRoles: Role[]) {
     return (request: Request, response: Response, next: NextFunction) => {

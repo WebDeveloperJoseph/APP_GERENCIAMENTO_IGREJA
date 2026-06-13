@@ -19,7 +19,8 @@ export const API_BASE_URL =
 
 export const api = create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  // O Render pode levar alguns segundos para despertar no primeiro acesso.
+  timeout: 30000,
 });
 
 api.interceptors.request.use(async (config) => {

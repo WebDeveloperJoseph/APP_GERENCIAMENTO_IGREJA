@@ -33,7 +33,7 @@ const navigationItems: NavigationItem[] = [
     activeIcon: "people",
     href: "/members",
     path: "/members",
-    allowedRoles: ["ADMIN", "TESOUREIRO", "VOLUNTARIO"],
+    allowedRoles: ["ADMIN", "TESOUREIRO", "VOLUNTARIO", "PASTOR"],
   },
   {
     label: "Eventos",

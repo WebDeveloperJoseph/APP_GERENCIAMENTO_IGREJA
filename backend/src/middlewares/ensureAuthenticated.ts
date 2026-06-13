@@ -5,6 +5,7 @@ import { AppError } from "../errors/AppError";
 interface TokenPayload {
     sub: string;
     role: string;
+    isSuperAdmin?: boolean;
 }
 
 function ensureAuthenticated(
@@ -35,7 +36,8 @@ function ensureAuthenticated(
 
         request.member = {
             id: decoded.sub,
-            role: decoded.role
+            role: decoded.role,
+            isSuperAdmin: decoded.isSuperAdmin === true
         };
 
         return next();

@@ -53,6 +53,8 @@ export function MemberDetailsScreen() {
 
   const [member, setMember] = useState<Member | null>(null);
   const [currentRole, setCurrentRole] = useState<MemberRole | null>(null);
+  const [currentMemberId, setCurrentMemberId] = useState<string | null>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeactivating, setIsDeactivating] = useState(false);
 
@@ -72,7 +74,10 @@ export function MemberDetailsScreen() {
         setMember(response.data.data);
 
         if (storedMember) {
-          setCurrentRole(JSON.parse(storedMember).role);
+          const authenticatedMember = JSON.parse(storedMember);
+          setCurrentRole(authenticatedMember.role);
+          setCurrentMemberId(authenticatedMember.id);
+          setIsSuperAdmin(authenticatedMember.isSuperAdmin === true);
         }
       } catch (error: any) {
         console.log(
@@ -158,9 +163,15 @@ export function MemberDetailsScreen() {
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        actionLabel={currentRole === "ADMIN" ? "Editar" : undefined}
+        actionLabel={
+          currentRole === "ADMIN" &&
+          (!member.isSuperAdmin || currentMemberId === member.id)
+            ? "Editar"
+            : undefined
+        }
         onActionPress={
-          currentRole === "ADMIN"
+          currentRole === "ADMIN" &&
+          (!member.isSuperAdmin || currentMemberId === member.id)
             ? () =>
                 router.push({
                   pathname: "/members/edit/[id]",
@@ -211,7 +222,7 @@ export function MemberDetailsScreen() {
         </SectionCard>
 
         <View style={styles.actions}>
-          {currentRole === "ADMIN" ? (
+          {isSuperAdmin && !member.isSuperAdmin ? (
             <AppButton
               isLoading={isDeactivating}
               onPress={handleDeactivateMember}

@@ -24,6 +24,7 @@ type MemberFilter = "TODOS" | "ATIVOS" | "INATIVOS";
 export function MembersScreen() {
   const [members, setMembers] = useState<Member[]>([]);
   const [currentRole, setCurrentRole] = useState<MemberRole | null>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<MemberFilter>("TODOS");
   const [isLoading, setIsLoading] = useState(true);
@@ -57,9 +58,10 @@ export function MembersScreen() {
           setIsLoading(true);
 
           const storedMember = await AsyncStorage.getItem("@app_icb:member");
-          const role: MemberRole | null = storedMember
-            ? JSON.parse(storedMember).role
+          const authenticatedMember = storedMember
+            ? JSON.parse(storedMember)
             : null;
+          const role: MemberRole | null = authenticatedMember?.role ?? null;
           const requests = [api.get("/members")];
 
           if (role === "ADMIN") {
@@ -77,6 +79,7 @@ export function MembersScreen() {
             })) ?? [];
 
           setCurrentRole(role);
+          setIsSuperAdmin(authenticatedMember?.isSuperAdmin === true);
           setMembers([...activeMembers, ...inactiveMembers]);
         } catch (error: any) {
           console.log(
@@ -98,8 +101,7 @@ export function MembersScreen() {
     }, []),
   );
 
-  const canCreate =
-    currentRole === "ADMIN" || currentRole === "VOLUNTARIO";
+  const canCreate = isSuperAdmin;
 
   return (
     <View style={styles.screen}>

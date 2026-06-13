@@ -63,6 +63,27 @@ class AuthController {
             return next(error);
         }
     }
+
+    async updateProfile(request: Request, response: Response, next: NextFunction) {
+        try {
+            const { name, email, phone } = request.body;
+            const authService = new AuthService();
+            const member = await authService.updateProfile({
+                memberId: request.member.id,
+                name,
+                email,
+                phone
+            });
+
+            return response.status(200).json({
+                success: true,
+                message: "Perfil atualizado com sucesso.",
+                data: member
+            });
+        } catch (error) {
+            return next(error);
+        }
+    }
 }
 
 export { AuthController };

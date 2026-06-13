@@ -17,6 +17,7 @@ model Member {
   photoUrl           String?
   birthDate          DateTime?
   role               Role          @default(MEMBRO)
+  isSuperAdmin       Boolean       @default(false)
   isActive           Boolean       @default(true)
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
@@ -80,6 +81,7 @@ enum Role {
   MEMBRO
   VOLUNTARIO
   TESOUREIRO
+  PASTOR
   ADMIN
 }
 
