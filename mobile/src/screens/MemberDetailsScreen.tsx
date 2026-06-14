@@ -16,7 +16,7 @@ import { SectionCard } from "@/components/SectionCard";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { colors, radii, spacing, typography } from "@/theme";
-import { Member } from "@/types/member";
+import { Member, MemberRole } from "@/types/member";
 import { getMemberInitials, getMemberRoleLabel } from "@/utils/member";
 
 function formatDateOnly(date?: string | null) {
@@ -54,8 +54,11 @@ export function MemberDetailsScreen() {
   const [member, setMember] = useState<Member | null>(null);
   const [currentMemberId, setCurrentMemberId] = useState<string | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [currentRole, setCurrentRole] = useState<MemberRole>("MEMBRO");
   const [isLoading, setIsLoading] = useState(true);
   const [isDeactivating, setIsDeactivating] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
+  const [isDeletingPermanently, setIsDeletingPermanently] = useState(false);
 
   useEffect(() => {
     async function loadMember() {
@@ -76,6 +79,7 @@ export function MemberDetailsScreen() {
           const authenticatedMember = JSON.parse(storedMember);
           setCurrentMemberId(authenticatedMember.id);
           setIsSuperAdmin(authenticatedMember.isSuperAdmin === true);
+          setCurrentRole(authenticatedMember.role);
         }
       } catch (error: any) {
         console.log(
@@ -138,6 +142,63 @@ export function MemberDetailsScreen() {
     );
   }
 
+  async function restoreMember() {
+    if (!id) {
+      return;
+    }
+
+    try {
+      setIsRestoring(true);
+      await api.patch(`/members/${id}/restore`);
+      Alert.alert("Sucesso", "Membro reativado com sucesso.");
+      router.replace("/members");
+    } catch (error: any) {
+      Alert.alert(
+        "Erro",
+        error.response?.data?.message ||
+          "Não foi possível reativar o membro.",
+      );
+    } finally {
+      setIsRestoring(false);
+    }
+  }
+
+  async function deleteMemberPermanently() {
+    if (!id) {
+      return;
+    }
+
+    try {
+      setIsDeletingPermanently(true);
+      await api.delete(`/members/${id}/permanent`);
+      Alert.alert("Sucesso", "Membro excluído permanentemente.");
+      router.replace("/members");
+    } catch (error: any) {
+      Alert.alert(
+        "Erro",
+        error.response?.data?.message ||
+          "Não foi possível excluir o membro.",
+      );
+    } finally {
+      setIsDeletingPermanently(false);
+    }
+  }
+
+  function handlePermanentDelete() {
+    Alert.alert(
+      "Excluir permanentemente",
+      "Esta ação apaga a conta e não pode ser desfeita.",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: deleteMemberPermanently,
+        },
+      ],
+    );
+  }
+
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -157,6 +218,12 @@ export function MemberDetailsScreen() {
       </View>
     );
   }
+
+  const canManageLifecycle = isSuperAdmin || currentRole === "ADMIN";
+  const canChangeMemberStatus =
+    canManageLifecycle &&
+    !member.isSuperAdmin &&
+    currentMemberId !== member.id;
 
   return (
     <View style={styles.screen}>
@@ -215,18 +282,40 @@ export function MemberDetailsScreen() {
           />
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Status</Text>
-            <Text style={styles.status}>Ativo</Text>
+            <Text
+              style={[
+                styles.status,
+                member.isActive === false && styles.inactiveStatus,
+              ]}
+            >
+              {member.isActive === false ? "Inativo" : "Ativo"}
+            </Text>
           </View>
         </SectionCard>
 
         <View style={styles.actions}>
-          {isSuperAdmin && !member.isSuperAdmin ? (
+          {canChangeMemberStatus && member.isActive !== false ? (
             <AppButton
               isLoading={isDeactivating}
               onPress={handleDeactivateMember}
               title="Inativar membro"
               variant="danger"
             />
+          ) : null}
+          {canChangeMemberStatus && member.isActive === false ? (
+            <>
+              <AppButton
+                isLoading={isRestoring}
+                onPress={restoreMember}
+                title="Reativar membro"
+              />
+              <AppButton
+                isLoading={isDeletingPermanently}
+                onPress={handlePermanentDelete}
+                title="Excluir definitivamente"
+                variant="danger"
+              />
+            </>
           ) : null}
           <AppButton
             onPress={() => router.back()}
@@ -336,6 +425,10 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 10,
     backgroundColor: colors.successLight,
+  },
+  inactiveStatus: {
+    color: colors.danger,
+    backgroundColor: colors.dangerLight,
   },
   actions: {
     gap: 10,

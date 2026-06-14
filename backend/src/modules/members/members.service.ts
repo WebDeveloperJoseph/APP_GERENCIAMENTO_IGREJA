@@ -52,6 +52,10 @@ const validRoles: Role[] = [
 ];
 
 class MembersService {
+    private canManageMemberLifecycle(member: AuthenticatedMember) {
+        return member.isSuperAdmin || member.role === "ADMIN";
+    }
+
     async list() {
         return prisma.member.findMany({
             where: {
@@ -221,9 +225,9 @@ class MembersService {
     }
 
     async delete(id: string, authenticatedMember: AuthenticatedMember) {
-        if (!authenticatedMember.isSuperAdmin) {
+        if (!this.canManageMemberLifecycle(authenticatedMember)) {
             throw new AppError(
-                "Somente o administrador principal pode inativar membros.",
+                "Somente administradores podem inativar membros.",
                 403
             );
         }
@@ -260,9 +264,9 @@ class MembersService {
     }
 
     async deletePermanently(id: string, authenticatedMember: AuthenticatedMember) {
-        if (!authenticatedMember.isSuperAdmin) {
+        if (!this.canManageMemberLifecycle(authenticatedMember)) {
             throw new AppError(
-                "Somente o administrador principal pode excluir contas permanentemente.",
+                "Somente administradores podem excluir contas permanentemente.",
                 403
             );
         }
@@ -321,9 +325,9 @@ class MembersService {
     }
 
     async restore(id: string, authenticatedMember: AuthenticatedMember) {
-        if (!authenticatedMember.isSuperAdmin) {
+        if (!this.canManageMemberLifecycle(authenticatedMember)) {
             throw new AppError(
-                "Somente o administrador principal pode restaurar contas.",
+                "Somente administradores podem restaurar contas.",
                 403
             );
         }

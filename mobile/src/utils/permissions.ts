@@ -23,7 +23,7 @@ export async function getCurrentUserAccess(): Promise<CurrentUserAccess | null> 
 }
 
 export function canManageMembers(access: CurrentUserAccess | null) {
-  return access?.isSuperAdmin === true;
+  return access?.isSuperAdmin === true || access?.role === "ADMIN";
 }
 
 export function canManageFinance(access: CurrentUserAccess | null) {

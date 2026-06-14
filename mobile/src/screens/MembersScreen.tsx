@@ -24,6 +24,7 @@ type MemberFilter = "TODOS" | "ATIVOS" | "INATIVOS";
 export function MembersScreen() {
   const [members, setMembers] = useState<Member[]>([]);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [canManageLifecycle, setCanManageLifecycle] = useState(false);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<MemberFilter>("TODOS");
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +63,11 @@ export function MembersScreen() {
             : null;
           const requests = [api.get("/members")];
 
-          if (authenticatedMember?.isSuperAdmin === true) {
+          const canManageMembers =
+            authenticatedMember?.isSuperAdmin === true ||
+            authenticatedMember?.role === "ADMIN";
+
+          if (canManageMembers) {
             requests.push(api.get("/members/inactive"));
           }
 
@@ -77,6 +82,7 @@ export function MembersScreen() {
             })) ?? [];
 
           setIsSuperAdmin(authenticatedMember?.isSuperAdmin === true);
+          setCanManageLifecycle(canManageMembers);
           setMembers([...activeMembers, ...inactiveMembers]);
         } catch (error: any) {
           console.log(
@@ -126,13 +132,15 @@ export function MembersScreen() {
             return (
               <Pressable
                 key={option.value}
-                disabled={option.value === "INATIVOS" && !isSuperAdmin}
+                disabled={
+                  option.value === "INATIVOS" && !canManageLifecycle
+                }
                 onPress={() => setFilter(option.value)}
                 style={[
                   styles.filter,
                   isSelected && styles.selectedFilter,
                   option.value === "INATIVOS" &&
-                    !isSuperAdmin &&
+                    !canManageLifecycle &&
                     styles.disabledFilter,
                 ]}
               >
