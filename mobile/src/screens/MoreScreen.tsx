@@ -48,7 +48,7 @@ export function MoreScreen() {
   async function handleLogout() {
     await AsyncStorage.removeItem("@app_icb:token");
     await AsyncStorage.removeItem("@app_icb:member");
-    router.replace("/");
+    router.replace("/login" as Href);
   }
 
   return (
@@ -57,6 +57,12 @@ export function MoreScreen() {
       <ScreenContainer contentStyle={styles.content}>
         <Text style={styles.sectionTitle}>Gestão</Text>
         <View style={styles.menu}>
+          <MenuItem
+            description="Aniversarios dos membros neste mes"
+            href={"/birthdays" as Href}
+            symbol="A"
+            title="Aniversariantes"
+          />
           <MenuItem
             description="Indicadores e relatórios da igreja"
             href="/dashboard"

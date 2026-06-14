@@ -12,7 +12,6 @@ import {
 import { EventForm } from "@/components/EventForm";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
-import { syncEventsWithDeviceCalendar } from "@/services/calendarSync";
 import { uploadImage } from "@/services/uploadImage";
 import { colors, radii, spacing } from "@/theme";
 import { EventFormValues } from "@/types/event";
@@ -35,7 +34,7 @@ export function CreateEventScreen() {
     if (!payload) {
       Alert.alert(
         "Data inválida",
-        "Informe as datas em AAAA-MM-DD e os horários em HH:MM.",
+        "Informe datas válidas em DD/MM/AAAA e horários em HH:MM.",
       );
       return;
     }
@@ -57,15 +56,10 @@ export function CreateEventScreen() {
         ? await uploadImage(coverImage)
         : values.coverImageUrl || null;
 
-      const response = await api.post("/events", {
+      await api.post("/events", {
         ...payload,
         coverImageUrl,
       });
-      void syncEventsWithDeviceCalendar([response.data.data]).catch(
-        (calendarError) => {
-          console.log("ERRO AO SINCRONIZAR CALENDARIO:", calendarError);
-        },
-      );
 
       Alert.alert("Sucesso", "Evento cadastrado com sucesso.");
       router.replace("/events");

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { AppButton } from "@/components/AppButton";
+import { AppDateInput } from "@/components/AppDateInput";
 import { AppInput } from "@/components/AppInput";
 import { colors } from "@/theme/colors";
 import {
@@ -133,10 +134,9 @@ export function TransactionForm({
         </View>
       </View>
 
-      <AppInput
+      <AppDateInput
         label="Data"
-        onChangeText={setDate}
-        placeholder="AAAA-MM-DD"
+        onChangeDate={setDate}
         value={date}
       />
 

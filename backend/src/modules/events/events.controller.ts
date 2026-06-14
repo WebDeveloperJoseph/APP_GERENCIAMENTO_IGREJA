@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 
 import { AppError } from "../../errors/AppError";
 import { EventsService } from "./events.service";
+import { NotificationsService } from "../notifications/notifications.service";
+import { logger } from "../../utils/logger";
 
 class EventsController {
   async list(request: Request, response: Response, next: NextFunction) {
@@ -68,6 +70,22 @@ class EventsController {
         isPublic,
         createdById: request.member.id,
       });
+
+      if (event.isPublic) {
+        const notificationsService = new NotificationsService();
+
+        try {
+          await notificationsService.sendNewEventNotification(event);
+        } catch (notificationError) {
+          logger.error("push_notification_error", {
+            eventId: event.id,
+            message:
+              notificationError instanceof Error
+                ? notificationError.message
+                : "Unknown push notification error",
+          });
+        }
+      }
 
       return response.status(201).json({
         success: true,

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 
 import { AppButton } from "@/components/AppButton";
+import { AppDateInput } from "@/components/AppDateInput";
 import { AppInput } from "@/components/AppInput";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { colors, spacing } from "@/theme";
@@ -90,13 +91,9 @@ export function EventForm({
       </View>
       <View style={styles.dateRow}>
         <View style={styles.dateField}>
-          <AppInput
-            autoCapitalize="none"
-            keyboardType="numbers-and-punctuation"
+          <AppDateInput
             label="Data"
-            maxLength={10}
-            onChangeText={(value) => updateValue("startDate", value)}
-            placeholder="AAAA-MM-DD"
+            onChangeDate={(value) => updateValue("startDate", value)}
             value={values.startDate}
           />
         </View>
@@ -119,13 +116,9 @@ export function EventForm({
       </View>
       <View style={styles.dateRow}>
         <View style={styles.dateField}>
-          <AppInput
-            autoCapitalize="none"
-            keyboardType="numbers-and-punctuation"
+          <AppDateInput
             label="Data"
-            maxLength={10}
-            onChangeText={(value) => updateValue("endDate", value)}
-            placeholder="AAAA-MM-DD"
+            onChangeDate={(value) => updateValue("endDate", value)}
             value={values.endDate}
           />
         </View>

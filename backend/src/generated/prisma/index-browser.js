@@ -136,6 +136,15 @@ exports.Prisma.MemberScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PushTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  platform: 'platform',
+  memberId: 'memberId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.EventScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -229,6 +238,7 @@ exports.AssetStatus = exports.$Enums.AssetStatus = {
 
 exports.Prisma.ModelName = {
   Member: 'Member',
+  PushToken: 'PushToken',
   Event: 'Event',
   Transaction: 'Transaction',
   Asset: 'Asset',

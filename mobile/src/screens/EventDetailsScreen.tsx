@@ -14,6 +14,7 @@ import { AppButton } from "@/components/AppButton";
 import { SectionCard } from "@/components/SectionCard";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
+import { shareEventAsICS } from "@/services/calendar/shareEventAsICS";
 import { colors, radii, spacing, typography } from "@/theme";
 import { ChurchEvent } from "@/types/event";
 import { formatEventPeriod } from "@/utils/event";
@@ -44,6 +45,7 @@ export function EventDetailsScreen() {
   const [access, setAccess] = useState<CurrentUserAccess | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isSharingCalendar, setIsSharingCalendar] = useState(false);
 
   useEffect(() => {
     async function loadEvent() {
@@ -106,6 +108,32 @@ export function EventDetailsScreen() {
         { text: "Excluir", style: "destructive", onPress: deleteEvent },
       ],
     );
+  }
+
+  async function handleAddToCalendar() {
+    if (!event) {
+      return;
+    }
+
+    try {
+      setIsSharingCalendar(true);
+      await shareEventAsICS({
+        title: event.title,
+        description: event.description,
+        location: event.location,
+        startDate: event.startDate,
+        endDate: event.endDate,
+      });
+    } catch (error) {
+      Alert.alert(
+        "Erro na agenda",
+        error instanceof Error
+          ? error.message
+          : "Nao foi possivel compartilhar o evento.",
+      );
+    } finally {
+      setIsSharingCalendar(false);
+    }
   }
 
   if (isLoading) {
@@ -196,6 +224,11 @@ export function EventDetailsScreen() {
         </View>
 
         <View style={styles.actions}>
+          <AppButton
+            isLoading={isSharingCalendar}
+            onPress={handleAddToCalendar}
+            title="Adicionar à agenda"
+          />
           {canManageEvents(access) ? (
             <AppButton
               isLoading={isDeleting}

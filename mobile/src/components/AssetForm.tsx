@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { AppButton } from "@/components/AppButton";
+import { AppDateInput } from "@/components/AppDateInput";
 import { AppInput } from "@/components/AppInput";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { colors, spacing } from "@/theme";
@@ -98,12 +99,10 @@ export function AssetForm({
         placeholder="Digite o valor"
         value={value}
       />
-      <AppInput
-        keyboardType="numbers-and-punctuation"
-        label="Data de aquisicao (opcional)"
-        maxLength={10}
-        onChangeText={setAcquisitionDate}
-        placeholder="AAAA-MM-DD"
+      <AppDateInput
+        label="Data de aquisição"
+        onChangeDate={setAcquisitionDate}
+        optional
         value={acquisitionDate}
       />
       <AppInput

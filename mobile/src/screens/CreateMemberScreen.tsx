@@ -12,6 +12,7 @@ import { router } from "expo-router";
 import { ImagePickerAsset } from "expo-image-picker";
 
 import { AppButton } from "@/components/AppButton";
+import { AppDateInput } from "@/components/AppDateInput";
 import { AppInput } from "@/components/AppInput";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { RoleSelector } from "@/components/RoleSelector";
@@ -20,6 +21,7 @@ import { api } from "@/services/api";
 import { uploadImage } from "@/services/uploadImage";
 import { colors, radii, spacing, typography } from "@/theme";
 import { MemberRole } from "@/types/member";
+import { isValidDateInput } from "@/utils/transaction";
 
 export function CreateMemberScreen() {
   const [name, setName] = useState("");
@@ -32,6 +34,11 @@ export function CreateMemberScreen() {
   const [isSaving, setIsSaving] = useState(false);
 
   async function handleCreateMember() {
+    if (birthDate && !isValidDateInput(birthDate)) {
+      Alert.alert("Data inválida", "Informe a data no formato DD/MM/AAAA.");
+      return;
+    }
+
     try {
       setIsSaving(true);
       const photoUrl = photo ? await uploadImage(photo) : null;
@@ -116,10 +123,11 @@ export function CreateMemberScreen() {
           placeholder="Digite o telefone"
           value={phone}
         />
-        <AppInput
+        <AppDateInput
           label="Data de nascimento"
-          onChangeText={setBirthDate}
-          placeholder="AAAA-MM-DD"
+          maximumDate={new Date()}
+          onChangeDate={setBirthDate}
+          optional
           value={birthDate}
         />
 

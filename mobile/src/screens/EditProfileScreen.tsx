@@ -13,12 +13,14 @@ import {
 } from "react-native";
 
 import { AppButton } from "@/components/AppButton";
+import { AppDateInput } from "@/components/AppDateInput";
 import { AppInput } from "@/components/AppInput";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { api } from "@/services/api";
 import { uploadImage } from "@/services/uploadImage";
 import { colors, radii, spacing } from "@/theme";
+import { isValidDateInput } from "@/utils/transaction";
 
 export function EditProfileScreen() {
   const [name, setName] = useState("");
@@ -52,6 +54,11 @@ export function EditProfileScreen() {
   }, []);
 
   async function handleSave() {
+    if (birthDate && !isValidDateInput(birthDate)) {
+      Alert.alert("Data inválida", "Informe a data no formato DD/MM/AAAA.");
+      return;
+    }
+
     try {
       setIsSaving(true);
       const updatedPhotoUrl = photo
@@ -138,10 +145,11 @@ export function EditProfileScreen() {
             placeholder="Seu telefone"
             value={phone}
           />
-          <AppInput
+          <AppDateInput
             label="Data de nascimento"
-            onChangeText={setBirthDate}
-            placeholder="AAAA-MM-DD"
+            maximumDate={new Date()}
+            onChangeDate={setBirthDate}
+            optional
             value={birthDate}
           />
           <AppButton

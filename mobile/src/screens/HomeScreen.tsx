@@ -16,7 +16,10 @@ import { BottomNavigation } from "@/components/BottomNavigation";
 import { ScreenContainer } from "@/components/ScreenContainer";
 import { WeeklyEventsCarousel } from "@/components/WeeklyEventsCarousel";
 import { api } from "@/services/api";
-import { syncEventsWithDeviceCalendar } from "@/services/calendarSync";
+import {
+  registerDeviceForPushNotifications,
+  unregisterDeviceFromPushNotifications,
+} from "@/services/eventNotifications";
 import { churchTheme, colors, radii, spacing, typography } from "@/theme";
 import { ChurchEvent } from "@/types/event";
 import { MemberRole } from "@/types/member";
@@ -110,9 +113,14 @@ export function HomeScreen() {
         setFeaturedEvents(
           weeklyEvents.length > 0 ? weeklyEvents : upcomingEvents.slice(0, 3),
         );
-        void syncEventsWithDeviceCalendar(events).catch((calendarError) => {
-          console.log("ERRO AO SINCRONIZAR CALENDARIO:", calendarError);
-        });
+        void registerDeviceForPushNotifications().catch(
+          (notificationError) => {
+            console.log(
+              "ERRO AO REGISTRAR NOTIFICACOES:",
+              notificationError,
+            );
+          },
+        );
       } catch (error: any) {
         console.log(
           "ERRO AO CARREGAR HOME:",
@@ -133,9 +141,17 @@ export function HomeScreen() {
   }, []);
 
   async function handleLogout() {
+    await unregisterDeviceFromPushNotifications().catch(
+      (notificationError) => {
+        console.log(
+          "ERRO AO REMOVER NOTIFICACOES:",
+          notificationError,
+        );
+      },
+    );
     await AsyncStorage.removeItem("@app_icb:token");
     await AsyncStorage.removeItem("@app_icb:member");
-    router.replace("/");
+    router.replace("/login" as Href);
   }
 
   if (isLoading) {

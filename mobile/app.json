@@ -13,10 +13,6 @@
     },
     "android": {
       "package": "br.com.appicb.mobile",
-      "permissions": [
-        "android.permission.READ_CALENDAR",
-        "android.permission.WRITE_CALENDAR"
-      ],
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/images/igreja-connect-foreground.png"
@@ -32,9 +28,9 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#FFFFFF",
+          "backgroundColor": "#020A24",
           "image": "./assets/images/igreja-connect-splash.png",
-          "imageWidth": 180,
+          "imageWidth": 1,
           "resizeMode": "contain"
         }
       ],
@@ -46,13 +42,16 @@
           "microphonePermission": false
         }
       ],
+      "expo-sharing",
       [
-        "expo-calendar",
+        "expo-notifications",
         {
-          "calendarPermission": "O APP ICB usa o calendario para adicionar os eventos da igreja.",
-          "writeOnlyCalendarPermission": "O APP ICB adiciona os eventos da igreja ao seu calendario."
+          "icon": "./assets/images/android-icon-monochrome.png",
+          "color": "#0D47A1",
+          "defaultChannel": "church-events"
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,

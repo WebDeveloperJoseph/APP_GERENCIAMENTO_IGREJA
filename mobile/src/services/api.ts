@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AxiosError, create, InternalAxiosRequestConfig } from "axios";
 import Constants from "expo-constants";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 import { Platform } from "react-native";
 
 function getDevelopmentHost() {
@@ -71,7 +71,7 @@ api.interceptors.response.use(
         "@app_icb:token",
         "@app_icb:member",
       ]);
-      router.replace("/");
+      router.replace("/login" as Href);
     }
 
     return Promise.reject(error);
