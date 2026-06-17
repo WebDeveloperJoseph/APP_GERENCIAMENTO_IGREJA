@@ -13,9 +13,11 @@ interface EventData {
 
 interface CreateEventData extends EventData {
   createdById: string;
+  churchId: string;
 }
 
 interface ListEventsFilters {
+  churchId: string;
   month?: number;
   year?: number;
 }
@@ -53,7 +55,7 @@ function validateEvent(data: EventData) {
 }
 
 class EventsService {
-  async list({ month, year }: ListEventsFilters) {
+  async list({ churchId, month, year }: ListEventsFilters) {
     if (
       month !== undefined &&
       (!Number.isInteger(month) || month < 1 || month > 12)
@@ -87,16 +89,19 @@ class EventsService {
     }
 
     return prisma.event.findMany({
-      where: periodFilter
-        ? {
-            startDate: {
-              lt: periodFilter.end,
-            },
-            endDate: {
-              gte: periodFilter.start,
-            },
-          }
-        : undefined,
+      where: {
+        churchId,
+        ...(periodFilter
+          ? {
+              startDate: {
+                lt: periodFilter.end,
+              },
+              endDate: {
+                gte: periodFilter.start,
+              },
+            }
+          : {}),
+      },
       orderBy: {
         startDate: "asc",
       },
@@ -148,6 +153,7 @@ class EventsService {
         endDate,
         isPublic: data.isPublic ?? true,
         createdById: data.createdById,
+        churchId: data.churchId,
       },
       include: {
         createdBy: {

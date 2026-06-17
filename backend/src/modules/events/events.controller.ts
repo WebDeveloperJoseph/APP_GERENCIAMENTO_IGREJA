@@ -1,29 +1,30 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../../database";
+
 import { AppError } from "../../errors/AppError";
-import { EventsService } from "./events.service";
-import { NotificationsService } from "../notifications/notifications.service";
 import { logger } from "../../utils/logger";
+import { NotificationsService } from "../notifications/notifications.service";
+import { EventsService } from "./events.service";
 
 class EventsController {
-  async list(req: Request, res: Response) {
-    // O Express agora sabe exatamente quem está pedindo e de qual igreja é!
-    const { churchId } = req;
+  async list(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { month, year } = request.query;
+      const eventsService = new EventsService();
 
-    const events = await prisma.event.findMany({
-      where: {
-        churchId: churchId, // 🛡️ Filtro Multi-Tenant dinâmico e infalível
-      },
-      orderBy: {
-        startDate: "asc",
-      },
-    });
+      const events = await eventsService.list({
+        churchId: request.member.churchId,
+        month: month ? Number(month) : undefined,
+        year: year ? Number(year) : undefined,
+      });
 
-    return res.json({
-      success: true,
-      message: "Eventos listados com sucesso.",
-      data: events,
-    });
+      return response.status(200).json({
+        success: true,
+        message: "Eventos listados com sucesso.",
+        data: events,
+      });
+    } catch (error) {
+      return next(error);
+    }
   }
 
   async show(request: Request, response: Response, next: NextFunction) {
@@ -31,7 +32,7 @@ class EventsController {
       const { id } = request.params;
 
       if (typeof id !== "string") {
-        throw new AppError("Campo de ID obrigatório.", 400);
+        throw new AppError("Campo de ID obrigatorio.", 400);
       }
 
       const eventsService = new EventsService();
@@ -69,6 +70,7 @@ class EventsController {
         endDate,
         isPublic,
         createdById: request.member.id,
+        churchId: request.member.churchId,
       });
 
       if (event.isPublic) {
@@ -102,7 +104,7 @@ class EventsController {
       const { id } = request.params;
 
       if (typeof id !== "string") {
-        throw new AppError("Campo de ID obrigatório.", 400);
+        throw new AppError("Campo de ID obrigatorio.", 400);
       }
 
       const {
@@ -141,7 +143,7 @@ class EventsController {
       const { id } = request.params;
 
       if (typeof id !== "string") {
-        throw new AppError("Campo de ID obrigatório.", 400);
+        throw new AppError("Campo de ID obrigatorio.", 400);
       }
 
       const eventsService = new EventsService();
@@ -149,7 +151,7 @@ class EventsController {
 
       return response.status(200).json({
         success: true,
-        message: "Evento excluído com sucesso.",
+        message: "Evento excluido com sucesso.",
         data: null,
       });
     } catch (error) {

@@ -51,7 +51,24 @@ async function ensureAuthenticated(
       throw new AppError("Usuario inativo ou nao encontrado.", 401);
     }
 
-    request.member = member;
+    if (!member.churchId) {
+      throw new AppError("Usuario sem igreja vinculada.", 401);
+    }
+
+    const authenticatedMember = {
+      id: member.id,
+      role: member.role,
+      isSuperAdmin: member.isSuperAdmin,
+      churchId: member.churchId,
+    };
+
+    request.member = authenticatedMember;
+    request.user = authenticatedMember;
+    request.userId = authenticatedMember.id;
+    request.churchId = authenticatedMember.churchId;
+    request.role = authenticatedMember.role;
+    request.isSuperAdmin = authenticatedMember.isSuperAdmin;
+
     return next();
   } catch (error) {
     logger.warn("authentication_error", {
