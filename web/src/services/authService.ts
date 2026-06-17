@@ -10,13 +10,14 @@ type LoginResponse = {
 
 export const authService = {
   async login(email: string, password: string) {
-    const { data } = await api.post<LoginResponse>("/auth/login", {
+    const { data } = await api.post<ApiEnvelope<LoginResponse> | LoginResponse>("/auth/login", {
       email,
       password,
     });
+    const session = unwrapApiData(data);
 
-    saveSession(data.token, data.member.churchId, data.member);
-    return data;
+    saveSession(session.token, session.member.churchId, session.member);
+    return session;
   },
 
   async me() {
