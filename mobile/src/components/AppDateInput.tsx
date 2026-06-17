@@ -135,12 +135,7 @@ export function AppDateInput({
           <Ionicons color={colors.primary} name="calendar" size={22} />
         </Pressable>
       </View>
-      <Text
-        style={[
-          styles.helperText,
-          hasInvalidDate && styles.invalidText,
-        ]}
-      >
+      <Text style={[styles.helperText, hasInvalidDate && styles.invalidText]}>
         {hasInvalidDate
           ? "Informe uma data válida."
           : "Digite a data ou toque no calendário."}

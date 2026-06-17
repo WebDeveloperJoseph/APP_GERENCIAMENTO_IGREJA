@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AxiosError, create, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios"; // 🔑 Mudança aqui: importamos o objeto padrão 'axios'
 import Constants from "expo-constants";
 import { Href, router } from "expo-router";
 import { Platform } from "react-native";
@@ -14,13 +14,14 @@ function getDevelopmentHost() {
   return expoHost || "localhost";
 }
 
+// export const API_BASE_URL = "http://192.168.1.101:3333";
 export const API_BASE_URL =
   process.env.EXPO_PUBLIC_API_URL?.trim() ||
   `http://${getDevelopmentHost()}:3333`;
 
-export const api = create({
+// 🔑 Correção: Usando o padrão oficial axios.create() para garantir o isolamento da instância
+export const api = axios.create({
   baseURL: API_BASE_URL,
-  // Servicos gratuitos do Render podem levar mais de 30 segundos para despertar.
   timeout: 60000,
 });
 
@@ -28,15 +29,22 @@ interface RetryableRequestConfig extends InternalAxiosRequestConfig {
   retryCount?: number;
 }
 
-api.interceptors.request.use(async (config) => {
-  const token = await AsyncStorage.getItem("@app_icb:token");
+api.interceptors.request.use(
+  async (config) => {
+    const token = await AsyncStorage.getItem("@app_icb:token");
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+    if (token) {
+      // 🔑 Garante que o objeto headers exista e injeta de forma compatível com Axios moderno
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
-  return config;
-});
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 api.interceptors.response.use(
   (response) => response,
@@ -44,8 +52,10 @@ api.interceptors.response.use(
     const config = error.config as RetryableRequestConfig | undefined;
     const status = error.response?.status;
     const isLoginRequest = config?.url?.includes("/auth/login") === true;
+
     const isSafeRequest =
       config?.method?.toLowerCase() === "get" || isLoginRequest;
+
     const isTemporaryFailure =
       !error.response ||
       error.code === "ECONNABORTED" ||
@@ -53,6 +63,7 @@ api.interceptors.response.use(
       status === 503 ||
       status === 504;
 
+    // Lógica de Retry para falhas de rede ou instabilidade (ex: despertar o Render)
     if (
       config &&
       isSafeRequest &&
@@ -66,11 +77,12 @@ api.interceptors.response.use(
       return api.request(config);
     }
 
+    // 🔑 Se retornar 401 e não for a tela de login, limpa e redireciona
     if (status === 401 && !isLoginRequest) {
-      await AsyncStorage.multiRemove([
-        "@app_icb:token",
-        "@app_icb:member",
-      ]);
+      console.warn(
+        "⚠️ Sessão expirada ou token inválido. Redirecionando para o login...",
+      );
+      await AsyncStorage.multiRemove(["@app_icb:token", "@app_icb:member"]);
       router.replace("/login" as Href);
     }
 

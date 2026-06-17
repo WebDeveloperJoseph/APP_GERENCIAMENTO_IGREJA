@@ -18,10 +18,7 @@ interface AssetFormProps {
   isSaving: boolean;
   submitLabel: string;
   onCancel: () => void;
-  onSubmit: (
-    values: AssetFormValues,
-    image: ImagePickerAsset | null,
-  ) => void;
+  onSubmit: (values: AssetFormValues, image: ImagePickerAsset | null) => void;
 }
 
 export function AssetForm({
@@ -48,14 +45,19 @@ export function AssetForm({
   );
 
   function handleSubmit() {
+    // 🔑 Converte a string do input para Number puro antes de enviar para o backend
+    const parsedValue = parseAssetValue(value);
+
     onSubmit(
       {
         name,
         imageUrl,
         description,
         category,
-        value,
-        acquisitionDate,
+        // 💡 Evita problemas de validação (Zod/Prisma) enviando tipo correto
+        value: isNaN(parsedValue) ? 0 : parsedValue,
+        // 💡 Se a data estiver vazia, envia undefined para não quebrar o formato Date
+        acquisitionDate: acquisitionDate || undefined,
         location,
         status,
       },
@@ -217,3 +219,34 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
 });
+
+// ==========================================
+// 🛠️ Funções Utilitárias Isoladas
+// ==========================================
+
+export function getAssetStatusLabel(status: AssetStatus) {
+  return (
+    ASSET_STATUS_OPTIONS.find((option) => option.value === status)?.label ||
+    status
+  );
+}
+
+export function parseAssetValue(value: string) {
+  if (!value) return 0;
+
+  const normalizedValue = value.includes(",")
+    ? value.replace(/\./g, "").replace(",", ".")
+    : value;
+
+  return Number(normalizedValue);
+}
+
+export function formatAssetDate(date?: string | null) {
+  if (!date) {
+    return "Não informada";
+  }
+
+  const [year, month, day] = date.substring(0, 10).split("-");
+
+  return `${day}/${month}/${year}`;
+}

@@ -88,39 +88,55 @@ export function HomeScreen() {
           api.get("/events"),
         ]);
 
+        // printa no terminal para ver o que o Express respondeu de verdade
+        console.log("➡️ RETORNO DO BACKEND NA HOME:", eventsResponse.data);
+
         if (storedMember) {
           setMember(JSON.parse(storedMember));
         }
 
         const events = eventsResponse.data.data as ChurchEvent[];
         const now = new Date();
+
+        const todayStart = new Date(now);
+        todayStart.setHours(0, 0, 0, 0);
+
         const startOfWeek = new Date(now);
         const weekDay = (now.getDay() + 6) % 7;
+
         startOfWeek.setDate(now.getDate() - weekDay);
         startOfWeek.setHours(0, 0, 0, 0);
+
         const endOfWeek = new Date(startOfWeek);
         endOfWeek.setDate(startOfWeek.getDate() + 7);
+        endOfWeek.setHours(23, 59, 59, 999);
 
-        const upcomingEvents = events.filter(
-          (event) => new Date(event.endDate).getTime() >= now.getTime(),
-        );
-        const weeklyEvents = upcomingEvents.filter(
-          (event) =>
-            new Date(event.startDate) < endOfWeek &&
-            new Date(event.endDate) >= startOfWeek,
-        );
+        const upcomingEvents = events.filter((event) => {
+          const eventEndDate = new Date(event.endDate);
+          return eventEndDate >= todayStart;
+        });
+
+        const weeklyEvents = upcomingEvents.filter((event) => {
+          const eventStartDate = new Date(event.startDate);
+          const eventEndDate = new Date(event.endDate);
+          return eventStartDate <= endOfWeek && eventEndDate >= startOfWeek;
+        });
 
         setFeaturedEvents(
           weeklyEvents.length > 0 ? weeklyEvents : upcomingEvents.slice(0, 3),
         );
-        void registerDeviceForPushNotifications().catch(
-          (notificationError) => {
-            console.log(
-              "ERRO AO REGISTRAR NOTIFICACOES:",
-              notificationError,
-            );
-          },
-        );
+        // Altere o final do seu bloco para isso:
+        if (typeof registerDeviceForPushNotifications === "function") {
+          void registerDeviceForPushNotifications().catch(
+            (notificationError) => {
+              console.log("ERRO AO REGISTRAR NOTIFICACOES:", notificationError);
+            },
+          );
+        } else {
+          console.log(
+            "ℹ️ registerDeviceForPushNotifications não está disponível ou foi mockada.",
+          );
+        }
       } catch (error: any) {
         console.log(
           "ERRO AO CARREGAR HOME:",
@@ -141,14 +157,9 @@ export function HomeScreen() {
   }, []);
 
   async function handleLogout() {
-    await unregisterDeviceFromPushNotifications().catch(
-      (notificationError) => {
-        console.log(
-          "ERRO AO REMOVER NOTIFICACOES:",
-          notificationError,
-        );
-      },
-    );
+    await unregisterDeviceFromPushNotifications().catch((notificationError) => {
+      console.log("ERRO AO REMOVER NOTIFICACOES:", notificationError);
+    });
     await AsyncStorage.removeItem("@app_icb:token");
     await AsyncStorage.removeItem("@app_icb:member");
     router.replace("/login" as Href);
@@ -201,14 +212,16 @@ export function HomeScreen() {
           </View>
         </View>
 
-        {featuredEvents.length > 0 ? (
+        {featuredEvents && featuredEvents.length > 0 ? (
           <WeeklyEventsCarousel events={featuredEvents} />
         ) : (
           <Pressable
             onPress={() => router.push("/events")}
             style={styles.emptyEventCard}
           >
-            <Text style={styles.emptyEventTitle}>Confira a agenda da igreja</Text>
+            <Text style={styles.emptyEventTitle}>
+              Confira a agenda da igreja
+            </Text>
             <Text style={styles.emptyEventText}>Novos eventos em breve</Text>
           </Pressable>
         )}

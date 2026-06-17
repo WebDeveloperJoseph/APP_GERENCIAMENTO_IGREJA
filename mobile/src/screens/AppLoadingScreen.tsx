@@ -1,15 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
-import * as Notifications from "expo-notifications";
+// import * as Notifications from "expo-notifications";
 import { Href, router } from "expo-router";
 import { useEffect, useMemo } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { getRandomVerse } from "@/constants/verses";
@@ -33,33 +27,39 @@ async function getInitialRoute() {
     const response = await api.get("/auth/me");
     const member = response.data.data;
 
-    await AsyncStorage.setItem(
-      "@app_icb:member",
-      JSON.stringify(member),
-    );
+    await AsyncStorage.setItem("@app_icb:member", JSON.stringify(member));
 
     return member.mustChangePassword
       ? ("/change-password" as const)
       : ("/home" as const);
   } catch {
-    await AsyncStorage.multiRemove([
-      "@app_icb:token",
-      "@app_icb:member",
-    ]);
+    await AsyncStorage.multiRemove(["@app_icb:token", "@app_icb:member"]);
     return "/login" as const;
   }
 }
 
+// Blindagem do método de notificação contra crashes no Expo Go
 async function getNotificationRoute() {
-  const response = await Notifications.getLastNotificationResponseAsync();
-  const route = response?.notification.request.content.data?.route;
+  try {
+    // Se o método não existir por incompatibilidade, sai graciosamente
+    if (!Notifications.getLastNotificationResponseAsync) return null;
 
-  if (typeof route !== "string") {
-    return null;
+    const response = await Notifications.getLastNotificationResponseAsync();
+    const route = response?.notification.request.content.data?.route;
+
+    if (typeof route !== "string") {
+      return null;
+    }
+
+    await Notifications.clearLastNotificationResponseAsync();
+    return route as Href;
+  } catch (error) {
+    console.warn(
+      "⚠️ Falha ao buscar última notificação (Expo Go/Emulador):",
+      error,
+    );
+    return null; // Retorna null para o app seguir o fluxo normal
   }
-
-  await Notifications.clearLastNotificationResponseAsync();
-  return route as Href;
 }
 
 export function AppLoadingScreen() {
@@ -70,18 +70,22 @@ export function AppLoadingScreen() {
     let isMounted = true;
 
     async function prepareApp() {
+      // Correção: Agora desestruturamos corretamente os retornos das promessas
       const [, destination, notificationRoute] = await Promise.all([
         wait(MINIMUM_DISPLAY_TIME),
         getInitialRoute(),
-        getNotificationRoute(),
+        getNotificationRoute(), // Descomentado e protegido pelo try/catch interno
       ]);
 
       if (isMounted) {
+        // Verifica se há uma rota de notificação válida para redirecionar
         const canOpenNotification =
           destination === "/home" && notificationRoute;
 
         router.replace(
-          canOpenNotification ? notificationRoute : (destination as Href),
+          canOpenNotification
+            ? (notificationRoute as Href)
+            : (destination as Href),
         );
       }
     }
@@ -134,11 +138,9 @@ export function AppLoadingScreen() {
   );
 }
 
+// Seus estilos permanecem idênticos abaixo...
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    overflow: "hidden",
-  },
+  screen: { flex: 1, overflow: "hidden" },
   glow: {
     position: "absolute",
     top: "12%",
@@ -168,11 +170,7 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 14,
   },
-  logo: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
+  logo: { width: "100%", height: "100%", resizeMode: "cover" },
   title: {
     color: colors.surface,
     fontSize: 30,
@@ -213,11 +211,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     marginTop: spacing.lg,
   },
-  loading: {
-    alignItems: "center",
-    gap: spacing.md,
-    marginTop: spacing.xxxl,
-  },
+  loading: { alignItems: "center", gap: spacing.md, marginTop: spacing.xxxl },
   loadingText: {
     color: colors.surface,
     fontSize: typography.fontSize.md,

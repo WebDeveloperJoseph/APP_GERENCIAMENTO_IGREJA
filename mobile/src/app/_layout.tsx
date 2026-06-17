@@ -1,25 +1,46 @@
-import * as Notifications from "expo-notifications";
-import { Href, router, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { useEffect } from "react";
+import { Platform } from "react-native";
+import Constants from "expo-constants";
 import {
   initialWindowMetrics,
   SafeAreaProvider,
 } from "react-native-safe-area-context";
 
-import "@/services/eventNotifications";
-
 export default function RootLayout() {
   useEffect(() => {
-    const subscription =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        const route = response.notification.request.content.data?.route;
+    // 🔑 Blindagem total: Se for Expo Go, nem tenta executar nada de notificação
+    const isExpoGo = Constants.executionEnvironment === "storeClient";
 
-        if (typeof route === "string") {
-          router.push(route as Href);
-        }
-      });
+    if (isExpoGo || Platform.OS === "web") {
+      console.log("ℹ️ Push Notifications desativadas no Expo Go.");
+      return;
+    }
 
-    return () => subscription.remove();
+    // Só carrega o código nativo se NÃO for Expo Go
+    async function setupListener() {
+      try {
+        const Notifications = require("expo-notifications");
+        const subscription =
+          Notifications.addNotificationResponseReceivedListener(
+            (response: any) => {
+              const route = response.notification.request.content.data?.route;
+              if (typeof route === "string") {
+                const { router } = require("expo-router");
+                router.push(route);
+              }
+            },
+          );
+        return subscription;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    let sub: any;
+    setupListener().then((s) => (sub = s));
+
+    return () => sub?.remove?.();
   }, []);
 
   return (

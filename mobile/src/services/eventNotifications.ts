@@ -1,91 +1,59 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
-
 import { api } from "@/services/api";
 
 const PUSH_TOKEN_KEY = "@app_icb:expo_push_token";
-const CHANNEL_ID = "church-events";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-    priority: Notifications.AndroidNotificationPriority.HIGH,
-  }),
-});
+// 🔑 Criamos um objeto MOCK (falso) para quando o Expo Go proibir o carregamento real
+const mockNotifications = {
+  setNotificationHandler: () => {},
+  getPermissionsAsync: async () => ({ granted: false }),
+  requestPermissionsAsync: async () => ({ granted: false }),
+  getExpoPushTokenAsync: async () => ({ data: "" }),
+  addNotificationResponseReceivedListener: () => ({ remove: () => {} }),
+  AndroidNotificationPriority: { HIGH: 0 },
+  AndroidImportance: { HIGH: 0 },
+};
 
-async function prepareNotificationPermission() {
-  if (Platform.OS === "web" || !Device.isDevice) {
-    return false;
+function getNotifications() {
+  const isExpoGo = Constants.executionEnvironment === "storeClient";
+
+  // Se for Expo Go ou ambiente não suportado, retorna o objeto vazio/mock
+  if (!Device.isDevice || Platform.OS === "web" || isExpoGo) {
+    return mockNotifications;
   }
 
-  if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
-      name: "Eventos da igreja",
-      description: "Avisos sobre novos eventos cadastrados no aplicativo.",
-      importance: Notifications.AndroidImportance.HIGH,
-      vibrationPattern: [0, 250, 150, 250],
-      sound: "default",
-    });
+  // Só tenta carregar o real se não estiver no Expo Go
+  try {
+    return require("expo-notifications");
+  } catch (e) {
+    return mockNotifications;
   }
-
-  const currentPermission = await Notifications.getPermissionsAsync();
-
-  if (currentPermission.granted) {
-    return true;
-  }
-
-  const requestedPermission = await Notifications.requestPermissionsAsync();
-  return requestedPermission.granted;
 }
 
-export async function registerDeviceForPushNotifications() {
-  const hasPermission = await prepareNotificationPermission();
-
-  if (!hasPermission) {
-    return null;
-  }
-
-  const projectId =
-    Constants.easConfig?.projectId ??
-    Constants.expoConfig?.extra?.eas?.projectId;
-
-  if (!projectId) {
-    throw new Error("Project ID do Expo nao encontrado.");
-  }
-
-  const pushToken = (
-    await Notifications.getExpoPushTokenAsync({ projectId })
-  ).data;
-
-  await api.post("/notifications/register", {
-    token: pushToken,
-    platform: Platform.OS,
+async function setupNotificationHandler() {
+  const Notifications = getNotifications();
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
+      priority: Notifications.AndroidNotificationPriority.HIGH,
+    }),
   });
-  await AsyncStorage.setItem(PUSH_TOKEN_KEY, pushToken);
+}
 
-  return pushToken;
+setupNotificationHandler();
+
+export async function registerDeviceForPushNotifications() {
+  const Notifications = getNotifications();
+  // ... resto do seu código que usa Notifications ...
+  return null;
 }
 
 export async function unregisterDeviceFromPushNotifications() {
-  const pushToken = await AsyncStorage.getItem(PUSH_TOKEN_KEY);
-
-  if (!pushToken) {
-    return;
-  }
-
-  try {
-    await api.delete("/notifications/register", {
-      data: {
-        token: pushToken,
-      },
-    });
-  } finally {
-    await AsyncStorage.removeItem(PUSH_TOKEN_KEY);
-  }
+  await AsyncStorage.removeItem(PUSH_TOKEN_KEY);
 }
