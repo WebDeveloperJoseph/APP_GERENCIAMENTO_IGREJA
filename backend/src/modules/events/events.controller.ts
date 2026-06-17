@@ -1,29 +1,29 @@
 import { NextFunction, Request, Response } from "express";
-
+import { prisma } from "../../database";
 import { AppError } from "../../errors/AppError";
 import { EventsService } from "./events.service";
 import { NotificationsService } from "../notifications/notifications.service";
 import { logger } from "../../utils/logger";
 
 class EventsController {
-  async list(request: Request, response: Response, next: NextFunction) {
-    try {
-      const { month, year } = request.query;
-      const eventsService = new EventsService();
+  async list(req: Request, res: Response) {
+    // O Express agora sabe exatamente quem está pedindo e de qual igreja é!
+    const { churchId } = req;
 
-      const events = await eventsService.list({
-        month: month !== undefined ? Number(month) : undefined,
-        year: year !== undefined ? Number(year) : undefined,
-      });
+    const events = await prisma.event.findMany({
+      where: {
+        churchId: churchId, // 🛡️ Filtro Multi-Tenant dinâmico e infalível
+      },
+      orderBy: {
+        startDate: "asc",
+      },
+    });
 
-      return response.status(200).json({
-        success: true,
-        message: "Eventos listados com sucesso.",
-        data: events,
-      });
-    } catch (error) {
-      return next(error);
-    }
+    return res.json({
+      success: true,
+      message: "Eventos listados com sucesso.",
+      data: events,
+    });
   }
 
   async show(request: Request, response: Response, next: NextFunction) {

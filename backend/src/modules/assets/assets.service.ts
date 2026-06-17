@@ -4,6 +4,7 @@ import { AppError } from "../../errors/AppError";
 type AssetStatus = "ATIVO" | "MANUTENCAO" | "BAIXADO";
 
 interface AssetData {
+  churchId: string; // 🔑 Obrigatório para isolamento
   name: string;
   imageUrl?: string | null;
   description?: string | null;
@@ -15,6 +16,7 @@ interface AssetData {
 }
 
 interface ListAssetsFilters {
+  churchId: string; // 🔑 Obrigatório para a listagem restrita
   search?: string;
   status?: string;
 }
@@ -36,6 +38,10 @@ function parseDate(value?: string | null) {
 }
 
 function validateAsset(data: AssetData) {
+  if (!data.churchId?.trim()) {
+    throw new AppError("A identificação da igreja é obrigatória.", 400);
+  }
+
   if (!data.name?.trim()) {
     throw new AppError("O nome do bem é obrigatório.", 400);
   }
@@ -58,19 +64,24 @@ function validateAsset(data: AssetData) {
 }
 
 class AssetsService {
-  async list({ search, status }: ListAssetsFilters) {
+  async list({ churchId, search, status }: ListAssetsFilters) {
     if (status && !validStatuses.includes(status as AssetStatus)) {
       throw new AppError("Status do bem inválido.", 400);
     }
 
     return prisma.asset.findMany({
       where: {
+        churchId, // 🔑 Garante que a query traga APENAS os patrimônios desta igreja
         status: status as AssetStatus | undefined,
-        OR: search
+        AND: search
           ? [
-              { name: { contains: search, mode: "insensitive" } },
-              { category: { contains: search, mode: "insensitive" } },
-              { location: { contains: search, mode: "insensitive" } },
+              {
+                OR: [
+                  { name: { contains: search, mode: "insensitive" } },
+                  { category: { contains: search, mode: "insensitive" } },
+                  { location: { contains: search, mode: "insensitive" } },
+                ],
+              },
             ]
           : undefined,
       },
@@ -80,9 +91,10 @@ class AssetsService {
     });
   }
 
-  async show(id: string) {
-    const asset = await prisma.asset.findUnique({
-      where: { id },
+  async show(id: string, churchId: string) {
+    // 🔑 Busca garantindo que o id pertence à igreja do usuário requisitante
+    const asset = await prisma.asset.findFirst({
+      where: { id, churchId },
     });
 
     if (!asset) {
@@ -97,6 +109,7 @@ class AssetsService {
 
     return prisma.asset.create({
       data: {
+        churchId: data.churchId, // 🔑 Grava a referência da igreja no banco
         name: data.name.trim(),
         imageUrl: data.imageUrl?.trim() || null,
         description: data.description?.trim() || null,
@@ -109,8 +122,9 @@ class AssetsService {
     });
   }
 
-  async update(id: string, data: AssetData) {
-    await this.show(id);
+  async update(id: string, churchId: string, data: AssetData) {
+    // 🔑 Verifica se o patrimônio existe E se pertence a essa igreja antes de atualizar
+    await this.show(id, churchId);
     validateAsset(data);
 
     return prisma.asset.update({
@@ -128,8 +142,9 @@ class AssetsService {
     });
   }
 
-  async delete(id: string) {
-    await this.show(id);
+  async delete(id: string, churchId: string) {
+    // 🔑 Bloqueia a exclusão se o ID do patrimônio for de outra igreja
+    await this.show(id, churchId);
 
     await prisma.asset.delete({
       where: { id },

@@ -1,4 +1,3 @@
-// Importação do modulo para criar rotas modulares
 import { Router } from "express";
 import { membersRoutes } from "../modules/members/members.routes";
 import { financeRoutes } from "../modules/finance/finance.routes";
@@ -9,37 +8,51 @@ import { eventsRoutes } from "../modules/events/events.routes";
 import { uploadRoutes } from "../modules/uploads/upload.routes";
 import { notificationsRoutes } from "../modules/notifications/notifications.routes";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
+import { ensureTenant } from "../middlewares/ensureTenant";
 
-// Instância "copia" do module de rotas modulares
 const routes = Router();
-
-// Instancia com metodo http get para listar produtos/clientes etc
-routes.get("/", (request, response) => {
-  return response.json({
-    message: "API da igreja rodando! 2.1",
-  });
-});
 
 routes.use("/auth", authRoutes);
 
-// Intancia
-routes.use("/members", ensureAuthenticated, membersRoutes);
+// 🔑 1. Roda a autenticação para decodificar o Token JWT
+routes.use(ensureAuthenticated);
 
-routes.use(
-  "/transactions",
-  ensureAuthenticated,
-  financeRoutes,
-);
+// 🔬 DEBUGGER 1: Ver o que a autenticação injetou no 'request.user'
+routes.use((request, response, next) => {
+  console.log("\n=======================================================");
+  console.log("🔬 [DEBUG 1 - PÓS AUTENTICAÇÃO]");
+  console.log(`➡️ ROTA ACESSADA: ${request.method} ${request.originalUrl}`);
+  console.log(
+    "👤 CONTEÚDO DO request.user:",
+    JSON.stringify(request.user, null, 2),
+  );
+  console.log("=======================================================\n");
+  next();
+});
 
-routes.use(
-  "/reports",
-  ensureAuthenticated,
-  reportsRoutes,
-);
+// 🔑 2. Roda o Tenant (Que precisa do request.user para validar a igreja)
+routes.use(ensureTenant);
 
-routes.use("/assets", ensureAuthenticated, assetsRoutes);
-routes.use("/events", ensureAuthenticated, eventsRoutes);
-routes.use("/notifications", ensureAuthenticated, notificationsRoutes);
+// 🔬 DEBUGGER 2: Ver se o churchId sobreviveu após passar pelo Tenant
+routes.use((request, response, next) => {
+  console.log("\n=======================================================");
+  console.log("🔬 [DEBUG 2 - PÓS TENANT]");
+  console.log("⛪ ID DA IGREJA NO USER:", request.user?.churchId);
+  console.log(
+    "⛪ ID DA IGREJA DIRETO NO REQ (se houver):",
+    (request as any).churchId,
+  );
+  console.log("=======================================================\n");
+  next();
+});
+
+// Suas rotas normais abaixo
+routes.use("/members", membersRoutes);
+routes.use("/transactions", financeRoutes);
+routes.use("/reports", reportsRoutes);
+routes.use("/assets", assetsRoutes); // 👈 Nossa rota com problema
+routes.use("/events", eventsRoutes);
+routes.use("/notifications", notificationsRoutes);
 routes.use("/uploads", uploadRoutes);
 
 export { routes };

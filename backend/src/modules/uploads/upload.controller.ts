@@ -1,18 +1,20 @@
 import { NextFunction, Request, Response } from "express";
-
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../database";
 
 class UploadController {
-  async createImage(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ) {
+  async createImage(request: Request, response: Response, next: NextFunction) {
     try {
       if (!request.file) {
         throw new AppError("Selecione uma imagem para enviar.", 400);
       }
+
+      // 💡 Se no futuro você quiser vincular as imagens na tabela do banco a um Tenant,
+      // a propriedade já está mapeada de forma segura aqui:
+      const churchId =
+        (request as any).churchId ||
+        (request as any).church_id ||
+        request.user?.churchId;
 
       const image = await prisma.storedImage.create({
         data: {
@@ -23,6 +25,7 @@ class UploadController {
           id: true,
         },
       });
+
       const imageUrl = `${request.protocol}://${request.get("host")}/uploads/images/${image.id}`;
 
       return response.status(201).json({
@@ -37,11 +40,7 @@ class UploadController {
     }
   }
 
-  async showImage(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ) {
+  async showImage(request: Request, response: Response, next: NextFunction) {
     try {
       const image = await prisma.storedImage.findUnique({
         where: {
@@ -54,7 +53,10 @@ class UploadController {
       }
 
       response.setHeader("Content-Type", image.mimeType);
-      response.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      response.setHeader(
+        "Cache-Control",
+        "public, max-age=31536000, immutable",
+      );
       return response.send(Buffer.from(image.data));
     } catch (error) {
       return next(error);

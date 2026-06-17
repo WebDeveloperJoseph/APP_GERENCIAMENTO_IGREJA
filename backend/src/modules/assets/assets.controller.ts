@@ -9,7 +9,18 @@ class AssetsController {
       const assetsService = new AssetsService();
       const { search, status } = request.query;
 
+      // 🔑 CORREÇÃO: Captura o ID da igreja direto da raiz da requisição (onde o ensureTenant injeta)
+      const churchId =
+        (request as any).churchId ||
+        (request as any).church_id ||
+        request.user?.churchId;
+
+      if (!churchId) {
+        throw new AppError("Igreja não identificada na requisição.", 401);
+      }
+
       const assets = await assetsService.list({
+        churchId, // 🔑 Força o filtro pela igreja correta
         search: search ? String(search) : undefined,
         status: status ? String(status) : undefined,
       });
@@ -28,12 +39,23 @@ class AssetsController {
     try {
       const { id } = request.params;
 
+      // 🔑 CORREÇÃO: Captura o ID da igreja direto da raiz da requisição
+      const churchId =
+        (request as any).churchId ||
+        (request as any).church_id ||
+        request.user?.churchId;
+
+      if (!churchId) {
+        throw new AppError("Igreja não identificada na requisição.", 401);
+      }
+
       if (typeof id !== "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
       }
 
       const assetsService = new AssetsService();
-      const asset = await assetsService.show(id);
+      // 🔑 Passa o churchId para garantir que ele não veja o patrimônio de outra igreja
+      const asset = await assetsService.show(id, churchId);
 
       return response.status(200).json({
         success: true,
@@ -47,6 +69,16 @@ class AssetsController {
 
   async create(request: Request, response: Response, next: NextFunction) {
     try {
+      // 🔑 CORREÇÃO: Captura o ID da igreja direto da raiz da requisição
+      const churchId =
+        (request as any).churchId ||
+        (request as any).church_id ||
+        request.user?.churchId;
+
+      if (!churchId) {
+        throw new AppError("Igreja não identificada na requisição.", 401);
+      }
+
       const {
         name,
         imageUrl,
@@ -60,6 +92,7 @@ class AssetsController {
 
       const assetsService = new AssetsService();
       const asset = await assetsService.create({
+        churchId, // 🔑 Vincula o patrimônio à igreja dona dele
         name,
         imageUrl,
         description,
@@ -84,8 +117,18 @@ class AssetsController {
     try {
       const { id } = request.params;
 
+      // 🔑 CORREÇÃO: Captura o ID da igreja direto da raiz da requisição
+      const churchId =
+        (request as any).churchId ||
+        (request as any).church_id ||
+        request.user?.churchId;
+
       if (typeof id !== "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
+      }
+
+      if (!churchId) {
+        throw new AppError("Igreja não identificada na requisição.", 401);
       }
 
       const {
@@ -100,7 +143,8 @@ class AssetsController {
       } = request.body;
 
       const assetsService = new AssetsService();
-      const asset = await assetsService.update(id, {
+      const asset = await assetsService.update(id, churchId, {
+        churchId,
         name,
         imageUrl,
         description,
@@ -125,12 +169,22 @@ class AssetsController {
     try {
       const { id } = request.params;
 
+      // 🔑 CORREÇÃO: Captura o ID da igreja direto da raiz da requisição
+      const churchId =
+        (request as any).churchId ||
+        (request as any).church_id ||
+        request.user?.churchId;
+
       if (typeof id !== "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
       }
 
+      if (!churchId) {
+        throw new AppError("Igreja não identificada na requisição.", 401);
+      }
+
       const assetsService = new AssetsService();
-      await assetsService.delete(id);
+      await assetsService.delete(id, churchId);
 
       return response.status(200).json({
         success: true,

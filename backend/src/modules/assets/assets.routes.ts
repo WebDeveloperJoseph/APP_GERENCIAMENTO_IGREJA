@@ -1,47 +1,35 @@
 import { Router } from "express";
 
+import { ensureAuthenticated } from "../../middlewares/ensureAuthenticated"; // 🔑 IMPORTANTE: Importe o seu middleware de autenticação aqui
 import { ensureRole } from "../../middlewares/ensureRole";
 import { AssetsController } from "./assets.controller";
 
 const assetsRoutes = Router();
 const assetsController = new AssetsController();
 
-assetsRoutes.get(
-  "/",
-  (request, response, next) => {
-    return assetsController.list(request, response, next);
-  },
-);
+// 🔑 1. Protege TODAS as rotas abaixo com autenticação JWT.
+// Isso garante que o 'request.user' e o 'churchId' existam em qualquer requisição!
+assetsRoutes.use(ensureAuthenticated);
 
-assetsRoutes.get(
-  "/:id",
-  (request, response, next) => {
-    return assetsController.show(request, response, next);
-  },
-);
+// 📋 Rotas de Leitura (Qualquer usuário autenticado da igreja pode ver)
+assetsRoutes.get("/", assetsController.list);
+assetsRoutes.get("/:id", assetsController.show);
 
+// 🔐 Rotas de Escrita (Apenas quem está autenticado E tem a role específica)
 assetsRoutes.post(
   "/",
   ensureRole(["DIRETOR_PATRIMONIO"]),
-  (request, response, next) => {
-    return assetsController.create(request, response, next);
-  },
+  assetsController.create,
 );
-
 assetsRoutes.put(
   "/:id",
   ensureRole(["DIRETOR_PATRIMONIO"]),
-  (request, response, next) => {
-    return assetsController.update(request, response, next);
-  },
+  assetsController.update,
 );
-
 assetsRoutes.delete(
   "/:id",
   ensureRole(["DIRETOR_PATRIMONIO"]),
-  (request, response, next) => {
-    return assetsController.delete(request, response, next);
-  },
+  assetsController.delete,
 );
 
 export { assetsRoutes };

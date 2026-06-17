@@ -43,6 +43,7 @@ async function ensureAuthenticated(
         role: true,
         isSuperAdmin: true,
         isActive: true,
+        churchId: true, // 🔑 Adicionado ao contrato do usuário autenticado
       },
     });
 

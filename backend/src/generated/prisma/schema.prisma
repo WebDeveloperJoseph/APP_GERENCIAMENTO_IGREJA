@@ -7,23 +7,44 @@ datasource db {
   provider = "postgresql"
 }
 
+model Church {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique // Ex: "igreja-central-picui"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos bi-direcionais ativos
+  members      Member[]
+  events       Event[]
+  transactions Transaction[]
+  assets       Asset[]
+
+  @@map("churches")
+}
+
 model Member {
-  id                 String        @id @default(uuid())
+  id                 String    @id @default(uuid())
   name               String
-  email              String?       @unique
+  email              String?   @unique
   password           String?
-  mustChangePassword Boolean       @default(false)
+  mustChangePassword Boolean   @default(false)
   phone              String?
   photoUrl           String?
   birthDate          DateTime?
-  role               Role          @default(MEMBRO)
-  isSuperAdmin       Boolean       @default(false)
-  isActive           Boolean       @default(true)
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
-  transactions       Transaction[]
-  createdEvents      Event[]
-  pushTokens         PushToken[]
+
+  // 🔑 Multi-Tenant Opcional (Com a relação ativa para o validador aceitar)
+  churchId String?
+  church   Church? @relation(fields: [churchId], references: [id], onDelete: Cascade)
+
+  role          Role          @default(MEMBRO)
+  isSuperAdmin  Boolean       @default(false)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  transactions  Transaction[]
+  createdEvents Event[]
+  pushTokens    PushToken[]
 
   @@map("members")
 }
@@ -50,10 +71,15 @@ model Event {
   startDate     DateTime
   endDate       DateTime
   isPublic      Boolean  @default(true)
-  createdById   String?
-  createdBy     Member?  @relation(fields: [createdById], references: [id], onDelete: SetNull)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+
+  // 🔑 Multi-Tenant Opcional
+  churchId String?
+  church   Church? @relation(fields: [churchId], references: [id], onDelete: Cascade)
+
+  createdById String?
+  createdBy   Member?  @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([startDate])
   @@index([createdById])
@@ -72,6 +98,10 @@ model Transaction {
   memberId    String?
   member      Member?             @relation(fields: [memberId], references: [id])
 
+  // 🔑 Multi-Tenant Opcional para o Financeiro
+  churchId String?
+  church   Church? @relation(fields: [churchId], references: [id], onDelete: Cascade)
+
   @@map("transactions")
 }
 
@@ -87,6 +117,10 @@ model Asset {
   status          AssetStatus @default(ATIVO)
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+
+  // 🔑 Multi-Tenant Opcional para o Patrimônio
+  churchId String?
+  church   Church? @relation(fields: [churchId], references: [id], onDelete: Cascade)
 
   @@map("assets")
 }

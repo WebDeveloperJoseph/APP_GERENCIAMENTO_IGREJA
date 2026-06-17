@@ -120,6 +120,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.ChurchScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.MemberScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -129,6 +137,7 @@ exports.Prisma.MemberScalarFieldEnum = {
   phone: 'phone',
   photoUrl: 'photoUrl',
   birthDate: 'birthDate',
+  churchId: 'churchId',
   role: 'role',
   isSuperAdmin: 'isSuperAdmin',
   isActive: 'isActive',
@@ -154,6 +163,7 @@ exports.Prisma.EventScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   isPublic: 'isPublic',
+  churchId: 'churchId',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -168,7 +178,8 @@ exports.Prisma.TransactionScalarFieldEnum = {
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  memberId: 'memberId'
+  memberId: 'memberId',
+  churchId: 'churchId'
 };
 
 exports.Prisma.AssetScalarFieldEnum = {
@@ -182,7 +193,8 @@ exports.Prisma.AssetScalarFieldEnum = {
   location: 'location',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  churchId: 'churchId'
 };
 
 exports.Prisma.StoredImageScalarFieldEnum = {
@@ -237,6 +249,7 @@ exports.AssetStatus = exports.$Enums.AssetStatus = {
 };
 
 exports.Prisma.ModelName = {
+  Church: 'Church',
   Member: 'Member',
   PushToken: 'PushToken',
   Event: 'Event',

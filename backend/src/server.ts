@@ -11,7 +11,7 @@ async function bootstrap() {
     await prisma.$connect();
     logger.info("database_connected");
 
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, "0.0.0.0", () => {
       logger.info("server_started", {
         port: PORT,
         environment: process.env.NODE_ENV || "development",

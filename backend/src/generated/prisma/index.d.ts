@@ -14,6 +14,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Church
+ * 
+ */
+export type Church = $Result.DefaultSelection<Prisma.$ChurchPayload>
+/**
  * Model Member
  * 
  */
@@ -116,8 +121,8 @@ export const AssetStatus: typeof $Enums.AssetStatus
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Members
- * const members = await prisma.member.findMany()
+ * // Fetch zero or more Churches
+ * const churches = await prisma.church.findMany()
  * ```
  *
  *
@@ -139,8 +144,8 @@ export class PrismaClient<
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Members
-   * const members = await prisma.member.findMany()
+   * // Fetch zero or more Churches
+   * const churches = await prisma.church.findMany()
    * ```
    *
    *
@@ -229,6 +234,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.church`: Exposes CRUD operations for the **Church** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Churches
+    * const churches = await prisma.church.findMany()
+    * ```
+    */
+  get church(): Prisma.ChurchDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.member`: Exposes CRUD operations for the **Member** model.
     * Example usage:
     * ```ts
@@ -721,6 +736,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    Church: 'Church',
     Member: 'Member',
     PushToken: 'PushToken',
     Event: 'Event',
@@ -742,10 +758,84 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "member" | "pushToken" | "event" | "transaction" | "asset" | "storedImage"
+      modelProps: "church" | "member" | "pushToken" | "event" | "transaction" | "asset" | "storedImage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Church: {
+        payload: Prisma.$ChurchPayload<ExtArgs>
+        fields: Prisma.ChurchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChurchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChurchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>
+          }
+          findFirst: {
+            args: Prisma.ChurchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChurchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>
+          }
+          findMany: {
+            args: Prisma.ChurchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>[]
+          }
+          create: {
+            args: Prisma.ChurchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>
+          }
+          createMany: {
+            args: Prisma.ChurchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChurchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>[]
+          }
+          delete: {
+            args: Prisma.ChurchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>
+          }
+          update: {
+            args: Prisma.ChurchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChurchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChurchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChurchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChurchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChurchPayload>
+          }
+          aggregate: {
+            args: Prisma.ChurchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChurch>
+          }
+          groupBy: {
+            args: Prisma.ChurchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChurchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChurchCountArgs<ExtArgs>
+            result: $Utils.Optional<ChurchCountAggregateOutputType> | number
+          }
+        }
+      }
       Member: {
         payload: Prisma.$MemberPayload<ExtArgs>
         fields: Prisma.MemberFieldRefs
@@ -1298,6 +1388,7 @@ export namespace Prisma {
     comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
+    church?: ChurchOmit
     member?: MemberOmit
     pushToken?: PushTokenOmit
     event?: EventOmit
@@ -1380,6 +1471,64 @@ export namespace Prisma {
 
 
   /**
+   * Count Type ChurchCountOutputType
+   */
+
+  export type ChurchCountOutputType = {
+    members: number
+    events: number
+    transactions: number
+    assets: number
+  }
+
+  export type ChurchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | ChurchCountOutputTypeCountMembersArgs
+    events?: boolean | ChurchCountOutputTypeCountEventsArgs
+    transactions?: boolean | ChurchCountOutputTypeCountTransactionsArgs
+    assets?: boolean | ChurchCountOutputTypeCountAssetsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ChurchCountOutputType without action
+   */
+  export type ChurchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChurchCountOutputType
+     */
+    select?: ChurchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ChurchCountOutputType without action
+   */
+  export type ChurchCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MemberWhereInput
+  }
+
+  /**
+   * ChurchCountOutputType without action
+   */
+  export type ChurchCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventWhereInput
+  }
+
+  /**
+   * ChurchCountOutputType without action
+   */
+  export type ChurchCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionWhereInput
+  }
+
+  /**
+   * ChurchCountOutputType without action
+   */
+  export type ChurchCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+
+  /**
    * Count Type MemberCountOutputType
    */
 
@@ -1433,6 +1582,1165 @@ export namespace Prisma {
    */
 
   /**
+   * Model Church
+   */
+
+  export type AggregateChurch = {
+    _count: ChurchCountAggregateOutputType | null
+    _min: ChurchMinAggregateOutputType | null
+    _max: ChurchMaxAggregateOutputType | null
+  }
+
+  export type ChurchMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ChurchMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ChurchCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ChurchMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ChurchMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ChurchCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ChurchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Church to aggregate.
+     */
+    where?: ChurchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Churches to fetch.
+     */
+    orderBy?: ChurchOrderByWithRelationInput | ChurchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChurchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Churches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Churches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Churches
+    **/
+    _count?: true | ChurchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChurchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChurchMaxAggregateInputType
+  }
+
+  export type GetChurchAggregateType<T extends ChurchAggregateArgs> = {
+        [P in keyof T & keyof AggregateChurch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChurch[P]>
+      : GetScalarType<T[P], AggregateChurch[P]>
+  }
+
+
+
+
+  export type ChurchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChurchWhereInput
+    orderBy?: ChurchOrderByWithAggregationInput | ChurchOrderByWithAggregationInput[]
+    by: ChurchScalarFieldEnum[] | ChurchScalarFieldEnum
+    having?: ChurchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChurchCountAggregateInputType | true
+    _min?: ChurchMinAggregateInputType
+    _max?: ChurchMaxAggregateInputType
+  }
+
+  export type ChurchGroupByOutputType = {
+    id: string
+    name: string
+    slug: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ChurchCountAggregateOutputType | null
+    _min: ChurchMinAggregateOutputType | null
+    _max: ChurchMaxAggregateOutputType | null
+  }
+
+  type GetChurchGroupByPayload<T extends ChurchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChurchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChurchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChurchGroupByOutputType[P]>
+            : GetScalarType<T[P], ChurchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChurchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    members?: boolean | Church$membersArgs<ExtArgs>
+    events?: boolean | Church$eventsArgs<ExtArgs>
+    transactions?: boolean | Church$transactionsArgs<ExtArgs>
+    assets?: boolean | Church$assetsArgs<ExtArgs>
+    _count?: boolean | ChurchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["church"]>
+
+  export type ChurchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["church"]>
+
+  export type ChurchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["church"]>
+
+  export type ChurchSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ChurchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "createdAt" | "updatedAt", ExtArgs["result"]["church"]>
+  export type ChurchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | Church$membersArgs<ExtArgs>
+    events?: boolean | Church$eventsArgs<ExtArgs>
+    transactions?: boolean | Church$transactionsArgs<ExtArgs>
+    assets?: boolean | Church$assetsArgs<ExtArgs>
+    _count?: boolean | ChurchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ChurchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ChurchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ChurchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Church"
+    objects: {
+      members: Prisma.$MemberPayload<ExtArgs>[]
+      events: Prisma.$EventPayload<ExtArgs>[]
+      transactions: Prisma.$TransactionPayload<ExtArgs>[]
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      slug: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["church"]>
+    composites: {}
+  }
+
+  type ChurchGetPayload<S extends boolean | null | undefined | ChurchDefaultArgs> = $Result.GetResult<Prisma.$ChurchPayload, S>
+
+  type ChurchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChurchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChurchCountAggregateInputType | true
+    }
+
+  export interface ChurchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Church'], meta: { name: 'Church' } }
+    /**
+     * Find zero or one Church that matches the filter.
+     * @param {ChurchFindUniqueArgs} args - Arguments to find a Church
+     * @example
+     * // Get one Church
+     * const church = await prisma.church.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChurchFindUniqueArgs>(args: SelectSubset<T, ChurchFindUniqueArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Church that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChurchFindUniqueOrThrowArgs} args - Arguments to find a Church
+     * @example
+     * // Get one Church
+     * const church = await prisma.church.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChurchFindUniqueOrThrowArgs>(args: SelectSubset<T, ChurchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Church that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChurchFindFirstArgs} args - Arguments to find a Church
+     * @example
+     * // Get one Church
+     * const church = await prisma.church.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChurchFindFirstArgs>(args?: SelectSubset<T, ChurchFindFirstArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Church that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChurchFindFirstOrThrowArgs} args - Arguments to find a Church
+     * @example
+     * // Get one Church
+     * const church = await prisma.church.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChurchFindFirstOrThrowArgs>(args?: SelectSubset<T, ChurchFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Churches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChurchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Churches
+     * const churches = await prisma.church.findMany()
+     * 
+     * // Get first 10 Churches
+     * const churches = await prisma.church.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const churchWithIdOnly = await prisma.church.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChurchFindManyArgs>(args?: SelectSubset<T, ChurchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Church.
+     * @param {ChurchCreateArgs} args - Arguments to create a Church.
+     * @example
+     * // Create one Church
+     * const Church = await prisma.church.create({
+     *   data: {
+     *     // ... data to create a Church
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChurchCreateArgs>(args: SelectSubset<T, ChurchCreateArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Churches.
+     * @param {ChurchCreateManyArgs} args - Arguments to create many Churches.
+     * @example
+     * // Create many Churches
+     * const church = await prisma.church.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChurchCreateManyArgs>(args?: SelectSubset<T, ChurchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Churches and returns the data saved in the database.
+     * @param {ChurchCreateManyAndReturnArgs} args - Arguments to create many Churches.
+     * @example
+     * // Create many Churches
+     * const church = await prisma.church.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Churches and only return the `id`
+     * const churchWithIdOnly = await prisma.church.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChurchCreateManyAndReturnArgs>(args?: SelectSubset<T, ChurchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Church.
+     * @param {ChurchDeleteArgs} args - Arguments to delete one Church.
+     * @example
+     * // Delete one Church
+     * const Church = await prisma.church.delete({
+     *   where: {
+     *     // ... filter to delete one Church
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChurchDeleteArgs>(args: SelectSubset<T, ChurchDeleteArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Church.
+     * @param {ChurchUpdateArgs} args - Arguments to update one Church.
+     * @example
+     * // Update one Church
+     * const church = await prisma.church.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChurchUpdateArgs>(args: SelectSubset<T, ChurchUpdateArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Churches.
+     * @param {ChurchDeleteManyArgs} args - Arguments to filter Churches to delete.
+     * @example
+     * // Delete a few Churches
+     * const { count } = await prisma.church.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChurchDeleteManyArgs>(args?: SelectSubset<T, ChurchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Churches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChurchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Churches
+     * const church = await prisma.church.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChurchUpdateManyArgs>(args: SelectSubset<T, ChurchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Churches and returns the data updated in the database.
+     * @param {ChurchUpdateManyAndReturnArgs} args - Arguments to update many Churches.
+     * @example
+     * // Update many Churches
+     * const church = await prisma.church.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Churches and only return the `id`
+     * const churchWithIdOnly = await prisma.church.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChurchUpdateManyAndReturnArgs>(args: SelectSubset<T, ChurchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Church.
+     * @param {ChurchUpsertArgs} args - Arguments to update or create a Church.
+     * @example
+     * // Update or create a Church
+     * const church = await prisma.church.upsert({
+     *   create: {
+     *     // ... data to create a Church
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Church we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChurchUpsertArgs>(args: SelectSubset<T, ChurchUpsertArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Churches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChurchCountArgs} args - Arguments to filter Churches to count.
+     * @example
+     * // Count the number of Churches
+     * const count = await prisma.church.count({
+     *   where: {
+     *     // ... the filter for the Churches we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChurchCountArgs>(
+      args?: Subset<T, ChurchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChurchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Church.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChurchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChurchAggregateArgs>(args: Subset<T, ChurchAggregateArgs>): Prisma.PrismaPromise<GetChurchAggregateType<T>>
+
+    /**
+     * Group by Church.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChurchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChurchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChurchGroupByArgs['orderBy'] }
+        : { orderBy?: ChurchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChurchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChurchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Church model
+   */
+  readonly fields: ChurchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Church.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChurchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    members<T extends Church$membersArgs<ExtArgs> = {}>(args?: Subset<T, Church$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    events<T extends Church$eventsArgs<ExtArgs> = {}>(args?: Subset<T, Church$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transactions<T extends Church$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Church$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assets<T extends Church$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Church$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Church model
+   */
+  interface ChurchFieldRefs {
+    readonly id: FieldRef<"Church", 'String'>
+    readonly name: FieldRef<"Church", 'String'>
+    readonly slug: FieldRef<"Church", 'String'>
+    readonly createdAt: FieldRef<"Church", 'DateTime'>
+    readonly updatedAt: FieldRef<"Church", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Church findUnique
+   */
+  export type ChurchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * Filter, which Church to fetch.
+     */
+    where: ChurchWhereUniqueInput
+  }
+
+  /**
+   * Church findUniqueOrThrow
+   */
+  export type ChurchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * Filter, which Church to fetch.
+     */
+    where: ChurchWhereUniqueInput
+  }
+
+  /**
+   * Church findFirst
+   */
+  export type ChurchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * Filter, which Church to fetch.
+     */
+    where?: ChurchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Churches to fetch.
+     */
+    orderBy?: ChurchOrderByWithRelationInput | ChurchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Churches.
+     */
+    cursor?: ChurchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Churches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Churches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Churches.
+     */
+    distinct?: ChurchScalarFieldEnum | ChurchScalarFieldEnum[]
+  }
+
+  /**
+   * Church findFirstOrThrow
+   */
+  export type ChurchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * Filter, which Church to fetch.
+     */
+    where?: ChurchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Churches to fetch.
+     */
+    orderBy?: ChurchOrderByWithRelationInput | ChurchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Churches.
+     */
+    cursor?: ChurchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Churches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Churches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Churches.
+     */
+    distinct?: ChurchScalarFieldEnum | ChurchScalarFieldEnum[]
+  }
+
+  /**
+   * Church findMany
+   */
+  export type ChurchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * Filter, which Churches to fetch.
+     */
+    where?: ChurchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Churches to fetch.
+     */
+    orderBy?: ChurchOrderByWithRelationInput | ChurchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Churches.
+     */
+    cursor?: ChurchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Churches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Churches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Churches.
+     */
+    distinct?: ChurchScalarFieldEnum | ChurchScalarFieldEnum[]
+  }
+
+  /**
+   * Church create
+   */
+  export type ChurchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Church.
+     */
+    data: XOR<ChurchCreateInput, ChurchUncheckedCreateInput>
+  }
+
+  /**
+   * Church createMany
+   */
+  export type ChurchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Churches.
+     */
+    data: ChurchCreateManyInput | ChurchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Church createManyAndReturn
+   */
+  export type ChurchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * The data used to create many Churches.
+     */
+    data: ChurchCreateManyInput | ChurchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Church update
+   */
+  export type ChurchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Church.
+     */
+    data: XOR<ChurchUpdateInput, ChurchUncheckedUpdateInput>
+    /**
+     * Choose, which Church to update.
+     */
+    where: ChurchWhereUniqueInput
+  }
+
+  /**
+   * Church updateMany
+   */
+  export type ChurchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Churches.
+     */
+    data: XOR<ChurchUpdateManyMutationInput, ChurchUncheckedUpdateManyInput>
+    /**
+     * Filter which Churches to update
+     */
+    where?: ChurchWhereInput
+    /**
+     * Limit how many Churches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Church updateManyAndReturn
+   */
+  export type ChurchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * The data used to update Churches.
+     */
+    data: XOR<ChurchUpdateManyMutationInput, ChurchUncheckedUpdateManyInput>
+    /**
+     * Filter which Churches to update
+     */
+    where?: ChurchWhereInput
+    /**
+     * Limit how many Churches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Church upsert
+   */
+  export type ChurchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Church to update in case it exists.
+     */
+    where: ChurchWhereUniqueInput
+    /**
+     * In case the Church found by the `where` argument doesn't exist, create a new Church with this data.
+     */
+    create: XOR<ChurchCreateInput, ChurchUncheckedCreateInput>
+    /**
+     * In case the Church was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChurchUpdateInput, ChurchUncheckedUpdateInput>
+  }
+
+  /**
+   * Church delete
+   */
+  export type ChurchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    /**
+     * Filter which Church to delete.
+     */
+    where: ChurchWhereUniqueInput
+  }
+
+  /**
+   * Church deleteMany
+   */
+  export type ChurchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Churches to delete
+     */
+    where?: ChurchWhereInput
+    /**
+     * Limit how many Churches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Church.members
+   */
+  export type Church$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Member
+     */
+    select?: MemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Member
+     */
+    omit?: MemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MemberInclude<ExtArgs> | null
+    where?: MemberWhereInput
+    orderBy?: MemberOrderByWithRelationInput | MemberOrderByWithRelationInput[]
+    cursor?: MemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MemberScalarFieldEnum | MemberScalarFieldEnum[]
+  }
+
+  /**
+   * Church.events
+   */
+  export type Church$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    where?: EventWhereInput
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    cursor?: EventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Church.transactions
+   */
+  export type Church$transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: TransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    where?: TransactionWhereInput
+    orderBy?: TransactionOrderByWithRelationInput | TransactionOrderByWithRelationInput[]
+    cursor?: TransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
+   * Church.assets
+   */
+  export type Church$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Asset
+     */
+    omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Church without action
+   */
+  export type ChurchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Member
    */
 
@@ -1451,6 +2759,7 @@ export namespace Prisma {
     phone: string | null
     photoUrl: string | null
     birthDate: Date | null
+    churchId: string | null
     role: $Enums.Role | null
     isSuperAdmin: boolean | null
     isActive: boolean | null
@@ -1467,6 +2776,7 @@ export namespace Prisma {
     phone: string | null
     photoUrl: string | null
     birthDate: Date | null
+    churchId: string | null
     role: $Enums.Role | null
     isSuperAdmin: boolean | null
     isActive: boolean | null
@@ -1483,6 +2793,7 @@ export namespace Prisma {
     phone: number
     photoUrl: number
     birthDate: number
+    churchId: number
     role: number
     isSuperAdmin: number
     isActive: number
@@ -1501,6 +2812,7 @@ export namespace Prisma {
     phone?: true
     photoUrl?: true
     birthDate?: true
+    churchId?: true
     role?: true
     isSuperAdmin?: true
     isActive?: true
@@ -1517,6 +2829,7 @@ export namespace Prisma {
     phone?: true
     photoUrl?: true
     birthDate?: true
+    churchId?: true
     role?: true
     isSuperAdmin?: true
     isActive?: true
@@ -1533,6 +2846,7 @@ export namespace Prisma {
     phone?: true
     photoUrl?: true
     birthDate?: true
+    churchId?: true
     role?: true
     isSuperAdmin?: true
     isActive?: true
@@ -1622,6 +2936,7 @@ export namespace Prisma {
     phone: string | null
     photoUrl: string | null
     birthDate: Date | null
+    churchId: string | null
     role: $Enums.Role
     isSuperAdmin: boolean
     isActive: boolean
@@ -1655,11 +2970,13 @@ export namespace Prisma {
     phone?: boolean
     photoUrl?: boolean
     birthDate?: boolean
+    churchId?: boolean
     role?: boolean
     isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    church?: boolean | Member$churchArgs<ExtArgs>
     transactions?: boolean | Member$transactionsArgs<ExtArgs>
     createdEvents?: boolean | Member$createdEventsArgs<ExtArgs>
     pushTokens?: boolean | Member$pushTokensArgs<ExtArgs>
@@ -1675,11 +2992,13 @@ export namespace Prisma {
     phone?: boolean
     photoUrl?: boolean
     birthDate?: boolean
+    churchId?: boolean
     role?: boolean
     isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    church?: boolean | Member$churchArgs<ExtArgs>
   }, ExtArgs["result"]["member"]>
 
   export type MemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1691,11 +3010,13 @@ export namespace Prisma {
     phone?: boolean
     photoUrl?: boolean
     birthDate?: boolean
+    churchId?: boolean
     role?: boolean
     isSuperAdmin?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    church?: boolean | Member$churchArgs<ExtArgs>
   }, ExtArgs["result"]["member"]>
 
   export type MemberSelectScalar = {
@@ -1707,6 +3028,7 @@ export namespace Prisma {
     phone?: boolean
     photoUrl?: boolean
     birthDate?: boolean
+    churchId?: boolean
     role?: boolean
     isSuperAdmin?: boolean
     isActive?: boolean
@@ -1714,19 +3036,25 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type MemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "mustChangePassword" | "phone" | "photoUrl" | "birthDate" | "role" | "isSuperAdmin" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["member"]>
+  export type MemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "mustChangePassword" | "phone" | "photoUrl" | "birthDate" | "churchId" | "role" | "isSuperAdmin" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["member"]>
   export type MemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Member$churchArgs<ExtArgs>
     transactions?: boolean | Member$transactionsArgs<ExtArgs>
     createdEvents?: boolean | Member$createdEventsArgs<ExtArgs>
     pushTokens?: boolean | Member$pushTokensArgs<ExtArgs>
     _count?: boolean | MemberCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type MemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type MemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type MemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Member$churchArgs<ExtArgs>
+  }
+  export type MemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Member$churchArgs<ExtArgs>
+  }
 
   export type $MemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Member"
     objects: {
+      church: Prisma.$ChurchPayload<ExtArgs> | null
       transactions: Prisma.$TransactionPayload<ExtArgs>[]
       createdEvents: Prisma.$EventPayload<ExtArgs>[]
       pushTokens: Prisma.$PushTokenPayload<ExtArgs>[]
@@ -1740,6 +3068,7 @@ export namespace Prisma {
       phone: string | null
       photoUrl: string | null
       birthDate: Date | null
+      churchId: string | null
       role: $Enums.Role
       isSuperAdmin: boolean
       isActive: boolean
@@ -2139,6 +3468,7 @@ export namespace Prisma {
    */
   export interface Prisma__MemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    church<T extends Member$churchArgs<ExtArgs> = {}>(args?: Subset<T, Member$churchArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     transactions<T extends Member$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Member$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdEvents<T extends Member$createdEventsArgs<ExtArgs> = {}>(args?: Subset<T, Member$createdEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pushTokens<T extends Member$pushTokensArgs<ExtArgs> = {}>(args?: Subset<T, Member$pushTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2179,6 +3509,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"Member", 'String'>
     readonly photoUrl: FieldRef<"Member", 'String'>
     readonly birthDate: FieldRef<"Member", 'DateTime'>
+    readonly churchId: FieldRef<"Member", 'String'>
     readonly role: FieldRef<"Member", 'Role'>
     readonly isSuperAdmin: FieldRef<"Member", 'Boolean'>
     readonly isActive: FieldRef<"Member", 'Boolean'>
@@ -2438,6 +3769,10 @@ export namespace Prisma {
      */
     data: MemberCreateManyInput | MemberCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MemberIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2508,6 +3843,10 @@ export namespace Prisma {
      * Limit how many Members to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MemberIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2574,6 +3913,25 @@ export namespace Prisma {
      * Limit how many Members to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Member.church
+   */
+  export type Member$churchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    where?: ChurchWhereInput
   }
 
   /**
@@ -3762,6 +5120,7 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     isPublic: boolean | null
+    churchId: string | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3776,6 +5135,7 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     isPublic: boolean | null
+    churchId: string | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3790,6 +5150,7 @@ export namespace Prisma {
     startDate: number
     endDate: number
     isPublic: number
+    churchId: number
     createdById: number
     createdAt: number
     updatedAt: number
@@ -3806,6 +5167,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isPublic?: true
+    churchId?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -3820,6 +5182,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isPublic?: true
+    churchId?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -3834,6 +5197,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isPublic?: true
+    churchId?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -3921,6 +5285,7 @@ export namespace Prisma {
     startDate: Date
     endDate: Date
     isPublic: boolean
+    churchId: string | null
     createdById: string | null
     createdAt: Date
     updatedAt: Date
@@ -3952,9 +5317,11 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isPublic?: boolean
+    churchId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    church?: boolean | Event$churchArgs<ExtArgs>
     createdBy?: boolean | Event$createdByArgs<ExtArgs>
   }, ExtArgs["result"]["event"]>
 
@@ -3967,9 +5334,11 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isPublic?: boolean
+    churchId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    church?: boolean | Event$churchArgs<ExtArgs>
     createdBy?: boolean | Event$createdByArgs<ExtArgs>
   }, ExtArgs["result"]["event"]>
 
@@ -3982,9 +5351,11 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isPublic?: boolean
+    churchId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    church?: boolean | Event$churchArgs<ExtArgs>
     createdBy?: boolean | Event$createdByArgs<ExtArgs>
   }, ExtArgs["result"]["event"]>
 
@@ -3997,25 +5368,30 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isPublic?: boolean
+    churchId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "location" | "coverImageUrl" | "startDate" | "endDate" | "isPublic" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "location" | "coverImageUrl" | "startDate" | "endDate" | "isPublic" | "churchId" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Event$churchArgs<ExtArgs>
     createdBy?: boolean | Event$createdByArgs<ExtArgs>
   }
   export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Event$churchArgs<ExtArgs>
     createdBy?: boolean | Event$createdByArgs<ExtArgs>
   }
   export type EventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Event$churchArgs<ExtArgs>
     createdBy?: boolean | Event$createdByArgs<ExtArgs>
   }
 
   export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Event"
     objects: {
+      church: Prisma.$ChurchPayload<ExtArgs> | null
       createdBy: Prisma.$MemberPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4027,6 +5403,7 @@ export namespace Prisma {
       startDate: Date
       endDate: Date
       isPublic: boolean
+      churchId: string | null
       createdById: string | null
       createdAt: Date
       updatedAt: Date
@@ -4424,6 +5801,7 @@ export namespace Prisma {
    */
   export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    church<T extends Event$churchArgs<ExtArgs> = {}>(args?: Subset<T, Event$churchArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdBy<T extends Event$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Event$createdByArgs<ExtArgs>>): Prisma__MemberClient<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4462,6 +5840,7 @@ export namespace Prisma {
     readonly startDate: FieldRef<"Event", 'DateTime'>
     readonly endDate: FieldRef<"Event", 'DateTime'>
     readonly isPublic: FieldRef<"Event", 'Boolean'>
+    readonly churchId: FieldRef<"Event", 'String'>
     readonly createdById: FieldRef<"Event", 'String'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
     readonly updatedAt: FieldRef<"Event", 'DateTime'>
@@ -4866,6 +6245,25 @@ export namespace Prisma {
   }
 
   /**
+   * Event.church
+   */
+  export type Event$churchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    where?: ChurchWhereInput
+  }
+
+  /**
    * Event.createdBy
    */
   export type Event$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4933,6 +6331,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     memberId: string | null
+    churchId: string | null
   }
 
   export type TransactionMaxAggregateOutputType = {
@@ -4945,6 +6344,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     memberId: string | null
+    churchId: string | null
   }
 
   export type TransactionCountAggregateOutputType = {
@@ -4957,6 +6357,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     memberId: number
+    churchId: number
     _all: number
   }
 
@@ -4979,6 +6380,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     memberId?: true
+    churchId?: true
   }
 
   export type TransactionMaxAggregateInputType = {
@@ -4991,6 +6393,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     memberId?: true
+    churchId?: true
   }
 
   export type TransactionCountAggregateInputType = {
@@ -5003,6 +6406,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     memberId?: true
+    churchId?: true
     _all?: true
   }
 
@@ -5102,6 +6506,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     memberId: string | null
+    churchId: string | null
     _count: TransactionCountAggregateOutputType | null
     _avg: TransactionAvgAggregateOutputType | null
     _sum: TransactionSumAggregateOutputType | null
@@ -5133,7 +6538,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     memberId?: boolean
+    churchId?: boolean
     member?: boolean | Transaction$memberArgs<ExtArgs>
+    church?: boolean | Transaction$churchArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5146,7 +6553,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     memberId?: boolean
+    churchId?: boolean
     member?: boolean | Transaction$memberArgs<ExtArgs>
+    church?: boolean | Transaction$churchArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5159,7 +6568,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     memberId?: boolean
+    churchId?: boolean
     member?: boolean | Transaction$memberArgs<ExtArgs>
+    church?: boolean | Transaction$churchArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectScalar = {
@@ -5172,23 +6583,28 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     memberId?: boolean
+    churchId?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "category" | "value" | "date" | "description" | "createdAt" | "updatedAt" | "memberId", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "category" | "value" | "date" | "description" | "createdAt" | "updatedAt" | "memberId" | "churchId", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     member?: boolean | Transaction$memberArgs<ExtArgs>
+    church?: boolean | Transaction$churchArgs<ExtArgs>
   }
   export type TransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     member?: boolean | Transaction$memberArgs<ExtArgs>
+    church?: boolean | Transaction$churchArgs<ExtArgs>
   }
   export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     member?: boolean | Transaction$memberArgs<ExtArgs>
+    church?: boolean | Transaction$churchArgs<ExtArgs>
   }
 
   export type $TransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Transaction"
     objects: {
       member: Prisma.$MemberPayload<ExtArgs> | null
+      church: Prisma.$ChurchPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5200,6 +6616,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       memberId: string | null
+      churchId: string | null
     }, ExtArgs["result"]["transaction"]>
     composites: {}
   }
@@ -5595,6 +7012,7 @@ export namespace Prisma {
   export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     member<T extends Transaction$memberArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$memberArgs<ExtArgs>>): Prisma__MemberClient<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    church<T extends Transaction$churchArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$churchArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5633,6 +7051,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
     readonly memberId: FieldRef<"Transaction", 'String'>
+    readonly churchId: FieldRef<"Transaction", 'String'>
   }
     
 
@@ -6053,6 +7472,25 @@ export namespace Prisma {
   }
 
   /**
+   * Transaction.church
+   */
+  export type Transaction$churchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    where?: ChurchWhereInput
+  }
+
+  /**
    * Transaction without action
    */
   export type TransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6103,6 +7541,7 @@ export namespace Prisma {
     status: $Enums.AssetStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    churchId: string | null
   }
 
   export type AssetMaxAggregateOutputType = {
@@ -6117,6 +7556,7 @@ export namespace Prisma {
     status: $Enums.AssetStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    churchId: string | null
   }
 
   export type AssetCountAggregateOutputType = {
@@ -6131,6 +7571,7 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    churchId: number
     _all: number
   }
 
@@ -6155,6 +7596,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    churchId?: true
   }
 
   export type AssetMaxAggregateInputType = {
@@ -6169,6 +7611,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    churchId?: true
   }
 
   export type AssetCountAggregateInputType = {
@@ -6183,6 +7626,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    churchId?: true
     _all?: true
   }
 
@@ -6284,6 +7728,7 @@ export namespace Prisma {
     status: $Enums.AssetStatus
     createdAt: Date
     updatedAt: Date
+    churchId: string | null
     _count: AssetCountAggregateOutputType | null
     _avg: AssetAvgAggregateOutputType | null
     _sum: AssetSumAggregateOutputType | null
@@ -6317,6 +7762,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    churchId?: boolean
+    church?: boolean | Asset$churchArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
 
   export type AssetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6331,6 +7778,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    churchId?: boolean
+    church?: boolean | Asset$churchArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
 
   export type AssetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6345,6 +7794,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    churchId?: boolean
+    church?: boolean | Asset$churchArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
 
   export type AssetSelectScalar = {
@@ -6359,13 +7810,25 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    churchId?: boolean
   }
 
-  export type AssetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "imageUrl" | "description" | "category" | "value" | "acquisitionDate" | "location" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["asset"]>
+  export type AssetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "imageUrl" | "description" | "category" | "value" | "acquisitionDate" | "location" | "status" | "createdAt" | "updatedAt" | "churchId", ExtArgs["result"]["asset"]>
+  export type AssetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Asset$churchArgs<ExtArgs>
+  }
+  export type AssetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Asset$churchArgs<ExtArgs>
+  }
+  export type AssetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    church?: boolean | Asset$churchArgs<ExtArgs>
+  }
 
   export type $AssetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Asset"
-    objects: {}
+    objects: {
+      church: Prisma.$ChurchPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
@@ -6378,6 +7841,7 @@ export namespace Prisma {
       status: $Enums.AssetStatus
       createdAt: Date
       updatedAt: Date
+      churchId: string | null
     }, ExtArgs["result"]["asset"]>
     composites: {}
   }
@@ -6772,6 +8236,7 @@ export namespace Prisma {
    */
   export interface Prisma__AssetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    church<T extends Asset$churchArgs<ExtArgs> = {}>(args?: Subset<T, Asset$churchArgs<ExtArgs>>): Prisma__ChurchClient<$Result.GetResult<Prisma.$ChurchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6812,6 +8277,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Asset", 'AssetStatus'>
     readonly createdAt: FieldRef<"Asset", 'DateTime'>
     readonly updatedAt: FieldRef<"Asset", 'DateTime'>
+    readonly churchId: FieldRef<"Asset", 'String'>
   }
     
 
@@ -6828,6 +8294,10 @@ export namespace Prisma {
      * Omit specific fields from the Asset
      */
     omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
     /**
      * Filter, which Asset to fetch.
      */
@@ -6847,6 +8317,10 @@ export namespace Prisma {
      */
     omit?: AssetOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
      * Filter, which Asset to fetch.
      */
     where: AssetWhereUniqueInput
@@ -6864,6 +8338,10 @@ export namespace Prisma {
      * Omit specific fields from the Asset
      */
     omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
     /**
      * Filter, which Asset to fetch.
      */
@@ -6913,6 +8391,10 @@ export namespace Prisma {
      */
     omit?: AssetOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
      * Filter, which Asset to fetch.
      */
     where?: AssetWhereInput
@@ -6960,6 +8442,10 @@ export namespace Prisma {
      * Omit specific fields from the Asset
      */
     omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
     /**
      * Filter, which Assets to fetch.
      */
@@ -7009,6 +8495,10 @@ export namespace Prisma {
      */
     omit?: AssetOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
      * The data needed to create a Asset.
      */
     data: XOR<AssetCreateInput, AssetUncheckedCreateInput>
@@ -7042,6 +8532,10 @@ export namespace Prisma {
      */
     data: AssetCreateManyInput | AssetCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7056,6 +8550,10 @@ export namespace Prisma {
      * Omit specific fields from the Asset
      */
     omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
     /**
      * The data needed to update a Asset.
      */
@@ -7108,6 +8606,10 @@ export namespace Prisma {
      * Limit how many Assets to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7122,6 +8624,10 @@ export namespace Prisma {
      * Omit specific fields from the Asset
      */
     omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
     /**
      * The filter to search for the Asset to update in case it exists.
      */
@@ -7149,6 +8655,10 @@ export namespace Prisma {
      */
     omit?: AssetOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
      * Filter which Asset to delete.
      */
     where: AssetWhereUniqueInput
@@ -7169,6 +8679,25 @@ export namespace Prisma {
   }
 
   /**
+   * Asset.church
+   */
+  export type Asset$churchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Church
+     */
+    select?: ChurchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Church
+     */
+    omit?: ChurchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChurchInclude<ExtArgs> | null
+    where?: ChurchWhereInput
+  }
+
+  /**
    * Asset without action
    */
   export type AssetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7180,6 +8709,10 @@ export namespace Prisma {
      * Omit specific fields from the Asset
      */
     omit?: AssetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
   }
 
 
@@ -8184,6 +9717,17 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const ChurchScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ChurchScalarFieldEnum = (typeof ChurchScalarFieldEnum)[keyof typeof ChurchScalarFieldEnum]
+
+
   export const MemberScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -8193,6 +9737,7 @@ export namespace Prisma {
     phone: 'phone',
     photoUrl: 'photoUrl',
     birthDate: 'birthDate',
+    churchId: 'churchId',
     role: 'role',
     isSuperAdmin: 'isSuperAdmin',
     isActive: 'isActive',
@@ -8224,6 +9769,7 @@ export namespace Prisma {
     startDate: 'startDate',
     endDate: 'endDate',
     isPublic: 'isPublic',
+    churchId: 'churchId',
     createdById: 'createdById',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -8241,7 +9787,8 @@ export namespace Prisma {
     description: 'description',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    memberId: 'memberId'
+    memberId: 'memberId',
+    churchId: 'churchId'
   };
 
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
@@ -8258,7 +9805,8 @@ export namespace Prisma {
     location: 'location',
     status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    churchId: 'churchId'
   };
 
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
@@ -8318,13 +9866,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -8335,6 +9876,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -8439,6 +9987,70 @@ export namespace Prisma {
    */
 
 
+  export type ChurchWhereInput = {
+    AND?: ChurchWhereInput | ChurchWhereInput[]
+    OR?: ChurchWhereInput[]
+    NOT?: ChurchWhereInput | ChurchWhereInput[]
+    id?: StringFilter<"Church"> | string
+    name?: StringFilter<"Church"> | string
+    slug?: StringFilter<"Church"> | string
+    createdAt?: DateTimeFilter<"Church"> | Date | string
+    updatedAt?: DateTimeFilter<"Church"> | Date | string
+    members?: MemberListRelationFilter
+    events?: EventListRelationFilter
+    transactions?: TransactionListRelationFilter
+    assets?: AssetListRelationFilter
+  }
+
+  export type ChurchOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    members?: MemberOrderByRelationAggregateInput
+    events?: EventOrderByRelationAggregateInput
+    transactions?: TransactionOrderByRelationAggregateInput
+    assets?: AssetOrderByRelationAggregateInput
+  }
+
+  export type ChurchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: ChurchWhereInput | ChurchWhereInput[]
+    OR?: ChurchWhereInput[]
+    NOT?: ChurchWhereInput | ChurchWhereInput[]
+    name?: StringFilter<"Church"> | string
+    createdAt?: DateTimeFilter<"Church"> | Date | string
+    updatedAt?: DateTimeFilter<"Church"> | Date | string
+    members?: MemberListRelationFilter
+    events?: EventListRelationFilter
+    transactions?: TransactionListRelationFilter
+    assets?: AssetListRelationFilter
+  }, "id" | "slug">
+
+  export type ChurchOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ChurchCountOrderByAggregateInput
+    _max?: ChurchMaxOrderByAggregateInput
+    _min?: ChurchMinOrderByAggregateInput
+  }
+
+  export type ChurchScalarWhereWithAggregatesInput = {
+    AND?: ChurchScalarWhereWithAggregatesInput | ChurchScalarWhereWithAggregatesInput[]
+    OR?: ChurchScalarWhereWithAggregatesInput[]
+    NOT?: ChurchScalarWhereWithAggregatesInput | ChurchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Church"> | string
+    name?: StringWithAggregatesFilter<"Church"> | string
+    slug?: StringWithAggregatesFilter<"Church"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Church"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Church"> | Date | string
+  }
+
   export type MemberWhereInput = {
     AND?: MemberWhereInput | MemberWhereInput[]
     OR?: MemberWhereInput[]
@@ -8451,11 +10063,13 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Member"> | string | null
     photoUrl?: StringNullableFilter<"Member"> | string | null
     birthDate?: DateTimeNullableFilter<"Member"> | Date | string | null
+    churchId?: StringNullableFilter<"Member"> | string | null
     role?: EnumRoleFilter<"Member"> | $Enums.Role
     isSuperAdmin?: BoolFilter<"Member"> | boolean
     isActive?: BoolFilter<"Member"> | boolean
     createdAt?: DateTimeFilter<"Member"> | Date | string
     updatedAt?: DateTimeFilter<"Member"> | Date | string
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
     transactions?: TransactionListRelationFilter
     createdEvents?: EventListRelationFilter
     pushTokens?: PushTokenListRelationFilter
@@ -8470,11 +10084,13 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     photoUrl?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
+    churchId?: SortOrderInput | SortOrder
     role?: SortOrder
     isSuperAdmin?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    church?: ChurchOrderByWithRelationInput
     transactions?: TransactionOrderByRelationAggregateInput
     createdEvents?: EventOrderByRelationAggregateInput
     pushTokens?: PushTokenOrderByRelationAggregateInput
@@ -8492,11 +10108,13 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Member"> | string | null
     photoUrl?: StringNullableFilter<"Member"> | string | null
     birthDate?: DateTimeNullableFilter<"Member"> | Date | string | null
+    churchId?: StringNullableFilter<"Member"> | string | null
     role?: EnumRoleFilter<"Member"> | $Enums.Role
     isSuperAdmin?: BoolFilter<"Member"> | boolean
     isActive?: BoolFilter<"Member"> | boolean
     createdAt?: DateTimeFilter<"Member"> | Date | string
     updatedAt?: DateTimeFilter<"Member"> | Date | string
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
     transactions?: TransactionListRelationFilter
     createdEvents?: EventListRelationFilter
     pushTokens?: PushTokenListRelationFilter
@@ -8511,6 +10129,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     photoUrl?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
+    churchId?: SortOrderInput | SortOrder
     role?: SortOrder
     isSuperAdmin?: SortOrder
     isActive?: SortOrder
@@ -8533,6 +10152,7 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"Member"> | string | null
     photoUrl?: StringNullableWithAggregatesFilter<"Member"> | string | null
     birthDate?: DateTimeNullableWithAggregatesFilter<"Member"> | Date | string | null
+    churchId?: StringNullableWithAggregatesFilter<"Member"> | string | null
     role?: EnumRoleWithAggregatesFilter<"Member"> | $Enums.Role
     isSuperAdmin?: BoolWithAggregatesFilter<"Member"> | boolean
     isActive?: BoolWithAggregatesFilter<"Member"> | boolean
@@ -8612,9 +10232,11 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Event"> | Date | string
     endDate?: DateTimeFilter<"Event"> | Date | string
     isPublic?: BoolFilter<"Event"> | boolean
+    churchId?: StringNullableFilter<"Event"> | string | null
     createdById?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
     createdBy?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
   }
 
@@ -8627,9 +10249,11 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isPublic?: SortOrder
+    churchId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    church?: ChurchOrderByWithRelationInput
     createdBy?: MemberOrderByWithRelationInput
   }
 
@@ -8645,9 +10269,11 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Event"> | Date | string
     endDate?: DateTimeFilter<"Event"> | Date | string
     isPublic?: BoolFilter<"Event"> | boolean
+    churchId?: StringNullableFilter<"Event"> | string | null
     createdById?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
     createdBy?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
   }, "id">
 
@@ -8660,6 +10286,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isPublic?: SortOrder
+    churchId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8680,6 +10307,7 @@ export namespace Prisma {
     startDate?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     isPublic?: BoolWithAggregatesFilter<"Event"> | boolean
+    churchId?: StringNullableWithAggregatesFilter<"Event"> | string | null
     createdById?: StringNullableWithAggregatesFilter<"Event"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
@@ -8698,7 +10326,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     memberId?: StringNullableFilter<"Transaction"> | string | null
+    churchId?: StringNullableFilter<"Transaction"> | string | null
     member?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
   }
 
   export type TransactionOrderByWithRelationInput = {
@@ -8711,7 +10341,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     memberId?: SortOrderInput | SortOrder
+    churchId?: SortOrderInput | SortOrder
     member?: MemberOrderByWithRelationInput
+    church?: ChurchOrderByWithRelationInput
   }
 
   export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -8727,7 +10359,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     memberId?: StringNullableFilter<"Transaction"> | string | null
+    churchId?: StringNullableFilter<"Transaction"> | string | null
     member?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
   }, "id">
 
   export type TransactionOrderByWithAggregationInput = {
@@ -8740,6 +10374,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     memberId?: SortOrderInput | SortOrder
+    churchId?: SortOrderInput | SortOrder
     _count?: TransactionCountOrderByAggregateInput
     _avg?: TransactionAvgOrderByAggregateInput
     _max?: TransactionMaxOrderByAggregateInput
@@ -8760,6 +10395,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     memberId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    churchId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
   }
 
   export type AssetWhereInput = {
@@ -8777,6 +10413,8 @@ export namespace Prisma {
     status?: EnumAssetStatusFilter<"Asset"> | $Enums.AssetStatus
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    churchId?: StringNullableFilter<"Asset"> | string | null
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
   }
 
   export type AssetOrderByWithRelationInput = {
@@ -8791,6 +10429,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    churchId?: SortOrderInput | SortOrder
+    church?: ChurchOrderByWithRelationInput
   }
 
   export type AssetWhereUniqueInput = Prisma.AtLeast<{
@@ -8808,6 +10448,8 @@ export namespace Prisma {
     status?: EnumAssetStatusFilter<"Asset"> | $Enums.AssetStatus
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    churchId?: StringNullableFilter<"Asset"> | string | null
+    church?: XOR<ChurchNullableScalarRelationFilter, ChurchWhereInput> | null
   }, "id">
 
   export type AssetOrderByWithAggregationInput = {
@@ -8822,6 +10464,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    churchId?: SortOrderInput | SortOrder
     _count?: AssetCountOrderByAggregateInput
     _avg?: AssetAvgOrderByAggregateInput
     _max?: AssetMaxOrderByAggregateInput
@@ -8844,6 +10487,7 @@ export namespace Prisma {
     status?: EnumAssetStatusWithAggregatesFilter<"Asset"> | $Enums.AssetStatus
     createdAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
+    churchId?: StringNullableWithAggregatesFilter<"Asset"> | string | null
   }
 
   export type StoredImageWhereInput = {
@@ -8893,6 +10537,78 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"StoredImage"> | Date | string
   }
 
+  export type ChurchCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberCreateNestedManyWithoutChurchInput
+    events?: EventCreateNestedManyWithoutChurchInput
+    transactions?: TransactionCreateNestedManyWithoutChurchInput
+    assets?: AssetCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchUncheckedCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutChurchInput
+    events?: EventUncheckedCreateNestedManyWithoutChurchInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutChurchInput
+    assets?: AssetUncheckedCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUpdateManyWithoutChurchNestedInput
+    events?: EventUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUpdateManyWithoutChurchNestedInput
+    assets?: AssetUpdateManyWithoutChurchNestedInput
+  }
+
+  export type ChurchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutChurchNestedInput
+    events?: EventUncheckedUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutChurchNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutChurchNestedInput
+  }
+
+  export type ChurchCreateManyInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ChurchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChurchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MemberCreateInput = {
     id?: string
     name: string
@@ -8907,6 +10623,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutMembersInput
     transactions?: TransactionCreateNestedManyWithoutMemberInput
     createdEvents?: EventCreateNestedManyWithoutCreatedByInput
     pushTokens?: PushTokenCreateNestedManyWithoutMemberInput
@@ -8921,6 +10638,7 @@ export namespace Prisma {
     phone?: string | null
     photoUrl?: string | null
     birthDate?: Date | string | null
+    churchId?: string | null
     role?: $Enums.Role
     isSuperAdmin?: boolean
     isActive?: boolean
@@ -8945,6 +10663,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutMembersNestedInput
     transactions?: TransactionUpdateManyWithoutMemberNestedInput
     createdEvents?: EventUpdateManyWithoutCreatedByNestedInput
     pushTokens?: PushTokenUpdateManyWithoutMemberNestedInput
@@ -8959,6 +10678,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -8978,6 +10698,7 @@ export namespace Prisma {
     phone?: string | null
     photoUrl?: string | null
     birthDate?: Date | string | null
+    churchId?: string | null
     role?: $Enums.Role
     isSuperAdmin?: boolean
     isActive?: boolean
@@ -9010,6 +10731,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -9090,6 +10812,7 @@ export namespace Prisma {
     isPublic?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutEventsInput
     createdBy?: MemberCreateNestedOneWithoutCreatedEventsInput
   }
 
@@ -9102,6 +10825,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isPublic?: boolean
+    churchId?: string | null
     createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9118,6 +10842,7 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutEventsNestedInput
     createdBy?: MemberUpdateOneWithoutCreatedEventsNestedInput
   }
 
@@ -9130,6 +10855,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9144,6 +10870,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isPublic?: boolean
+    churchId?: string | null
     createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9171,6 +10898,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9186,6 +10914,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     member?: MemberCreateNestedOneWithoutTransactionsInput
+    church?: ChurchCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateInput = {
@@ -9198,6 +10927,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberId?: string | null
+    churchId?: string | null
   }
 
   export type TransactionUpdateInput = {
@@ -9210,6 +10940,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     member?: MemberUpdateOneWithoutTransactionsNestedInput
+    church?: ChurchUpdateOneWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
@@ -9222,6 +10953,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberId?: NullableStringFieldUpdateOperationsInput | string | null
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionCreateManyInput = {
@@ -9234,6 +10966,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     memberId?: string | null
+    churchId?: string | null
   }
 
   export type TransactionUpdateManyMutationInput = {
@@ -9257,6 +10990,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberId?: NullableStringFieldUpdateOperationsInput | string | null
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssetCreateInput = {
@@ -9271,6 +11005,7 @@ export namespace Prisma {
     status?: $Enums.AssetStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateInput = {
@@ -9285,6 +11020,7 @@ export namespace Prisma {
     status?: $Enums.AssetStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    churchId?: string | null
   }
 
   export type AssetUpdateInput = {
@@ -9299,6 +11035,7 @@ export namespace Prisma {
     status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateInput = {
@@ -9313,6 +11050,7 @@ export namespace Prisma {
     status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssetCreateManyInput = {
@@ -9327,6 +11065,7 @@ export namespace Prisma {
     status?: $Enums.AssetStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    churchId?: string | null
   }
 
   export type AssetUpdateManyMutationInput = {
@@ -9355,6 +11094,7 @@ export namespace Prisma {
     status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StoredImageCreateInput = {
@@ -9421,6 +11161,113 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type MemberListRelationFilter = {
+    every?: MemberWhereInput
+    some?: MemberWhereInput
+    none?: MemberWhereInput
+  }
+
+  export type EventListRelationFilter = {
+    every?: EventWhereInput
+    some?: EventWhereInput
+    none?: EventWhereInput
+  }
+
+  export type TransactionListRelationFilter = {
+    every?: TransactionWhereInput
+    some?: TransactionWhereInput
+    none?: TransactionWhereInput
+  }
+
+  export type AssetListRelationFilter = {
+    every?: AssetWhereInput
+    some?: AssetWhereInput
+    none?: AssetWhereInput
+  }
+
+  export type MemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChurchCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ChurchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ChurchMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -9459,27 +11306,9 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type TransactionListRelationFilter = {
-    every?: TransactionWhereInput
-    some?: TransactionWhereInput
-    none?: TransactionWhereInput
-  }
-
-  export type EventListRelationFilter = {
-    every?: EventWhereInput
-    some?: EventWhereInput
-    none?: EventWhereInput
+  export type ChurchNullableScalarRelationFilter = {
+    is?: ChurchWhereInput | null
+    isNot?: ChurchWhereInput | null
   }
 
   export type PushTokenListRelationFilter = {
@@ -9491,14 +11320,6 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
-  }
-
-  export type TransactionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type EventOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type PushTokenOrderByRelationAggregateInput = {
@@ -9514,6 +11335,7 @@ export namespace Prisma {
     phone?: SortOrder
     photoUrl?: SortOrder
     birthDate?: SortOrder
+    churchId?: SortOrder
     role?: SortOrder
     isSuperAdmin?: SortOrder
     isActive?: SortOrder
@@ -9530,6 +11352,7 @@ export namespace Prisma {
     phone?: SortOrder
     photoUrl?: SortOrder
     birthDate?: SortOrder
+    churchId?: SortOrder
     role?: SortOrder
     isSuperAdmin?: SortOrder
     isActive?: SortOrder
@@ -9546,29 +11369,12 @@ export namespace Prisma {
     phone?: SortOrder
     photoUrl?: SortOrder
     birthDate?: SortOrder
+    churchId?: SortOrder
     role?: SortOrder
     isSuperAdmin?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -9621,20 +11427,6 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type MemberScalarRelationFilter = {
     is?: MemberWhereInput
     isNot?: MemberWhereInput
@@ -9681,6 +11473,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isPublic?: SortOrder
+    churchId?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9695,6 +11488,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isPublic?: SortOrder
+    churchId?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9709,6 +11503,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isPublic?: SortOrder
+    churchId?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9749,6 +11544,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     memberId?: SortOrder
+    churchId?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
@@ -9765,6 +11561,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     memberId?: SortOrder
+    churchId?: SortOrder
   }
 
   export type TransactionMinOrderByAggregateInput = {
@@ -9777,6 +11574,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     memberId?: SortOrder
+    churchId?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
@@ -9838,6 +11636,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    churchId?: SortOrder
   }
 
   export type AssetAvgOrderByAggregateInput = {
@@ -9856,6 +11655,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    churchId?: SortOrder
   }
 
   export type AssetMinOrderByAggregateInput = {
@@ -9870,6 +11670,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    churchId?: SortOrder
   }
 
   export type AssetSumOrderByAggregateInput = {
@@ -9924,6 +11725,188 @@ export namespace Prisma {
     _max?: NestedBytesFilter<$PrismaModel>
   }
 
+  export type MemberCreateNestedManyWithoutChurchInput = {
+    create?: XOR<MemberCreateWithoutChurchInput, MemberUncheckedCreateWithoutChurchInput> | MemberCreateWithoutChurchInput[] | MemberUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutChurchInput | MemberCreateOrConnectWithoutChurchInput[]
+    createMany?: MemberCreateManyChurchInputEnvelope
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+  }
+
+  export type EventCreateNestedManyWithoutChurchInput = {
+    create?: XOR<EventCreateWithoutChurchInput, EventUncheckedCreateWithoutChurchInput> | EventCreateWithoutChurchInput[] | EventUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutChurchInput | EventCreateOrConnectWithoutChurchInput[]
+    createMany?: EventCreateManyChurchInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type TransactionCreateNestedManyWithoutChurchInput = {
+    create?: XOR<TransactionCreateWithoutChurchInput, TransactionUncheckedCreateWithoutChurchInput> | TransactionCreateWithoutChurchInput[] | TransactionUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutChurchInput | TransactionCreateOrConnectWithoutChurchInput[]
+    createMany?: TransactionCreateManyChurchInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type AssetCreateNestedManyWithoutChurchInput = {
+    create?: XOR<AssetCreateWithoutChurchInput, AssetUncheckedCreateWithoutChurchInput> | AssetCreateWithoutChurchInput[] | AssetUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutChurchInput | AssetCreateOrConnectWithoutChurchInput[]
+    createMany?: AssetCreateManyChurchInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type MemberUncheckedCreateNestedManyWithoutChurchInput = {
+    create?: XOR<MemberCreateWithoutChurchInput, MemberUncheckedCreateWithoutChurchInput> | MemberCreateWithoutChurchInput[] | MemberUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutChurchInput | MemberCreateOrConnectWithoutChurchInput[]
+    createMany?: MemberCreateManyChurchInputEnvelope
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+  }
+
+  export type EventUncheckedCreateNestedManyWithoutChurchInput = {
+    create?: XOR<EventCreateWithoutChurchInput, EventUncheckedCreateWithoutChurchInput> | EventCreateWithoutChurchInput[] | EventUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutChurchInput | EventCreateOrConnectWithoutChurchInput[]
+    createMany?: EventCreateManyChurchInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type TransactionUncheckedCreateNestedManyWithoutChurchInput = {
+    create?: XOR<TransactionCreateWithoutChurchInput, TransactionUncheckedCreateWithoutChurchInput> | TransactionCreateWithoutChurchInput[] | TransactionUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutChurchInput | TransactionCreateOrConnectWithoutChurchInput[]
+    createMany?: TransactionCreateManyChurchInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutChurchInput = {
+    create?: XOR<AssetCreateWithoutChurchInput, AssetUncheckedCreateWithoutChurchInput> | AssetCreateWithoutChurchInput[] | AssetUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutChurchInput | AssetCreateOrConnectWithoutChurchInput[]
+    createMany?: AssetCreateManyChurchInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type MemberUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<MemberCreateWithoutChurchInput, MemberUncheckedCreateWithoutChurchInput> | MemberCreateWithoutChurchInput[] | MemberUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutChurchInput | MemberCreateOrConnectWithoutChurchInput[]
+    upsert?: MemberUpsertWithWhereUniqueWithoutChurchInput | MemberUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: MemberCreateManyChurchInputEnvelope
+    set?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    disconnect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    delete?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    update?: MemberUpdateWithWhereUniqueWithoutChurchInput | MemberUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: MemberUpdateManyWithWhereWithoutChurchInput | MemberUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
+  }
+
+  export type EventUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<EventCreateWithoutChurchInput, EventUncheckedCreateWithoutChurchInput> | EventCreateWithoutChurchInput[] | EventUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutChurchInput | EventCreateOrConnectWithoutChurchInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutChurchInput | EventUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: EventCreateManyChurchInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutChurchInput | EventUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutChurchInput | EventUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type TransactionUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<TransactionCreateWithoutChurchInput, TransactionUncheckedCreateWithoutChurchInput> | TransactionCreateWithoutChurchInput[] | TransactionUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutChurchInput | TransactionCreateOrConnectWithoutChurchInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutChurchInput | TransactionUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: TransactionCreateManyChurchInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutChurchInput | TransactionUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutChurchInput | TransactionUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type AssetUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<AssetCreateWithoutChurchInput, AssetUncheckedCreateWithoutChurchInput> | AssetCreateWithoutChurchInput[] | AssetUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutChurchInput | AssetCreateOrConnectWithoutChurchInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutChurchInput | AssetUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: AssetCreateManyChurchInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutChurchInput | AssetUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutChurchInput | AssetUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type MemberUncheckedUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<MemberCreateWithoutChurchInput, MemberUncheckedCreateWithoutChurchInput> | MemberCreateWithoutChurchInput[] | MemberUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutChurchInput | MemberCreateOrConnectWithoutChurchInput[]
+    upsert?: MemberUpsertWithWhereUniqueWithoutChurchInput | MemberUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: MemberCreateManyChurchInputEnvelope
+    set?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    disconnect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    delete?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    update?: MemberUpdateWithWhereUniqueWithoutChurchInput | MemberUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: MemberUpdateManyWithWhereWithoutChurchInput | MemberUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
+  }
+
+  export type EventUncheckedUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<EventCreateWithoutChurchInput, EventUncheckedCreateWithoutChurchInput> | EventCreateWithoutChurchInput[] | EventUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutChurchInput | EventCreateOrConnectWithoutChurchInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutChurchInput | EventUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: EventCreateManyChurchInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutChurchInput | EventUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutChurchInput | EventUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<TransactionCreateWithoutChurchInput, TransactionUncheckedCreateWithoutChurchInput> | TransactionCreateWithoutChurchInput[] | TransactionUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutChurchInput | TransactionCreateOrConnectWithoutChurchInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutChurchInput | TransactionUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: TransactionCreateManyChurchInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutChurchInput | TransactionUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutChurchInput | TransactionUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type AssetUncheckedUpdateManyWithoutChurchNestedInput = {
+    create?: XOR<AssetCreateWithoutChurchInput, AssetUncheckedCreateWithoutChurchInput> | AssetCreateWithoutChurchInput[] | AssetUncheckedCreateWithoutChurchInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutChurchInput | AssetCreateOrConnectWithoutChurchInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutChurchInput | AssetUpsertWithWhereUniqueWithoutChurchInput[]
+    createMany?: AssetCreateManyChurchInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutChurchInput | AssetUpdateWithWhereUniqueWithoutChurchInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutChurchInput | AssetUpdateManyWithWhereWithoutChurchInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type ChurchCreateNestedOneWithoutMembersInput = {
+    create?: XOR<ChurchCreateWithoutMembersInput, ChurchUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutMembersInput
+    connect?: ChurchWhereUniqueInput
+  }
+
   export type TransactionCreateNestedManyWithoutMemberInput = {
     create?: XOR<TransactionCreateWithoutMemberInput, TransactionUncheckedCreateWithoutMemberInput> | TransactionCreateWithoutMemberInput[] | TransactionUncheckedCreateWithoutMemberInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutMemberInput | TransactionCreateOrConnectWithoutMemberInput[]
@@ -9966,10 +11949,6 @@ export namespace Prisma {
     connect?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -9986,8 +11965,14 @@ export namespace Prisma {
     set?: $Enums.Role
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type ChurchUpdateOneWithoutMembersNestedInput = {
+    create?: XOR<ChurchCreateWithoutMembersInput, ChurchUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutMembersInput
+    upsert?: ChurchUpsertWithoutMembersInput
+    disconnect?: ChurchWhereInput | boolean
+    delete?: ChurchWhereInput | boolean
+    connect?: ChurchWhereUniqueInput
+    update?: XOR<XOR<ChurchUpdateToOneWithWhereWithoutMembersInput, ChurchUpdateWithoutMembersInput>, ChurchUncheckedUpdateWithoutMembersInput>
   }
 
   export type TransactionUpdateManyWithoutMemberNestedInput = {
@@ -10088,10 +12073,26 @@ export namespace Prisma {
     update?: XOR<XOR<MemberUpdateToOneWithWhereWithoutPushTokensInput, MemberUpdateWithoutPushTokensInput>, MemberUncheckedUpdateWithoutPushTokensInput>
   }
 
+  export type ChurchCreateNestedOneWithoutEventsInput = {
+    create?: XOR<ChurchCreateWithoutEventsInput, ChurchUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutEventsInput
+    connect?: ChurchWhereUniqueInput
+  }
+
   export type MemberCreateNestedOneWithoutCreatedEventsInput = {
     create?: XOR<MemberCreateWithoutCreatedEventsInput, MemberUncheckedCreateWithoutCreatedEventsInput>
     connectOrCreate?: MemberCreateOrConnectWithoutCreatedEventsInput
     connect?: MemberWhereUniqueInput
+  }
+
+  export type ChurchUpdateOneWithoutEventsNestedInput = {
+    create?: XOR<ChurchCreateWithoutEventsInput, ChurchUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutEventsInput
+    upsert?: ChurchUpsertWithoutEventsInput
+    disconnect?: ChurchWhereInput | boolean
+    delete?: ChurchWhereInput | boolean
+    connect?: ChurchWhereUniqueInput
+    update?: XOR<XOR<ChurchUpdateToOneWithWhereWithoutEventsInput, ChurchUpdateWithoutEventsInput>, ChurchUncheckedUpdateWithoutEventsInput>
   }
 
   export type MemberUpdateOneWithoutCreatedEventsNestedInput = {
@@ -10108,6 +12109,12 @@ export namespace Prisma {
     create?: XOR<MemberCreateWithoutTransactionsInput, MemberUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: MemberCreateOrConnectWithoutTransactionsInput
     connect?: MemberWhereUniqueInput
+  }
+
+  export type ChurchCreateNestedOneWithoutTransactionsInput = {
+    create?: XOR<ChurchCreateWithoutTransactionsInput, ChurchUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutTransactionsInput
+    connect?: ChurchWhereUniqueInput
   }
 
   export type EnumTransactionTypeFieldUpdateOperationsInput = {
@@ -10136,8 +12143,34 @@ export namespace Prisma {
     update?: XOR<XOR<MemberUpdateToOneWithWhereWithoutTransactionsInput, MemberUpdateWithoutTransactionsInput>, MemberUncheckedUpdateWithoutTransactionsInput>
   }
 
+  export type ChurchUpdateOneWithoutTransactionsNestedInput = {
+    create?: XOR<ChurchCreateWithoutTransactionsInput, ChurchUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutTransactionsInput
+    upsert?: ChurchUpsertWithoutTransactionsInput
+    disconnect?: ChurchWhereInput | boolean
+    delete?: ChurchWhereInput | boolean
+    connect?: ChurchWhereUniqueInput
+    update?: XOR<XOR<ChurchUpdateToOneWithWhereWithoutTransactionsInput, ChurchUpdateWithoutTransactionsInput>, ChurchUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type ChurchCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<ChurchCreateWithoutAssetsInput, ChurchUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutAssetsInput
+    connect?: ChurchWhereUniqueInput
+  }
+
   export type EnumAssetStatusFieldUpdateOperationsInput = {
     set?: $Enums.AssetStatus
+  }
+
+  export type ChurchUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<ChurchCreateWithoutAssetsInput, ChurchUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: ChurchCreateOrConnectWithoutAssetsInput
+    upsert?: ChurchUpsertWithoutAssetsInput
+    disconnect?: ChurchWhereInput | boolean
+    delete?: ChurchWhereInput | boolean
+    connect?: ChurchWhereUniqueInput
+    update?: XOR<XOR<ChurchUpdateToOneWithWhereWithoutAssetsInput, ChurchUpdateWithoutAssetsInput>, ChurchUncheckedUpdateWithoutAssetsInput>
   }
 
   export type BytesFieldUpdateOperationsInput = {
@@ -10156,43 +12189,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -10232,6 +12228,57 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10292,20 +12339,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedEnumTransactionTypeFilter<$PrismaModel = never> = {
@@ -10403,6 +12436,327 @@ export namespace Prisma {
     _max?: NestedBytesFilter<$PrismaModel>
   }
 
+  export type MemberCreateWithoutChurchInput = {
+    id?: string
+    name: string
+    email?: string | null
+    password?: string | null
+    mustChangePassword?: boolean
+    phone?: string | null
+    photoUrl?: string | null
+    birthDate?: Date | string | null
+    role?: $Enums.Role
+    isSuperAdmin?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionCreateNestedManyWithoutMemberInput
+    createdEvents?: EventCreateNestedManyWithoutCreatedByInput
+    pushTokens?: PushTokenCreateNestedManyWithoutMemberInput
+  }
+
+  export type MemberUncheckedCreateWithoutChurchInput = {
+    id?: string
+    name: string
+    email?: string | null
+    password?: string | null
+    mustChangePassword?: boolean
+    phone?: string | null
+    photoUrl?: string | null
+    birthDate?: Date | string | null
+    role?: $Enums.Role
+    isSuperAdmin?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutMemberInput
+    createdEvents?: EventUncheckedCreateNestedManyWithoutCreatedByInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutMemberInput
+  }
+
+  export type MemberCreateOrConnectWithoutChurchInput = {
+    where: MemberWhereUniqueInput
+    create: XOR<MemberCreateWithoutChurchInput, MemberUncheckedCreateWithoutChurchInput>
+  }
+
+  export type MemberCreateManyChurchInputEnvelope = {
+    data: MemberCreateManyChurchInput | MemberCreateManyChurchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EventCreateWithoutChurchInput = {
+    id?: string
+    title: string
+    description?: string | null
+    location?: string | null
+    coverImageUrl?: string | null
+    startDate: Date | string
+    endDate: Date | string
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: MemberCreateNestedOneWithoutCreatedEventsInput
+  }
+
+  export type EventUncheckedCreateWithoutChurchInput = {
+    id?: string
+    title: string
+    description?: string | null
+    location?: string | null
+    coverImageUrl?: string | null
+    startDate: Date | string
+    endDate: Date | string
+    isPublic?: boolean
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventCreateOrConnectWithoutChurchInput = {
+    where: EventWhereUniqueInput
+    create: XOR<EventCreateWithoutChurchInput, EventUncheckedCreateWithoutChurchInput>
+  }
+
+  export type EventCreateManyChurchInputEnvelope = {
+    data: EventCreateManyChurchInput | EventCreateManyChurchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TransactionCreateWithoutChurchInput = {
+    id?: string
+    type: $Enums.TransactionType
+    category: $Enums.TransactionCategory
+    value: number
+    date?: Date | string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    member?: MemberCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutChurchInput = {
+    id?: string
+    type: $Enums.TransactionType
+    category: $Enums.TransactionCategory
+    value: number
+    date?: Date | string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberId?: string | null
+  }
+
+  export type TransactionCreateOrConnectWithoutChurchInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutChurchInput, TransactionUncheckedCreateWithoutChurchInput>
+  }
+
+  export type TransactionCreateManyChurchInputEnvelope = {
+    data: TransactionCreateManyChurchInput | TransactionCreateManyChurchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssetCreateWithoutChurchInput = {
+    id?: string
+    name: string
+    imageUrl?: string | null
+    description?: string | null
+    category: string
+    value: number
+    acquisitionDate?: Date | string | null
+    location?: string | null
+    status?: $Enums.AssetStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssetUncheckedCreateWithoutChurchInput = {
+    id?: string
+    name: string
+    imageUrl?: string | null
+    description?: string | null
+    category: string
+    value: number
+    acquisitionDate?: Date | string | null
+    location?: string | null
+    status?: $Enums.AssetStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssetCreateOrConnectWithoutChurchInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutChurchInput, AssetUncheckedCreateWithoutChurchInput>
+  }
+
+  export type AssetCreateManyChurchInputEnvelope = {
+    data: AssetCreateManyChurchInput | AssetCreateManyChurchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MemberUpsertWithWhereUniqueWithoutChurchInput = {
+    where: MemberWhereUniqueInput
+    update: XOR<MemberUpdateWithoutChurchInput, MemberUncheckedUpdateWithoutChurchInput>
+    create: XOR<MemberCreateWithoutChurchInput, MemberUncheckedCreateWithoutChurchInput>
+  }
+
+  export type MemberUpdateWithWhereUniqueWithoutChurchInput = {
+    where: MemberWhereUniqueInput
+    data: XOR<MemberUpdateWithoutChurchInput, MemberUncheckedUpdateWithoutChurchInput>
+  }
+
+  export type MemberUpdateManyWithWhereWithoutChurchInput = {
+    where: MemberScalarWhereInput
+    data: XOR<MemberUpdateManyMutationInput, MemberUncheckedUpdateManyWithoutChurchInput>
+  }
+
+  export type MemberScalarWhereInput = {
+    AND?: MemberScalarWhereInput | MemberScalarWhereInput[]
+    OR?: MemberScalarWhereInput[]
+    NOT?: MemberScalarWhereInput | MemberScalarWhereInput[]
+    id?: StringFilter<"Member"> | string
+    name?: StringFilter<"Member"> | string
+    email?: StringNullableFilter<"Member"> | string | null
+    password?: StringNullableFilter<"Member"> | string | null
+    mustChangePassword?: BoolFilter<"Member"> | boolean
+    phone?: StringNullableFilter<"Member"> | string | null
+    photoUrl?: StringNullableFilter<"Member"> | string | null
+    birthDate?: DateTimeNullableFilter<"Member"> | Date | string | null
+    churchId?: StringNullableFilter<"Member"> | string | null
+    role?: EnumRoleFilter<"Member"> | $Enums.Role
+    isSuperAdmin?: BoolFilter<"Member"> | boolean
+    isActive?: BoolFilter<"Member"> | boolean
+    createdAt?: DateTimeFilter<"Member"> | Date | string
+    updatedAt?: DateTimeFilter<"Member"> | Date | string
+  }
+
+  export type EventUpsertWithWhereUniqueWithoutChurchInput = {
+    where: EventWhereUniqueInput
+    update: XOR<EventUpdateWithoutChurchInput, EventUncheckedUpdateWithoutChurchInput>
+    create: XOR<EventCreateWithoutChurchInput, EventUncheckedCreateWithoutChurchInput>
+  }
+
+  export type EventUpdateWithWhereUniqueWithoutChurchInput = {
+    where: EventWhereUniqueInput
+    data: XOR<EventUpdateWithoutChurchInput, EventUncheckedUpdateWithoutChurchInput>
+  }
+
+  export type EventUpdateManyWithWhereWithoutChurchInput = {
+    where: EventScalarWhereInput
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutChurchInput>
+  }
+
+  export type EventScalarWhereInput = {
+    AND?: EventScalarWhereInput | EventScalarWhereInput[]
+    OR?: EventScalarWhereInput[]
+    NOT?: EventScalarWhereInput | EventScalarWhereInput[]
+    id?: StringFilter<"Event"> | string
+    title?: StringFilter<"Event"> | string
+    description?: StringNullableFilter<"Event"> | string | null
+    location?: StringNullableFilter<"Event"> | string | null
+    coverImageUrl?: StringNullableFilter<"Event"> | string | null
+    startDate?: DateTimeFilter<"Event"> | Date | string
+    endDate?: DateTimeFilter<"Event"> | Date | string
+    isPublic?: BoolFilter<"Event"> | boolean
+    churchId?: StringNullableFilter<"Event"> | string | null
+    createdById?: StringNullableFilter<"Event"> | string | null
+    createdAt?: DateTimeFilter<"Event"> | Date | string
+    updatedAt?: DateTimeFilter<"Event"> | Date | string
+  }
+
+  export type TransactionUpsertWithWhereUniqueWithoutChurchInput = {
+    where: TransactionWhereUniqueInput
+    update: XOR<TransactionUpdateWithoutChurchInput, TransactionUncheckedUpdateWithoutChurchInput>
+    create: XOR<TransactionCreateWithoutChurchInput, TransactionUncheckedCreateWithoutChurchInput>
+  }
+
+  export type TransactionUpdateWithWhereUniqueWithoutChurchInput = {
+    where: TransactionWhereUniqueInput
+    data: XOR<TransactionUpdateWithoutChurchInput, TransactionUncheckedUpdateWithoutChurchInput>
+  }
+
+  export type TransactionUpdateManyWithWhereWithoutChurchInput = {
+    where: TransactionScalarWhereInput
+    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutChurchInput>
+  }
+
+  export type TransactionScalarWhereInput = {
+    AND?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+    OR?: TransactionScalarWhereInput[]
+    NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+    id?: StringFilter<"Transaction"> | string
+    type?: EnumTransactionTypeFilter<"Transaction"> | $Enums.TransactionType
+    category?: EnumTransactionCategoryFilter<"Transaction"> | $Enums.TransactionCategory
+    value?: FloatFilter<"Transaction"> | number
+    date?: DateTimeFilter<"Transaction"> | Date | string
+    description?: StringNullableFilter<"Transaction"> | string | null
+    createdAt?: DateTimeFilter<"Transaction"> | Date | string
+    updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    memberId?: StringNullableFilter<"Transaction"> | string | null
+    churchId?: StringNullableFilter<"Transaction"> | string | null
+  }
+
+  export type AssetUpsertWithWhereUniqueWithoutChurchInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutChurchInput, AssetUncheckedUpdateWithoutChurchInput>
+    create: XOR<AssetCreateWithoutChurchInput, AssetUncheckedCreateWithoutChurchInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutChurchInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutChurchInput, AssetUncheckedUpdateWithoutChurchInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutChurchInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutChurchInput>
+  }
+
+  export type AssetScalarWhereInput = {
+    AND?: AssetScalarWhereInput | AssetScalarWhereInput[]
+    OR?: AssetScalarWhereInput[]
+    NOT?: AssetScalarWhereInput | AssetScalarWhereInput[]
+    id?: StringFilter<"Asset"> | string
+    name?: StringFilter<"Asset"> | string
+    imageUrl?: StringNullableFilter<"Asset"> | string | null
+    description?: StringNullableFilter<"Asset"> | string | null
+    category?: StringFilter<"Asset"> | string
+    value?: FloatFilter<"Asset"> | number
+    acquisitionDate?: DateTimeNullableFilter<"Asset"> | Date | string | null
+    location?: StringNullableFilter<"Asset"> | string | null
+    status?: EnumAssetStatusFilter<"Asset"> | $Enums.AssetStatus
+    createdAt?: DateTimeFilter<"Asset"> | Date | string
+    updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    churchId?: StringNullableFilter<"Asset"> | string | null
+  }
+
+  export type ChurchCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    events?: EventCreateNestedManyWithoutChurchInput
+    transactions?: TransactionCreateNestedManyWithoutChurchInput
+    assets?: AssetCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchUncheckedCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    events?: EventUncheckedCreateNestedManyWithoutChurchInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutChurchInput
+    assets?: AssetUncheckedCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchCreateOrConnectWithoutMembersInput = {
+    where: ChurchWhereUniqueInput
+    create: XOR<ChurchCreateWithoutMembersInput, ChurchUncheckedCreateWithoutMembersInput>
+  }
+
   export type TransactionCreateWithoutMemberInput = {
     id?: string
     type: $Enums.TransactionType
@@ -10412,6 +12766,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateWithoutMemberInput = {
@@ -10423,6 +12778,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    churchId?: string | null
   }
 
   export type TransactionCreateOrConnectWithoutMemberInput = {
@@ -10446,6 +12802,7 @@ export namespace Prisma {
     isPublic?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutEventsInput
   }
 
   export type EventUncheckedCreateWithoutCreatedByInput = {
@@ -10457,6 +12814,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isPublic?: boolean
+    churchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10497,6 +12855,39 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ChurchUpsertWithoutMembersInput = {
+    update: XOR<ChurchUpdateWithoutMembersInput, ChurchUncheckedUpdateWithoutMembersInput>
+    create: XOR<ChurchCreateWithoutMembersInput, ChurchUncheckedCreateWithoutMembersInput>
+    where?: ChurchWhereInput
+  }
+
+  export type ChurchUpdateToOneWithWhereWithoutMembersInput = {
+    where?: ChurchWhereInput
+    data: XOR<ChurchUpdateWithoutMembersInput, ChurchUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type ChurchUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: EventUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUpdateManyWithoutChurchNestedInput
+    assets?: AssetUpdateManyWithoutChurchNestedInput
+  }
+
+  export type ChurchUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: EventUncheckedUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutChurchNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutChurchNestedInput
+  }
+
   export type TransactionUpsertWithWhereUniqueWithoutMemberInput = {
     where: TransactionWhereUniqueInput
     update: XOR<TransactionUpdateWithoutMemberInput, TransactionUncheckedUpdateWithoutMemberInput>
@@ -10513,21 +12904,6 @@ export namespace Prisma {
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutMemberInput>
   }
 
-  export type TransactionScalarWhereInput = {
-    AND?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
-    OR?: TransactionScalarWhereInput[]
-    NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
-    id?: StringFilter<"Transaction"> | string
-    type?: EnumTransactionTypeFilter<"Transaction"> | $Enums.TransactionType
-    category?: EnumTransactionCategoryFilter<"Transaction"> | $Enums.TransactionCategory
-    value?: FloatFilter<"Transaction"> | number
-    date?: DateTimeFilter<"Transaction"> | Date | string
-    description?: StringNullableFilter<"Transaction"> | string | null
-    createdAt?: DateTimeFilter<"Transaction"> | Date | string
-    updatedAt?: DateTimeFilter<"Transaction"> | Date | string
-    memberId?: StringNullableFilter<"Transaction"> | string | null
-  }
-
   export type EventUpsertWithWhereUniqueWithoutCreatedByInput = {
     where: EventWhereUniqueInput
     update: XOR<EventUpdateWithoutCreatedByInput, EventUncheckedUpdateWithoutCreatedByInput>
@@ -10542,23 +12918,6 @@ export namespace Prisma {
   export type EventUpdateManyWithWhereWithoutCreatedByInput = {
     where: EventScalarWhereInput
     data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutCreatedByInput>
-  }
-
-  export type EventScalarWhereInput = {
-    AND?: EventScalarWhereInput | EventScalarWhereInput[]
-    OR?: EventScalarWhereInput[]
-    NOT?: EventScalarWhereInput | EventScalarWhereInput[]
-    id?: StringFilter<"Event"> | string
-    title?: StringFilter<"Event"> | string
-    description?: StringNullableFilter<"Event"> | string | null
-    location?: StringNullableFilter<"Event"> | string | null
-    coverImageUrl?: StringNullableFilter<"Event"> | string | null
-    startDate?: DateTimeFilter<"Event"> | Date | string
-    endDate?: DateTimeFilter<"Event"> | Date | string
-    isPublic?: BoolFilter<"Event"> | boolean
-    createdById?: StringNullableFilter<"Event"> | string | null
-    createdAt?: DateTimeFilter<"Event"> | Date | string
-    updatedAt?: DateTimeFilter<"Event"> | Date | string
   }
 
   export type PushTokenUpsertWithWhereUniqueWithoutMemberInput = {
@@ -10603,6 +12962,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutMembersInput
     transactions?: TransactionCreateNestedManyWithoutMemberInput
     createdEvents?: EventCreateNestedManyWithoutCreatedByInput
   }
@@ -10616,6 +12976,7 @@ export namespace Prisma {
     phone?: string | null
     photoUrl?: string | null
     birthDate?: Date | string | null
+    churchId?: string | null
     role?: $Enums.Role
     isSuperAdmin?: boolean
     isActive?: boolean
@@ -10655,6 +13016,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutMembersNestedInput
     transactions?: TransactionUpdateManyWithoutMemberNestedInput
     createdEvents?: EventUpdateManyWithoutCreatedByNestedInput
   }
@@ -10668,6 +13030,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10675,6 +13038,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: TransactionUncheckedUpdateManyWithoutMemberNestedInput
     createdEvents?: EventUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type ChurchCreateWithoutEventsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberCreateNestedManyWithoutChurchInput
+    transactions?: TransactionCreateNestedManyWithoutChurchInput
+    assets?: AssetCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchUncheckedCreateWithoutEventsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutChurchInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutChurchInput
+    assets?: AssetUncheckedCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchCreateOrConnectWithoutEventsInput = {
+    where: ChurchWhereUniqueInput
+    create: XOR<ChurchCreateWithoutEventsInput, ChurchUncheckedCreateWithoutEventsInput>
   }
 
   export type MemberCreateWithoutCreatedEventsInput = {
@@ -10691,6 +13081,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutMembersInput
     transactions?: TransactionCreateNestedManyWithoutMemberInput
     pushTokens?: PushTokenCreateNestedManyWithoutMemberInput
   }
@@ -10704,6 +13095,7 @@ export namespace Prisma {
     phone?: string | null
     photoUrl?: string | null
     birthDate?: Date | string | null
+    churchId?: string | null
     role?: $Enums.Role
     isSuperAdmin?: boolean
     isActive?: boolean
@@ -10716,6 +13108,39 @@ export namespace Prisma {
   export type MemberCreateOrConnectWithoutCreatedEventsInput = {
     where: MemberWhereUniqueInput
     create: XOR<MemberCreateWithoutCreatedEventsInput, MemberUncheckedCreateWithoutCreatedEventsInput>
+  }
+
+  export type ChurchUpsertWithoutEventsInput = {
+    update: XOR<ChurchUpdateWithoutEventsInput, ChurchUncheckedUpdateWithoutEventsInput>
+    create: XOR<ChurchCreateWithoutEventsInput, ChurchUncheckedCreateWithoutEventsInput>
+    where?: ChurchWhereInput
+  }
+
+  export type ChurchUpdateToOneWithWhereWithoutEventsInput = {
+    where?: ChurchWhereInput
+    data: XOR<ChurchUpdateWithoutEventsInput, ChurchUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type ChurchUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUpdateManyWithoutChurchNestedInput
+    assets?: AssetUpdateManyWithoutChurchNestedInput
+  }
+
+  export type ChurchUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutChurchNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutChurchNestedInput
   }
 
   export type MemberUpsertWithoutCreatedEventsInput = {
@@ -10743,6 +13168,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutMembersNestedInput
     transactions?: TransactionUpdateManyWithoutMemberNestedInput
     pushTokens?: PushTokenUpdateManyWithoutMemberNestedInput
   }
@@ -10756,6 +13182,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10779,6 +13206,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    church?: ChurchCreateNestedOneWithoutMembersInput
     createdEvents?: EventCreateNestedManyWithoutCreatedByInput
     pushTokens?: PushTokenCreateNestedManyWithoutMemberInput
   }
@@ -10792,6 +13220,7 @@ export namespace Prisma {
     phone?: string | null
     photoUrl?: string | null
     birthDate?: Date | string | null
+    churchId?: string | null
     role?: $Enums.Role
     isSuperAdmin?: boolean
     isActive?: boolean
@@ -10804,6 +13233,33 @@ export namespace Prisma {
   export type MemberCreateOrConnectWithoutTransactionsInput = {
     where: MemberWhereUniqueInput
     create: XOR<MemberCreateWithoutTransactionsInput, MemberUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type ChurchCreateWithoutTransactionsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberCreateNestedManyWithoutChurchInput
+    events?: EventCreateNestedManyWithoutChurchInput
+    assets?: AssetCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchUncheckedCreateWithoutTransactionsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutChurchInput
+    events?: EventUncheckedCreateNestedManyWithoutChurchInput
+    assets?: AssetUncheckedCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchCreateOrConnectWithoutTransactionsInput = {
+    where: ChurchWhereUniqueInput
+    create: XOR<ChurchCreateWithoutTransactionsInput, ChurchUncheckedCreateWithoutTransactionsInput>
   }
 
   export type MemberUpsertWithoutTransactionsInput = {
@@ -10831,6 +13287,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutMembersNestedInput
     createdEvents?: EventUpdateManyWithoutCreatedByNestedInput
     pushTokens?: PushTokenUpdateManyWithoutMemberNestedInput
   }
@@ -10844,6 +13301,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10851,6 +13309,329 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdEvents?: EventUncheckedUpdateManyWithoutCreatedByNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutMemberNestedInput
+  }
+
+  export type ChurchUpsertWithoutTransactionsInput = {
+    update: XOR<ChurchUpdateWithoutTransactionsInput, ChurchUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<ChurchCreateWithoutTransactionsInput, ChurchUncheckedCreateWithoutTransactionsInput>
+    where?: ChurchWhereInput
+  }
+
+  export type ChurchUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: ChurchWhereInput
+    data: XOR<ChurchUpdateWithoutTransactionsInput, ChurchUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type ChurchUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUpdateManyWithoutChurchNestedInput
+    events?: EventUpdateManyWithoutChurchNestedInput
+    assets?: AssetUpdateManyWithoutChurchNestedInput
+  }
+
+  export type ChurchUncheckedUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutChurchNestedInput
+    events?: EventUncheckedUpdateManyWithoutChurchNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutChurchNestedInput
+  }
+
+  export type ChurchCreateWithoutAssetsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberCreateNestedManyWithoutChurchInput
+    events?: EventCreateNestedManyWithoutChurchInput
+    transactions?: TransactionCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchUncheckedCreateWithoutAssetsInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: MemberUncheckedCreateNestedManyWithoutChurchInput
+    events?: EventUncheckedCreateNestedManyWithoutChurchInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutChurchInput
+  }
+
+  export type ChurchCreateOrConnectWithoutAssetsInput = {
+    where: ChurchWhereUniqueInput
+    create: XOR<ChurchCreateWithoutAssetsInput, ChurchUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type ChurchUpsertWithoutAssetsInput = {
+    update: XOR<ChurchUpdateWithoutAssetsInput, ChurchUncheckedUpdateWithoutAssetsInput>
+    create: XOR<ChurchCreateWithoutAssetsInput, ChurchUncheckedCreateWithoutAssetsInput>
+    where?: ChurchWhereInput
+  }
+
+  export type ChurchUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: ChurchWhereInput
+    data: XOR<ChurchUpdateWithoutAssetsInput, ChurchUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type ChurchUpdateWithoutAssetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUpdateManyWithoutChurchNestedInput
+    events?: EventUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUpdateManyWithoutChurchNestedInput
+  }
+
+  export type ChurchUncheckedUpdateWithoutAssetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: MemberUncheckedUpdateManyWithoutChurchNestedInput
+    events?: EventUncheckedUpdateManyWithoutChurchNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutChurchNestedInput
+  }
+
+  export type MemberCreateManyChurchInput = {
+    id?: string
+    name: string
+    email?: string | null
+    password?: string | null
+    mustChangePassword?: boolean
+    phone?: string | null
+    photoUrl?: string | null
+    birthDate?: Date | string | null
+    role?: $Enums.Role
+    isSuperAdmin?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventCreateManyChurchInput = {
+    id?: string
+    title: string
+    description?: string | null
+    location?: string | null
+    coverImageUrl?: string | null
+    startDate: Date | string
+    endDate: Date | string
+    isPublic?: boolean
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TransactionCreateManyChurchInput = {
+    id?: string
+    type: $Enums.TransactionType
+    category: $Enums.TransactionCategory
+    value: number
+    date?: Date | string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberId?: string | null
+  }
+
+  export type AssetCreateManyChurchInput = {
+    id?: string
+    name: string
+    imageUrl?: string | null
+    description?: string | null
+    category: string
+    value: number
+    acquisitionDate?: Date | string | null
+    location?: string | null
+    status?: $Enums.AssetStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MemberUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUpdateManyWithoutMemberNestedInput
+    createdEvents?: EventUpdateManyWithoutCreatedByNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutMemberNestedInput
+  }
+
+  export type MemberUncheckedUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutMemberNestedInput
+    createdEvents?: EventUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutMemberNestedInput
+  }
+
+  export type MemberUncheckedUpdateManyWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: MemberUpdateOneWithoutCreatedEventsNestedInput
+  }
+
+  export type EventUncheckedUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventUncheckedUpdateManyWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    category?: EnumTransactionCategoryFieldUpdateOperationsInput | $Enums.TransactionCategory
+    value?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    member?: MemberUpdateOneWithoutTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    category?: EnumTransactionCategoryFieldUpdateOperationsInput | $Enums.TransactionCategory
+    value?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    category?: EnumTransactionCategoryFieldUpdateOperationsInput | $Enums.TransactionCategory
+    value?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssetUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    acquisitionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetUncheckedUpdateWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    acquisitionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetUncheckedUpdateManyWithoutChurchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    acquisitionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionCreateManyMemberInput = {
@@ -10862,6 +13643,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    churchId?: string | null
   }
 
   export type EventCreateManyCreatedByInput = {
@@ -10873,6 +13655,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isPublic?: boolean
+    churchId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10894,6 +13677,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutMemberInput = {
@@ -10905,6 +13689,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionUncheckedUpdateManyWithoutMemberInput = {
@@ -10916,6 +13701,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EventUpdateWithoutCreatedByInput = {
@@ -10929,6 +13715,7 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    church?: ChurchUpdateOneWithoutEventsNestedInput
   }
 
   export type EventUncheckedUpdateWithoutCreatedByInput = {
@@ -10940,6 +13727,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10953,6 +13741,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    churchId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

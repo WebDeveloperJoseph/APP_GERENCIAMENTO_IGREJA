@@ -5,14 +5,15 @@ import { AppError } from "../../errors/AppError";
 class MembersController {
   async list(request: Request, response: Response, next: NextFunction) {
     try {
-      const membersService = new MembersService();
+      const { churchId } = request.member; // Puxando do objeto mapeado no seu app
 
-      const members = await membersService.list();
+      const membersService = new MembersService();
+      const members = await membersService.list(churchId);
 
       return response.status(200).json({
         success: true,
         message: "Membros listados com sucesso.",
-        data: members
+        data: members,
       });
     } catch (error) {
       return next(error);
@@ -21,24 +22,27 @@ class MembersController {
 
   async create(request: Request, response: Response, next: NextFunction) {
     try {
-      const { name, email, password, phone, photoUrl, birthDate, role } = request.body;
+      const { name, email, password, phone, photoUrl, birthDate, role } =
+        request.body;
 
       const membersService = new MembersService();
-
-      const member = await membersService.create({
-        name,
-        email,
-        password,
-        phone,
-        photoUrl,
-        birthDate,
-        role,
-      }, request.member);
+      const member = await membersService.create(
+        {
+          name,
+          email,
+          password,
+          phone,
+          photoUrl,
+          birthDate,
+          role,
+        },
+        request.member,
+      );
 
       return response.status(201).json({
         success: true,
         message: "Membro criado com sucesso.",
-        data: member
+        data: member,
       });
     } catch (error) {
       return next(error);
@@ -48,40 +52,36 @@ class MembersController {
   async show(request: Request, response: Response, next: NextFunction) {
     try {
       const { id } = request.params;
+      const { churchId } = request.member; // 🔑 Captura a igreja logada
 
       if (typeof id != "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
       }
 
       const membersService = new MembersService();
-
-      const member = await membersService.show(id);
+      const member = await membersService.show(id, churchId); // Envia para o service filtrar
 
       return response.status(200).json({
         success: true,
         message: "Membro encontrado com sucesso.",
-        data: member
+        data: member,
       });
     } catch (error) {
       return next(error);
     }
   }
 
-  async put(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ) {
+  async put(request: Request, response: Response, next: NextFunction) {
     try {
       const { id } = request.params;
-      const { name, email, password, phone, photoUrl, birthDate, role } = request.body;
+      const { name, email, password, phone, photoUrl, birthDate, role } =
+        request.body;
 
       if (typeof id != "string") {
         throw new AppError("Campo de ID obrigatório.", 400);
       }
 
       const membersService = new MembersService();
-
       const member = await membersService.put(
         {
           name,
@@ -99,18 +99,14 @@ class MembersController {
       return response.status(200).json({
         success: true,
         message: "Membro atualizado com sucesso.",
-        data: member
+        data: member,
       });
     } catch (error) {
       return next(error);
     }
   }
 
-  async delete(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ) {
+  async delete(request: Request, response: Response, next: NextFunction) {
     try {
       const { id } = request.params;
 
@@ -119,13 +115,12 @@ class MembersController {
       }
 
       const membersService = new MembersService();
-
       await membersService.delete(id, request.member);
 
       return response.status(200).json({
         success: true,
         message: "Membro inativado com sucesso.",
-        data: null
+        data: null,
       });
     } catch (error) {
       return next(error);
@@ -145,13 +140,12 @@ class MembersController {
       }
 
       const membersService = new MembersService();
-
       await membersService.deletePermanently(id, request.member);
 
       return response.status(200).json({
         success: true,
         message: "Membro excluído permanentemente com sucesso.",
-        data: null
+        data: null,
       });
     } catch (error) {
       return next(error);
@@ -160,14 +154,15 @@ class MembersController {
 
   async listInactive(request: Request, response: Response, next: NextFunction) {
     try {
+      const { churchId } = request.member; // 🔑 Captura a igreja logada
       const membersService = new MembersService();
 
-      const members = await membersService.listInactive();
+      const members = await membersService.listInactive(churchId); // Filtra os inativos por igreja
 
       return response.status(200).json({
         success: true,
         message: "Membros inativos listados com sucesso.",
-        data: members
+        data: members,
       });
     } catch (error) {
       return next(error);
@@ -177,7 +172,6 @@ class MembersController {
   async restore(request: Request, response: Response, next: NextFunction) {
     try {
       const { id } = request.params;
-
 
       const membersService = new MembersService();
 
@@ -189,7 +183,7 @@ class MembersController {
       return response.status(200).json({
         success: true,
         message: "Membro restaurado com sucesso.",
-        data: member
+        data: member,
       });
     } catch (error) {
       return next(error);
