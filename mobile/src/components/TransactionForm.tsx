@@ -196,6 +196,7 @@ export function TransactionForm({
             <View style={styles.memberSelectorContainer}>
               {/* Campo de Pesquisa em tempo real */}
               <AppInput
+                label="Buscar membro"
                 placeholder="🔍 Digite o nome para buscar..."
                 value={searchQuery}
                 onChangeText={setSearchQuery}

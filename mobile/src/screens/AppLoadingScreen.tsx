@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
-// import * as Notifications from "expo-notifications";
+import * as Notifications from "expo-notifications";
 import { Href, router } from "expo-router";
 import { useEffect, useMemo } from "react";
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";

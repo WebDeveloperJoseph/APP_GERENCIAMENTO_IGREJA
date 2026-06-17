@@ -46,8 +46,6 @@ export function AssetForm({
 
   function handleSubmit() {
     // 🔑 Converte a string do input para Number puro antes de enviar para o backend
-    const parsedValue = parseAssetValue(value);
-
     onSubmit(
       {
         name,
@@ -55,9 +53,9 @@ export function AssetForm({
         description,
         category,
         // 💡 Evita problemas de validação (Zod/Prisma) enviando tipo correto
-        value: isNaN(parsedValue) ? 0 : parsedValue,
+        value,
         // 💡 Se a data estiver vazia, envia undefined para não quebrar o formato Date
-        acquisitionDate: acquisitionDate || undefined,
+        acquisitionDate,
         location,
         status,
       },
