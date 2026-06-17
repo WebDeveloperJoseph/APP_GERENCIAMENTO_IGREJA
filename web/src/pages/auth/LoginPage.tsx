@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { authService } from "@/services/authService";
 
 export function LoginPage() {
-  const [email, setEmail] = useState("nfjosesouza@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,20 +35,23 @@ export function LoginPage() {
           <Church className="h-16 w-16 text-teal-300" />
           <h1 className="mt-6 text-5xl font-black">Igreja Connect</h1>
           <p className="mt-4 text-lg text-blue-100">
-            Gestão moderna, segura e preparada para o crescimento da sua igreja.
+            Gestao moderna, segura e preparada para o crescimento da sua igreja.
           </p>
         </div>
       </section>
       <section className="flex items-center justify-center">
         <Card className="w-full max-w-md p-8">
           <h2 className="text-3xl font-black text-navy-950">Entrar</h2>
-          <p className="mt-2 text-slate-500">Acesse sua igreja ou painel SaaS.</p>
+          <p className="mt-2 text-slate-500">
+            Acesse sua igreja ou painel SaaS.
+          </p>
           <form className="mt-7 space-y-4" onSubmit={handleSubmit}>
             <label className="block">
               <span className="text-sm font-bold text-navy-900">E-mail</span>
               <input
                 className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
                 onChange={(event) => setEmail(event.target.value)}
+                type="email"
                 value={email}
               />
             </label>
@@ -71,7 +74,10 @@ export function LoginPage() {
               <LogIn className="h-4 w-4" />
             </Button>
           </form>
-          <Link className="mt-5 block text-center text-sm font-bold text-navy-800" to="/">
+          <Link
+            className="mt-5 block text-center text-sm font-bold text-navy-800"
+            to="/"
+          >
             Voltar para o site
           </Link>
         </Card>
