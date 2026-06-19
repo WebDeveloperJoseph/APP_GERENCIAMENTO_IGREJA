@@ -30,3 +30,7 @@ export function canManageEvents() {
 export function canManageFinance() {
   return hasRole(["TESOUREIRO", "ADMIN"]);
 }
+
+export function canManageCommunication() {
+  return hasRole(["PASTOR", "ADMIN"]);
+}

@@ -73,46 +73,90 @@ class ChurchesService {
       slug = `${baseSlug}-${suffix}`;
     }
 
-    const church = await prisma.church.create({
-      data: {
-        name: normalizedChurchName,
-        slug,
-      },
-    });
+    const passwordHash = await bcrypt.hash(password, 12);
+    const configuredTrialDays = Number(process.env.SUBSCRIPTION_TRIAL_DAYS ?? 14);
+    const trialDays = Number.isInteger(configuredTrialDays)
+      ? Math.min(Math.max(configuredTrialDays, 1), 90)
+      : 14;
+    const trialEndsAt = new Date(Date.now() + trialDays * 24 * 60 * 60 * 1000);
 
-    const admin = await prisma.member.create({
-      data: {
-        name: normalizedResponsibleName,
-        email: normalizedEmail,
-        phone: phone?.trim() || null,
-        password: await bcrypt.hash(password, 8),
-        role: "ADMIN",
-        isSuperAdmin: false,
-        isActive: true,
-        mustChangePassword: false,
-        churchId: church.id,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        phone: true,
-        role: true,
-        isSuperAdmin: true,
-        churchId: true,
-        createdAt: true,
-      },
+    const { church, admin } = await prisma.$transaction(async (tx) => {
+      const plan = await tx.plan.upsert({
+        where: { code: "STARTER" },
+        update: {},
+        create: {
+          code: "STARTER",
+          name: "Essencial",
+          description: "Plano inicial para igrejas em implantação.",
+          priceCents: 9900,
+          maxMembers: 300,
+          features: ["members", "events", "finance", "communications"],
+        },
+      });
+
+      const createdChurch = await tx.church.create({
+        data: {
+          name: normalizedChurchName,
+          slug,
+          city: city?.trim() || null,
+          state: state?.trim().toUpperCase().slice(0, 2) || null,
+          subscription: {
+            create: {
+              planId: plan.id,
+              status: "TRIALING",
+              trialEndsAt,
+            },
+          },
+        },
+      });
+
+      const createdAdmin = await tx.member.create({
+        data: {
+          name: normalizedResponsibleName,
+          email: normalizedEmail,
+          phone: phone?.trim() || null,
+          password: passwordHash,
+          role: "ADMIN",
+          isSuperAdmin: false,
+          isActive: true,
+          mustChangePassword: false,
+          churchId: createdChurch.id,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          role: true,
+          isSuperAdmin: true,
+          churchId: true,
+          createdAt: true,
+        },
+      });
+
+      return { church: createdChurch, admin: createdAdmin };
     });
 
     return {
-      church: {
-        ...church,
-        city,
-        state,
-      },
+      church,
       admin,
+      trialEndsAt,
     };
   }
 }
 
-export { ChurchesService };
+async function getRecentChurches() {
+  const churches = await prisma.church.findMany({
+    take: 5,
+    orderBy: {
+      createdAt: "desc",
+      _count: {
+        select: {
+          members: true,
+        },
+      },
+    },
+  });
+}
+
+export { ChurchesService, getRecentChurches };

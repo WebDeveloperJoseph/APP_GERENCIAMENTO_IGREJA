@@ -11,6 +11,10 @@ model Church {
   id        String   @id @default(uuid())
   name      String
   slug      String   @unique // Ex: "igreja-central-picui"
+  city      String?
+  state     String?
+  logoUrl   String?
+  primaryColor String? @default("#0d47a1")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -19,8 +23,87 @@ model Church {
   events       Event[]
   transactions Transaction[]
   assets       Asset[]
+  notices      CommunicationNotice[]
+  subscription Subscription?
 
   @@map("churches")
+}
+
+model Plan {
+  id              String          @id @default(uuid())
+  code            String          @unique
+  name            String
+  description     String?
+  priceCents      Int
+  billingInterval BillingInterval @default(MONTHLY)
+  maxMembers      Int?
+  features        Json?
+  isActive        Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  subscriptions   Subscription[]
+
+  @@map("plans")
+}
+
+model Subscription {
+  id                  String             @id @default(uuid())
+  churchId            String             @unique
+  church              Church             @relation(fields: [churchId], references: [id], onDelete: Cascade)
+  planId              String
+  plan                Plan               @relation(fields: [planId], references: [id])
+  status              SubscriptionStatus @default(TRIALING)
+  trialEndsAt         DateTime?
+  currentPeriodStart  DateTime?
+  currentPeriodEnd    DateTime?
+  cancelAtPeriodEnd   Boolean            @default(false)
+  gateway             String?
+  externalCustomerId  String?
+  externalSubscriptionId String?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  invoices            Invoice[]
+
+  @@index([status])
+  @@index([planId])
+  @@map("subscriptions")
+}
+
+model Invoice {
+  id             String        @id @default(uuid())
+  subscriptionId String
+  subscription   Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  gateway        String        @default("ASAAS")
+  externalId     String
+  status         InvoiceStatus @default(PENDING)
+  valueCents     Int
+  billingType    String?
+  dueDate        DateTime?
+  paidAt         DateTime?
+  invoiceUrl     String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@unique([gateway, externalId])
+  @@index([subscriptionId, status])
+  @@map("invoices")
+}
+
+model BillingEvent {
+  id          String             @id @default(uuid())
+  gateway     String             @default("ASAAS")
+  externalId  String
+  type        String
+  payload     Json
+  status      BillingEventStatus @default(PENDING)
+  attempts    Int                @default(0)
+  lastError   String?
+  receivedAt  DateTime           @default(now())
+  processedAt DateTime?
+
+  @@unique([gateway, externalId])
+  @@index([status, receivedAt])
+  @@map("billing_events")
 }
 
 model Member {
@@ -44,6 +127,7 @@ model Member {
   updatedAt          DateTime      @updatedAt
   transactions       Transaction[]
   createdEvents      Event[]
+  createdNotices     CommunicationNotice[]
   pushTokens         PushToken[]
 
   @@map("members")
@@ -134,6 +218,25 @@ model StoredImage {
   @@map("stored_images")
 }
 
+model CommunicationNotice {
+  id        String              @id @default(uuid())
+  title     String
+  message   String
+  audience  String
+  channel   String              @default("APP")
+  status    CommunicationStatus @default(ENVIADO)
+  churchId  String?
+  church    Church?             @relation(fields: [churchId], references: [id], onDelete: Cascade)
+  createdById String?
+  createdBy Member?             @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  @@index([churchId])
+  @@index([createdById])
+  @@map("communication_notices")
+}
+
 enum Role {
   MEMBRO
   VOLUNTARIO
@@ -162,4 +265,37 @@ enum AssetStatus {
   ATIVO
   MANUTENCAO
   BAIXADO
+}
+
+enum CommunicationStatus {
+  RASCUNHO
+  ENVIADO
+}
+
+enum BillingInterval {
+  MONTHLY
+  YEARLY
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  PAUSED
+  CANCELED
+}
+
+enum InvoiceStatus {
+  PENDING
+  CONFIRMED
+  RECEIVED
+  OVERDUE
+  REFUNDED
+  CANCELED
+}
+
+enum BillingEventStatus {
+  PENDING
+  PROCESSED
+  FAILED
 }

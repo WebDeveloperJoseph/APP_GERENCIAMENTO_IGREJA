@@ -17,20 +17,78 @@ async function main() {
   // ==========================================
   // 1. CONFIGURAÇÃO DO TENANT (IGREJA INICIAL)
   // ==========================================
-  const churchSlug = "icb-nova-floresta"; // Slug da igreja padrão
+  const churchSlug = "icb-parque-industrial"; // Slug da igreja padrão
 
   // Cria a primeira igreja caso ela não exista
   const church = await prisma.church.upsert({
     where: { slug: churchSlug },
     update: {},
     create: {
-      name: "Igreja de Cristo no Brasil - Nova Floresta",
+      name: "Igreja de Cristo no Brasil - Parque Industrial",
       slug: churchSlug,
     },
   });
 
   console.log(
     `⛪ Igreja de destaque configurada: ${church.name} (ID: ${church.id})`,
+  );
+
+  const starterPlan = await prisma.plan.upsert({
+    where: { code: "STARTER" },
+    update: {},
+    create: {
+      code: "STARTER",
+      name: "Essencial",
+      description: "Plano inicial para igrejas em implantação.",
+      priceCents: 9900,
+      maxMembers: 300,
+      features: ["members", "events", "finance", "communications"],
+    },
+  });
+
+  await Promise.all([
+    prisma.plan.upsert({
+      where: { code: "PRO" },
+      update: {},
+      create: {
+        code: "PRO",
+        name: "Profissional",
+        description: "Mais capacidade e recursos para igrejas em crescimento.",
+        priceCents: 19900,
+        maxMembers: 1000,
+        features: ["members", "events", "finance", "communications", "reports"],
+      },
+    }),
+    prisma.plan.upsert({
+      where: { code: "PREMIUM" },
+      update: {},
+      create: {
+        code: "PREMIUM",
+        name: "Premium",
+        description: "Gestão completa para igrejas e redes de maior porte.",
+        priceCents: 39900,
+        maxMembers: null,
+        features: ["members", "events", "finance", "communications", "reports", "priority_support"],
+      },
+    }),
+  ]);
+
+  const churchesWithoutSubscription = await prisma.church.findMany({
+    where: { subscription: null },
+    select: { id: true },
+  });
+  const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+  await Promise.all(
+    churchesWithoutSubscription.map((item) =>
+      prisma.subscription.create({
+        data: {
+          churchId: item.id,
+          planId: starterPlan.id,
+          status: "TRIALING",
+          trialEndsAt,
+        },
+      }),
+    ),
   );
 
   // ==========================================
@@ -83,10 +141,14 @@ async function main() {
   });
 
   if (adminAlreadyExists) {
-    // Mesmo que o admin já exista, vamos garantir que ele tem uma igreja vinculada
-    await prisma.member.updateMany({
-      where: { email: adminEmail, churchId: null },
-      data: { churchId: church.id },
+    // Reconcile the configured platform owner on every seed run.
+    await prisma.member.update({
+      where: { email: adminEmail },
+      data: {
+        churchId: adminAlreadyExists.churchId ?? church.id,
+        isSuperAdmin: true,
+        isActive: true,
+      },
     });
 
     console.log(

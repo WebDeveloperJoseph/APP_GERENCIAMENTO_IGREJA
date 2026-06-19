@@ -1,9 +1,3 @@
-import {
-  mockDashboardSummary,
-  mockEvents,
-  mockMembers,
-  mockTransactions,
-} from "@/data/mockData";
 import { api, unwrapApiData } from "@/services/api";
 import type { ApiEnvelope, DashboardSummary, Transaction } from "@/types";
 
@@ -19,12 +13,12 @@ type BackendSummary = {
 
 function normalizeSummary(summary: BackendSummary): DashboardSummary {
   return {
-    totalMembers: summary.totalMembers ?? mockDashboardSummary.totalMembers,
-    activeVolunteers: mockDashboardSummary.activeVolunteers,
-    upcomingEvents: mockDashboardSummary.upcomingEvents,
-    monthlyIncome: summary.totalEntradas ?? mockDashboardSummary.monthlyIncome,
-    pendingExpenses: summary.totalSaidas ?? mockDashboardSummary.pendingExpenses,
-    monthlyBirthdays: mockDashboardSummary.monthlyBirthdays,
+    totalMembers: summary.totalMembers ?? 0,
+    activeVolunteers: 0,
+    upcomingEvents: 0,
+    monthlyIncome: summary.totalEntradas ?? 0,
+    pendingExpenses: summary.totalSaidas ?? 0,
+    monthlyBirthdays: 0,
     source: "api",
   };
 }
@@ -32,20 +26,21 @@ function normalizeSummary(summary: BackendSummary): DashboardSummary {
 export const dashboardService = {
   async summary() {
     try {
-      const { data } = await api.get<ApiEnvelope<BackendSummary> | BackendSummary>(
-        "/reports/summary",
-      );
+      const { data } = await api.get<
+        ApiEnvelope<BackendSummary> | BackendSummary
+      >("/reports/summary");
       return normalizeSummary(unwrapApiData(data));
     } catch {
-      return mockDashboardSummary;
+      console.error("Erro ao buscar resumo do dashboard da API");
+      return normalizeSummary({});
     }
   },
 
   async rawSummary() {
     try {
-      const { data } = await api.get<ApiEnvelope<BackendSummary> | BackendSummary>(
-        "/reports/summary",
-      );
+      const { data } = await api.get<
+        ApiEnvelope<BackendSummary> | BackendSummary
+      >("/reports/summary");
       return unwrapApiData(data);
     } catch {
       return null;
@@ -54,10 +49,10 @@ export const dashboardService = {
 
   async composeFromFallbacks() {
     return {
-      summary: mockDashboardSummary,
-      members: mockMembers,
-      events: mockEvents,
-      transactions: mockTransactions,
+      summary: normalizeSummary({}),
+      members: [],
+      events: [],
+      transactions: [],
     };
   },
 };

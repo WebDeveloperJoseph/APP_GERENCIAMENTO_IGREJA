@@ -36,7 +36,7 @@ class EventsController {
       }
 
       const eventsService = new EventsService();
-      const event = await eventsService.show(id);
+      const event = await eventsService.show(id, request.member.churchId!);
 
       return response.status(200).json({
         success: true,
@@ -118,7 +118,7 @@ class EventsController {
       } = request.body;
       const eventsService = new EventsService();
 
-      const event = await eventsService.update(id, {
+      const event = await eventsService.update(id, request.member.churchId!, {
         title,
         description,
         location,
@@ -147,7 +147,7 @@ class EventsController {
       }
 
       const eventsService = new EventsService();
-      await eventsService.delete(id);
+      await eventsService.delete(id, request.member.churchId!);
 
       return response.status(200).json({
         success: true,

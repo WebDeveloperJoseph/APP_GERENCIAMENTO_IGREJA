@@ -18,7 +18,7 @@ const emptyEventForm = {
 
 export function EventsPage() {
   const [events, setEvents] = useState<EventItem[]>([]);
-  const [source, setSource] = useState<DataSource>("mock");
+  const [source, setSource] = useState<DataSource>("api");
   const [apiMessage, setApiMessage] = useState<string | null>(null);
   const [form, setForm] = useState(emptyEventForm);
   const [saving, setSaving] = useState(false);
@@ -56,7 +56,9 @@ export function EventsPage() {
       setForm(emptyEventForm);
       await reloadEvents();
     } catch (error) {
-      setApiMessage(error instanceof Error ? error.message : "Falha ao criar evento.");
+      setApiMessage(
+        error instanceof Error ? error.message : "Falha ao criar evento.",
+      );
     } finally {
       setSaving(false);
     }
@@ -67,64 +69,95 @@ export function EventsPage() {
       <div className="flex justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-navy-950">Eventos</h1>
-          <p className="text-slate-500">Agenda, cultos, conferências e reuniões.</p>
+          <p className="text-slate-500">
+            Agenda, cultos, conferências e reuniões.
+          </p>
         </div>
         <div className="flex flex-wrap gap-3">
           <span className="rounded-full bg-blue-50 px-4 py-2 text-sm font-bold text-blue-700">
-            Dados: {source === "api" ? "backend real" : "mock fallback"}
+            Dados: {source === "api" ? "backend real" : "indisponível"}
           </span>
-          <Button>
-            <Plus className="h-4 w-4" /> Novo evento
-          </Button>
+          {canWrite ? (
+            <Button>
+              <Plus className="h-4 w-4" /> Novo evento
+            </Button>
+          ) : null}
         </div>
       </div>
       {apiMessage ? (
         <p className="rounded-2xl bg-amber-50 p-4 text-sm font-semibold text-amber-700">
-          API: {apiMessage}. Exibindo eventos demonstrativos temporariamente.
+          API: {apiMessage}. Exibindo somente dados recebidos do servidor.
         </p>
       ) : null}
-      <Card>
-        <form className="grid gap-3 md:grid-cols-5" onSubmit={handleSubmit}>
-          <input
-            className="rounded-xl border border-slate-200 px-4 py-3 md:col-span-2"
-            disabled={!canWrite}
-            onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
-            placeholder="Titulo do evento"
-            value={form.title}
-          />
-          <input
-            className="rounded-xl border border-slate-200 px-4 py-3"
-            disabled={!canWrite}
-            onChange={(event) => setForm((current) => ({ ...current, location: event.target.value }))}
-            placeholder="Local"
-            value={form.location}
-          />
-          <input
-            className="rounded-xl border border-slate-200 px-4 py-3"
-            disabled={!canWrite}
-            onChange={(event) => setForm((current) => ({ ...current, startDate: event.target.value }))}
-            type="datetime-local"
-            value={form.startDate}
-          />
-          <input
-            className="rounded-xl border border-slate-200 px-4 py-3"
-            disabled={!canWrite}
-            onChange={(event) => setForm((current) => ({ ...current, endDate: event.target.value }))}
-            type="datetime-local"
-            value={form.endDate}
-          />
-          <textarea
-            className="rounded-xl border border-slate-200 px-4 py-3 md:col-span-4"
-            disabled={!canWrite}
-            onChange={(event) => setForm((current) => ({ ...current, description: event.target.value }))}
-            placeholder="Descricao"
-            value={form.description}
-          />
-          <Button disabled={!canWrite || saving} type="submit">
-            {saving ? "Salvando..." : "Criar evento"}
-          </Button>
-        </form>
-      </Card>
+      {canWrite ? (
+        <Card>
+          <form className="grid gap-3 md:grid-cols-5" onSubmit={handleSubmit}>
+            <input
+              className="rounded-xl border border-slate-200 px-4 py-3 md:col-span-2"
+              disabled={!canWrite}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  title: event.target.value,
+                }))
+              }
+              placeholder="Titulo do evento"
+              value={form.title}
+            />
+            <input
+              className="rounded-xl border border-slate-200 px-4 py-3"
+              disabled={!canWrite}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  location: event.target.value,
+                }))
+              }
+              placeholder="Local"
+              value={form.location}
+            />
+            <input
+              className="rounded-xl border border-slate-200 px-4 py-3"
+              disabled={!canWrite}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  startDate: event.target.value,
+                }))
+              }
+              type="datetime-local"
+              value={form.startDate}
+            />
+            <input
+              className="rounded-xl border border-slate-200 px-4 py-3"
+              disabled={!canWrite}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  endDate: event.target.value,
+                }))
+              }
+              type="datetime-local"
+              value={form.endDate}
+            />
+            <textarea
+              className="rounded-xl border border-slate-200 px-4 py-3 md:col-span-4"
+              disabled={!canWrite}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  description: event.target.value,
+                }))
+              }
+              placeholder="Descricao"
+              value={form.description}
+            />
+            <Button disabled={!canWrite || saving} type="submit">
+              {saving ? "Salvando..." : "Criar evento"}
+            </Button>
+          </form>
+        </Card>
+      ) : null}
       {events.length === 0 ? (
         <EmptyState message="Nenhum evento encontrado." />
       ) : (

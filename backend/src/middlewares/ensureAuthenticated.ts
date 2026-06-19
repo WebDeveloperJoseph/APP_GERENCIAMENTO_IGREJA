@@ -15,16 +15,26 @@ async function ensureAuthenticated(
   next: NextFunction,
 ) {
   try {
+    // Support token via Authorization header or HttpOnly cookie 'igreja_token'
     const authHeader = request.headers.authorization;
+    let token: string | undefined;
 
-    if (!authHeader) {
-      throw new AppError("Token nao informado.", 401);
+    if (authHeader) {
+      const parts = authHeader.split(" ");
+      token = parts[1];
     }
 
-    const [, token] = authHeader.split(" ");
+    if (!token) {
+      // parse cookie header if present
+      const cookieHeader = request.headers.cookie;
+      if (cookieHeader) {
+        const match = cookieHeader.match(/(?:^|; )igreja_token=([^;]+)/);
+        if (match) token = decodeURIComponent(match[1]);
+      }
+    }
 
     if (!token) {
-      throw new AppError("Token invalido.", 401);
+      throw new AppError("Token nao informado.", 401);
     }
 
     const secret = process.env.JWT_SECRET;
@@ -51,7 +61,7 @@ async function ensureAuthenticated(
       throw new AppError("Usuario inativo ou nao encontrado.", 401);
     }
 
-    if (!member.churchId) {
+    if (!member.churchId && !member.isSuperAdmin) {
       throw new AppError("Usuario sem igreja vinculada.", 401);
     }
 
@@ -59,13 +69,15 @@ async function ensureAuthenticated(
       id: member.id,
       role: member.role,
       isSuperAdmin: member.isSuperAdmin,
-      churchId: member.churchId,
+      churchId: member.churchId ?? "",
     };
 
     request.member = authenticatedMember;
     request.user = authenticatedMember;
     request.userId = authenticatedMember.id;
-    request.churchId = authenticatedMember.churchId;
+    if (authenticatedMember.churchId) {
+      request.churchId = authenticatedMember.churchId;
+    }
     request.role = authenticatedMember.role;
     request.isSuperAdmin = authenticatedMember.isSuperAdmin;
 

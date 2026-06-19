@@ -1,4 +1,3 @@
-import { mockTransactions } from "@/data/mockData";
 import { api, unwrapApiData } from "@/services/api";
 import type { ApiEnvelope, ServiceResult, Transaction } from "@/types";
 
@@ -22,13 +21,15 @@ export const transactionsService = {
         source: "api",
       };
     } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Falha ao buscar movimentacoes.";
+      console.error("Erro ao buscar transações da API:", error);
       return {
-        data: mockTransactions,
-        source: "mock",
-        error:
-          error instanceof Error
-            ? error.message
-            : "Falha ao buscar movimentacoes.",
+        data: [],
+        source: "api",
+        error: message,
       };
     }
   },

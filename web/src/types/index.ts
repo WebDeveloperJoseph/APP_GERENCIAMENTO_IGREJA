@@ -83,9 +83,85 @@ export type ChurchLead = {
 export type OwnerChurch = {
   id: string;
   name: string;
-  plan: "Básico" | "Padrão" | "Premium" | "Enterprise";
-  status: "Ativa" | "Em teste" | "Atrasada";
+  plan: string;
+  status: "Ativa" | "Em teste" | "Atrasada" | "Pausada" | "Cancelada" | "Sem assinatura";
   city: string;
   admin: string;
-  renewalDate: string;
+  renewalDate: string | null;
+};
+
+export type SubscriptionStatus = "TRIALING" | "ACTIVE" | "PAST_DUE" | "PAUSED" | "CANCELED";
+
+export type OwnerSubscription = {
+  id: string;
+  status: SubscriptionStatus;
+  trialEndsAt?: string | null;
+  currentPeriodEnd?: string | null;
+  church: { id: string; name: string; slug: string };
+  plan: { id: string; name: string; code: string; priceCents: number };
+};
+
+export type OwnerSubscriptionsResult = {
+  summary: Record<SubscriptionStatus, number> & { total: number; mrr: number };
+  subscriptions: OwnerSubscription[];
+};
+
+export type BillingPlan = {
+  id: string;
+  code: string;
+  name: string;
+  description?: string | null;
+  priceCents: number;
+  billingInterval: "MONTHLY" | "YEARLY";
+  maxMembers?: number | null;
+};
+
+export type BillingOverview = {
+  gatewayConfigured: boolean;
+  subscription: {
+    id: string;
+    status: SubscriptionStatus;
+    trialEndsAt?: string | null;
+    currentPeriodEnd?: string | null;
+    plan: BillingPlan;
+    invoices: Array<{
+      id: string;
+      status: string;
+      valueCents: number;
+      dueDate?: string | null;
+      invoiceUrl?: string | null;
+    }>;
+  } | null;
+  plans: BillingPlan[];
+};
+
+export type OwnerDashboard = {
+  activeChurches: number;
+  trialChurches: number;
+  mrr: number;
+  monthlyRevenue: number;
+  churn: number;
+  openTickets: number;
+  membersCount: number;
+  recentChurches: OwnerChurch[];
+};
+
+export type CommunicationStatus = "RASCUNHO" | "ENVIADO";
+
+export type CommunicationNotice = {
+  id: string;
+  title: string;
+  message: string;
+  audience: string;
+  channel: string;
+  status: CommunicationStatus;
+  createdById?: string | null;
+  createdBy?: {
+    id: string;
+    name: string;
+    email?: string | null;
+    role?: Role;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
 };

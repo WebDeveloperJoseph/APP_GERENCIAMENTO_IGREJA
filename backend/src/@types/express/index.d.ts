@@ -10,7 +10,7 @@ declare namespace Express {
     member: AuthenticatedRequestMember;
     user: AuthenticatedRequestMember;
     userId: string;
-    churchId: string;
+    churchId?: string;
     role: string;
     isSuperAdmin: boolean;
   }

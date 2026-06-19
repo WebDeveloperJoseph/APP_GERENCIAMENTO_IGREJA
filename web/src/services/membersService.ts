@@ -1,4 +1,3 @@
-import { mockMembers } from "@/data/mockData";
 import { api, unwrapApiData } from "@/services/api";
 import type { ApiEnvelope, Member, ServiceResult } from "@/types";
 
@@ -20,16 +19,22 @@ export const membersService = {
         source: "api",
       };
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Falha ao buscar membros.";
+      console.error("Erro ao buscar membros da API:", error);
       return {
-        data: mockMembers,
-        source: "mock",
-        error: error instanceof Error ? error.message : "Falha ao buscar membros.",
+        data: [],
+        source: "api",
+        error: message,
       };
     }
   },
 
   async create(payload: Partial<Member> & { password?: string }) {
-    const { data } = await api.post<ApiEnvelope<Member> | Member>("/members", payload);
+    const { data } = await api.post<ApiEnvelope<Member> | Member>(
+      "/members",
+      payload,
+    );
     return unwrapApiData(data);
   },
 

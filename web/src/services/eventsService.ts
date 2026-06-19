@@ -1,4 +1,3 @@
-import { mockEvents } from "@/data/mockData";
 import { api, unwrapApiData } from "@/services/api";
 import type { ApiEnvelope, EventItem, ServiceResult } from "@/types";
 
@@ -22,10 +21,13 @@ export const eventsService = {
         source: "api",
       };
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Falha ao buscar eventos.";
+      console.error("Erro ao buscar eventos da API:", error);
       return {
-        data: mockEvents,
-        source: "mock",
-        error: error instanceof Error ? error.message : "Falha ao buscar eventos.",
+        data: [],
+        source: "api",
+        error: message,
       };
     }
   },

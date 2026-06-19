@@ -124,8 +124,70 @@ exports.Prisma.ChurchScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
+  city: 'city',
+  state: 'state',
+  logoUrl: 'logoUrl',
+  primaryColor: 'primaryColor',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PlanScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  priceCents: 'priceCents',
+  billingInterval: 'billingInterval',
+  maxMembers: 'maxMembers',
+  features: 'features',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  churchId: 'churchId',
+  planId: 'planId',
+  status: 'status',
+  trialEndsAt: 'trialEndsAt',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  gateway: 'gateway',
+  externalCustomerId: 'externalCustomerId',
+  externalSubscriptionId: 'externalSubscriptionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  subscriptionId: 'subscriptionId',
+  gateway: 'gateway',
+  externalId: 'externalId',
+  status: 'status',
+  valueCents: 'valueCents',
+  billingType: 'billingType',
+  dueDate: 'dueDate',
+  paidAt: 'paidAt',
+  invoiceUrl: 'invoiceUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BillingEventScalarFieldEnum = {
+  id: 'id',
+  gateway: 'gateway',
+  externalId: 'externalId',
+  type: 'type',
+  payload: 'payload',
+  status: 'status',
+  attempts: 'attempts',
+  lastError: 'lastError',
+  receivedAt: 'receivedAt',
+  processedAt: 'processedAt'
 };
 
 exports.Prisma.MemberScalarFieldEnum = {
@@ -204,9 +266,31 @@ exports.Prisma.StoredImageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CommunicationNoticeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  audience: 'audience',
+  channel: 'channel',
+  status: 'status',
+  churchId: 'churchId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -218,6 +302,40 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.BillingInterval = exports.$Enums.BillingInterval = {
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+};
+
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  TRIALING: 'TRIALING',
+  ACTIVE: 'ACTIVE',
+  PAST_DUE: 'PAST_DUE',
+  PAUSED: 'PAUSED',
+  CANCELED: 'CANCELED'
+};
+
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  RECEIVED: 'RECEIVED',
+  OVERDUE: 'OVERDUE',
+  REFUNDED: 'REFUNDED',
+  CANCELED: 'CANCELED'
+};
+
+exports.BillingEventStatus = exports.$Enums.BillingEventStatus = {
+  PENDING: 'PENDING',
+  PROCESSED: 'PROCESSED',
+  FAILED: 'FAILED'
+};
+
 exports.Role = exports.$Enums.Role = {
   MEMBRO: 'MEMBRO',
   VOLUNTARIO: 'VOLUNTARIO',
@@ -248,14 +366,24 @@ exports.AssetStatus = exports.$Enums.AssetStatus = {
   BAIXADO: 'BAIXADO'
 };
 
+exports.CommunicationStatus = exports.$Enums.CommunicationStatus = {
+  RASCUNHO: 'RASCUNHO',
+  ENVIADO: 'ENVIADO'
+};
+
 exports.Prisma.ModelName = {
   Church: 'Church',
+  Plan: 'Plan',
+  Subscription: 'Subscription',
+  Invoice: 'Invoice',
+  BillingEvent: 'BillingEvent',
   Member: 'Member',
   PushToken: 'PushToken',
   Event: 'Event',
   Transaction: 'Transaction',
   Asset: 'Asset',
-  StoredImage: 'StoredImage'
+  StoredImage: 'StoredImage',
+  CommunicationNotice: 'CommunicationNotice'
 };
 
 /**

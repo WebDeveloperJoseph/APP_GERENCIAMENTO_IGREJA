@@ -7,6 +7,12 @@
       name="description"
       content="Igreja Connect: plataforma SaaS para gestão de igrejas, membros, eventos, finanças e comunicação."
     />
+    <!-- Content Security Policy: reduz risco de XSS e cargas externas -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; connect-src 'self' https://app-gerenciamento-igreja.onrender.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Igreja Connect</title>
   </head>
   <body>

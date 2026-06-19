@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { mockMembers } from "@/data/mockData";
+import { useMembers } from "@/hooks/useMembers";
 
 function getBirthDay(date?: string | null) {
   if (!date) {
@@ -14,8 +14,21 @@ function getBirthDay(date?: string | null) {
   return String(new Date(date).getDate()).padStart(2, "0");
 }
 
+function getBirthMonth(date?: string | null) {
+  if (!date) {
+    return "--";
+  }
+
+  return new Date(date)
+    .toLocaleDateString("pt-BR", { month: "short" })
+    .replace(".", "")
+    .toUpperCase();
+}
+
 export function BirthdaysPage() {
-  const members = [...mockMembers].sort((a, b) =>
+  const { members } = useMembers();
+
+  const sorted = [...members].sort((a, b) =>
     getBirthDay(a.birthDate).localeCompare(getBirthDay(b.birthDate)),
   );
 
@@ -28,13 +41,17 @@ export function BirthdaysPage() {
       />
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {members.map((member) => (
+        {sorted.map((member) => (
           <Card key={member.id}>
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm text-slate-500">Dia</p>
-                <strong className="text-4xl text-navy-950">{getBirthDay(member.birthDate)}</strong>
-                <p className="text-sm font-bold text-teal-600">MAIO</p>
+                <strong className="text-4xl text-navy-950">
+                  {getBirthDay(member.birthDate)}
+                </strong>
+                <p className="text-sm font-bold text-teal-600">
+                  {getBirthMonth(member.birthDate)}
+                </p>
               </div>
               <div className="rounded-2xl bg-amber-50 p-3 text-amber-600">
                 <Cake className="h-6 w-6" />
@@ -65,7 +82,8 @@ export function BirthdaysPage() {
           <div>
             <h2 className="font-bold text-navy-950">Sugestão pastoral</h2>
             <p className="text-sm text-slate-500">
-              Gere uma lista semanal e distribua entre líderes para contato pessoal.
+              Gere uma lista semanal e distribua entre líderes para contato
+              pessoal.
             </p>
           </div>
         </div>

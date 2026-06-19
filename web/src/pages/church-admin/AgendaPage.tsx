@@ -3,19 +3,23 @@ import { CalendarDays, Clock, MapPin, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { mockEvents } from "@/data/mockData";
+import { useEvents } from "@/hooks/useEvents";
+import { canManageEvents } from "@/utils/permissions";
 
 const weekdays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
 export function AgendaPage() {
+  const { events } = useEvents();
   return (
     <div className="space-y-6">
       <SectionHeader
         actions={
-          <Button>
-            <Plus className="h-4 w-4" />
-            Novo compromisso
-          </Button>
+          canManageEvents() ? (
+            <Button>
+              <Plus className="h-4 w-4" />
+              Novo compromisso
+            </Button>
+          ) : undefined
         }
         description="Visualize cultos, reuniões, ensaios e reservas de recursos."
         title="Agenda"
@@ -31,7 +35,9 @@ export function AgendaPage() {
             {weekdays.map((day, index) => (
               <div
                 className={`rounded-2xl p-4 text-center ${
-                  index === 2 ? "bg-navy-800 text-white" : "bg-slate-50 text-navy-950"
+                  index === 2
+                    ? "bg-navy-800 text-white"
+                    : "bg-slate-50 text-navy-950"
                 }`}
                 key={day}
               >
@@ -41,8 +47,15 @@ export function AgendaPage() {
             ))}
           </div>
           <div className="mt-6 space-y-3">
-            {["Leitura Bíblica • 06:00", "Reunião de Oração • 20:00", "Ensaio do Louvor • 17:00"].map((item) => (
-              <div className="rounded-2xl bg-blue-50 p-4 font-semibold text-navy-950" key={item}>
+            {[
+              "Leitura Bíblica • 06:00",
+              "Reunião de Oração • 20:00",
+              "Ensaio do Louvor • 17:00",
+            ].map((item) => (
+              <div
+                className="rounded-2xl bg-blue-50 p-4 font-semibold text-navy-950"
+                key={item}
+              >
                 {item}
               </div>
             ))}
@@ -52,8 +65,11 @@ export function AgendaPage() {
         <Card>
           <h2 className="mb-4 font-bold text-navy-950">Eventos cadastrados</h2>
           <div className="space-y-3">
-            {mockEvents.map((event) => (
-              <div className="rounded-2xl border border-slate-100 p-4" key={event.id}>
+            {events.map((event) => (
+              <div
+                className="rounded-2xl border border-slate-100 p-4"
+                key={event.id}
+              >
                 <h3 className="font-bold text-navy-950">{event.title}</h3>
                 <div className="mt-2 flex flex-wrap gap-4 text-sm text-slate-500">
                   <span className="flex items-center gap-1">

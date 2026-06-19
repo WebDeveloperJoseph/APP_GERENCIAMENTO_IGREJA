@@ -10,7 +10,8 @@ import {
 
 import { Brand } from "@/components/layout/Brand";
 import { Card } from "@/components/ui/Card";
-import { mockEvents, mockMembers } from "@/data/mockData";
+import { useEvents } from "@/hooks/useEvents";
+import { useMembers } from "@/hooks/useMembers";
 
 const shortcuts = [
   ["Minhas Células", "Acompanhe sua célula e mensagens.", Users],
@@ -20,6 +21,8 @@ const shortcuts = [
 ] as const;
 
 export function MemberHomePage() {
+  const { events } = useEvents();
+  const { members } = useMembers();
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="sticky top-0 z-30 flex h-20 items-center justify-between border-b bg-white px-5 lg:px-12">
@@ -31,8 +34,12 @@ export function MemberHomePage() {
       </header>
       <main className="mx-auto max-w-7xl space-y-6 px-5 py-8">
         <div>
-          <h1 className="text-3xl font-black text-navy-950">Bom dia, Lucas! 👋</h1>
-          <p className="text-slate-500">Que hoje seja um dia de fé, comunhão e propósito.</p>
+          <h1 className="text-3xl font-black text-navy-950">
+            Bom dia, Lucas! 👋
+          </h1>
+          <p className="text-slate-500">
+            Que hoje seja um dia de fé, comunhão e propósito.
+          </p>
         </div>
         <div className="grid gap-4 md:grid-cols-4">
           {shortcuts.map(([title, description, Icon]) => (
@@ -49,7 +56,7 @@ export function MemberHomePage() {
               <CalendarDays className="h-5 w-5" /> Próximos Cultos e Eventos
             </h2>
             <div className="space-y-3">
-              {mockEvents.map((event) => (
+              {events.map((event) => (
                 <div className="rounded-2xl bg-slate-50 p-4" key={event.id}>
                   <p className="font-bold">{event.title}</p>
                   <p className="text-sm text-slate-500">{event.location}</p>
@@ -76,8 +83,11 @@ export function MemberHomePage() {
               <Gift className="h-5 w-5" /> Aniversariantes
             </h2>
             <div className="space-y-3">
-              {mockMembers.slice(0, 4).map((member) => (
-                <div className="flex justify-between rounded-2xl bg-slate-50 p-3" key={member.id}>
+              {members.slice(0, 4).map((member) => (
+                <div
+                  className="flex justify-between rounded-2xl bg-slate-50 p-3"
+                  key={member.id}
+                >
                   <span className="font-semibold">{member.name}</span>
                   <span className="text-sm text-slate-500">Mai</span>
                 </div>

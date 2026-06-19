@@ -118,9 +118,9 @@ class EventsService {
     });
   }
 
-  async show(id: string) {
-    const event = await prisma.event.findUnique({
-      where: { id },
+  async show(id: string, churchId: string) {
+    const event = await prisma.event.findFirst({
+      where: { id, churchId },
       include: {
         createdBy: {
           select: {
@@ -168,8 +168,8 @@ class EventsService {
     });
   }
 
-  async update(id: string, data: EventData) {
-    await this.show(id);
+  async update(id: string, churchId: string, data: EventData) {
+    await this.show(id, churchId);
     const { startDate, endDate } = validateEvent(data);
 
     return prisma.event.update({
@@ -196,8 +196,8 @@ class EventsService {
     });
   }
 
-  async delete(id: string) {
-    await this.show(id);
+  async delete(id: string, churchId: string) {
+    await this.show(id, churchId);
 
     await prisma.event.delete({
       where: { id },
